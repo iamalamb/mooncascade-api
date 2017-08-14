@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entities;
+namespace Mooncascade\Entities;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;

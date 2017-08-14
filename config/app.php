@@ -171,11 +171,11 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        Mooncascade\Providers\AppServiceProvider::class,
+        Mooncascade\Providers\AuthServiceProvider::class,
+        // Mooncascade\Providers\BroadcastServiceProvider::class,
+        Mooncascade\Providers\EventServiceProvider::class,
+        Mooncascade\Providers\RouteServiceProvider::class,
 
         /*
          * Laravel Doctrine Service Providers
