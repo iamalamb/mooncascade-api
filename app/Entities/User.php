@@ -3,6 +3,7 @@
 namespace Mooncascade\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
+use Mooncascade\Traits\IDAsIntegerTrait;
 
 /**
  * Class User
@@ -14,23 +15,14 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User
 {
-    /**
-     * Generic auto-generated ID column
-     *
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    protected $id;
+    use IDAsIntegerTrait;
 
     /**
      * References the name of a logged in User
      *
      * @var string
      *
-     * @ORM\Column(type="string", length=25, nullable=false)
+     * @ORM\Column(type="string", length=125, nullable=false)
      */
     protected $name;
 
@@ -43,16 +35,41 @@ class User
      */
     protected $email;
 
-
     /**
-     * Getter method for the auto-generated ID column
-     *
-     * @return int
+     * @return string
      */
-    public function getId()
+    public function getName()
     {
-        return $this->id;
+        return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return User
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
 
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     * @return User
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
 }
