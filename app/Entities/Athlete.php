@@ -42,7 +42,6 @@ class Athlete
      *
      * @var integer
      *
-     * @ORM\GeneratedValue
      * @ORM\Column(type="bigint", nullable=false, unique=true, options={"unsigned"=false})
      */
     protected $startNumber;
