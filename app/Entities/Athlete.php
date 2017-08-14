@@ -4,6 +4,7 @@ namespace Mooncascade\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 use Mooncascade\Traits\IDAsIntegerTrait;
+use LaravelDoctrine\Extensions\Timestamps\Timestamps;
 
 /**
  * Class Athlete
@@ -15,7 +16,7 @@ use Mooncascade\Traits\IDAsIntegerTrait;
  */
 class Athlete
 {
-    use IDAsIntegerTrait;
+    use IDAsIntegerTrait, Timestamps;
 
     /**
      * References the unique code ID of

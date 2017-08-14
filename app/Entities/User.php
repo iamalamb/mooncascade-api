@@ -4,6 +4,7 @@ namespace Mooncascade\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 use Mooncascade\Traits\IDAsIntegerTrait;
+use LaravelDoctrine\Extensions\Timestamps\Timestamps;
 
 /**
  * Class User
@@ -15,7 +16,7 @@ use Mooncascade\Traits\IDAsIntegerTrait;
  */
 class User
 {
-    use IDAsIntegerTrait;
+    use IDAsIntegerTrait, Timestamps;
 
     /**
      * References the name of a logged in User
