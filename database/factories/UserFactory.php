@@ -1,5 +1,7 @@
 <?php
 
+
+use Mooncascade\Entities\User;
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -12,13 +14,10 @@
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(Mooncascade\Entities\User::class, function (Faker\Generator $faker) {
-    static $password;
+$factory->define(User::class, function () {
 
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
-        'remember_token' => str_random(10),
+        'name' => 'Admin User',
+        'email' => 'admin@mooncascade.com'
     ];
 });

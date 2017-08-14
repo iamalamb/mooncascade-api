@@ -1,13 +1,14 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Mooncascade\Entities\User;
 
 /**
- * Class DatabaseSeeder
+ * Class UsersTableSeeder
  *
  * @author Jason Lamb <jlamb@iamalamb.com>
  */
-class DatabaseSeeder extends Seeder
+class UsersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,6 +17,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         $this->call(UsersTableSeeder::class);
+        entity(User::class)->create();
     }
 }
