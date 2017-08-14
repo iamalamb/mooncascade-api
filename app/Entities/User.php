@@ -2,33 +2,57 @@
 
 namespace Mooncascade\Entities;
 
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class User
  *
  * @author Jason Lamb <jlamb@iamalamb.com>
+ *
+ * @ORM\Entity
+ * @ORM\Table("users")
  */
-class User extends Authenticatable
+class User
 {
-    use Notifiable;
+    /**
+     * Generic auto-generated ID column
+     *
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    protected $id;
 
     /**
-     * The attributes that are mass assignable.
+     * References the name of a logged in User
      *
-     * @var array
+     * @var string
+     *
+     * @ORM\Column(type="string", length=25, nullable=false)
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    protected $name;
 
     /**
-     * The attributes that should be hidden for arrays.
+     * References the email address used to authenticate a User
      *
-     * @var array
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=false, unique=true)
      */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    protected $email;
+
+
+    /**
+     * Getter method for the auto-generated ID column
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+
 }
