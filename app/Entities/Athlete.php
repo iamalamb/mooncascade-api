@@ -11,7 +11,7 @@ use LaravelDoctrine\Extensions\Timestamps\Timestamps;
  *
  * @author Jason Lamb <jlamb@iamalamb.com>
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Mooncascade\Repositories\AthleteRepository")
  * @ORM\Table(name="athletes")
  */
 class Athlete
