@@ -56,6 +56,16 @@ class Athlete
     protected $startNumber;
 
     /**
+     * Each Athlete has a single Gender
+     *
+     * @var Gender
+     *
+     * @ORM\ManyToOne(targetEntity="Gender", inversedBy="athletes")
+     * @ORM\JoinColumn(name="gender_id", referencedColumnName="id")
+     */
+    protected $gender;
+
+    /**
      * @return string
      */
     public function getCode()
@@ -125,6 +135,25 @@ class Athlete
     public function setStartNumber($startNumber)
     {
         $this->startNumber = $startNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return Gender
+     */
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
+    /**
+     * @param Gender $gender
+     * @return Athlete
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
 
         return $this;
     }

@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Mooncascade\Entities\Athlete;
+use Mooncascade\Entities\Gender;
 use Illuminate\Contracts\Config\Repository as Config;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -67,7 +68,11 @@ class AthletesTableSeeder extends Seeder
         $entities->each(
             function ($item, $index) {
 
-                $item->setStartNumber($index + 1);
+                $gender = $this->em->getRepository(Gender::class)->findOneByRandom();
+
+                $item
+                    ->setStartNumber($index + 1)
+                    ->setGender($gender);
 
                 $this->em->persist($item);
             }
