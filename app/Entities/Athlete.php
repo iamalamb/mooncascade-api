@@ -38,6 +38,15 @@ class Athlete
     protected $name;
 
     /**
+     * Reference to the Athlete's date of birth
+     *
+     * @var \DateTime
+     *
+     * @ORM\Column(type="date", nullable=true)
+     */
+    protected $dateOfBirth;
+
+    /**
      * References the starting number of an Athlete
      *
      * @var integer
@@ -64,6 +73,23 @@ class Athlete
 
         return $this;
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDateOfBirth()
+    {
+        return $this->dateOfBirth;
+    }
+
+    /**
+     * @param \DateTime $dateOfBirth
+     */
+    public function setDateOfBirth($dateOfBirth)
+    {
+        $this->dateOfBirth = $dateOfBirth;
+    }
+
 
     /**
      * @return string

@@ -15,10 +15,14 @@ use Faker\Generator;
 */
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(Athlete::class, function (Generator $faker) {
+$factory->define(Athlete::class, function (Generator $faker, array $attributes) {
+
+    $maxAge = (isset($attributes['max_age'])) ? $attributes['max_age'] : 75;
+    $minAge = (isset($attributes['min_age'])) ? $attributes['min_age'] : 18;
 
     return [
         'name' => $faker->name,
-        'code' => $faker->unique()->uuid
+        'code' => $faker->unique()->uuid,
+        'dateOfBirth' => $faker->dateTimeBetween('-' .  $maxAge . ' years', '-' .  $minAge . ' years')
     ];
 });
