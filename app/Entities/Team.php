@@ -11,10 +11,10 @@ use LaravelDoctrine\Extensions\Timestamps\Timestamps;
  *
  * @author Jason Lamb <jlamb@iamalamb.com>
  *
- * @ORM\Entity(repositoryClass="Mooncascade\Repositories\GenderRepository")
- * @ORM\Table("genders")
+ * @ORM\Entity(repositoryClass="Mooncascade\Repositories\TeamRepository")
+ * @ORM\Table("teams")
  */
-class Gender
+class Team
 {
     use IDAsIntegerTrait, Timestamps;
 
@@ -29,11 +29,11 @@ class Gender
 
 
     /**
-     * One Gender has many Athlete instances
+     * One Team has many Athlete instances
      *
      * @var Athlete[]
      *
-     * @ORM\OneToMany(targetEntity="Athlete", mappedBy="gender")
+     * @ORM\OneToMany(targetEntity="Athlete", mappedBy="team")
      */
     protected $athletes;
 

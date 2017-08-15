@@ -66,6 +66,16 @@ class Athlete
     protected $gender;
 
     /**
+     * Each Athlete belongs to a single Team
+     *
+     * @var Team
+     *
+     * @ORM\ManyToOne(targetEntity="Team", inversedBy="athletes")
+     * @ORM\JoinColumn(name="team_id", referencedColumnName="id")
+     */
+    protected $team;
+
+    /**
      * @return string
      */
     public function getCode()
@@ -156,5 +166,21 @@ class Athlete
         $this->gender = $gender;
 
         return $this;
+    }
+
+    /**
+     * @return Team
+     */
+    public function getTeam()
+    {
+        return $this->team;
+    }
+
+    /**
+     * @param Team $team
+     */
+    public function setTeam($team)
+    {
+        $this->team = $team;
     }
 }

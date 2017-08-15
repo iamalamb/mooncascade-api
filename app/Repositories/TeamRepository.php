@@ -3,11 +3,11 @@
 namespace Mooncascade\Repositories;
 
 /**
- * Class GenderRepository
+ * Class TeamRepository
  *
  * @author Jason Lamb <jlamb@iamalamb.com>
  */
-class GenderRepository extends AbstractBaseRepository
+class TeamRepository extends AbstractBaseRepository
 {
     public function findOneByRandom()
     {
