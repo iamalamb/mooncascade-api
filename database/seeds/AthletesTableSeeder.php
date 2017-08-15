@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Mooncascade\Entities\Athlete;
+use Illuminate\Contracts\Config\Repository as Config;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -12,6 +13,11 @@ use Doctrine\ORM\EntityManagerInterface;
 class AthletesTableSeeder extends Seeder
 {
     /**
+     * @var Config
+     */
+    protected $config;
+
+    /**
      * Entity manager to be injected for persistance
      *
      * @var EntityManagerInterface
@@ -20,12 +26,15 @@ class AthletesTableSeeder extends Seeder
 
     /**
      * AthletesTableSeeder constructor.
+     * @param Config $config
      * @param EntityManagerInterface $em
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(Config $config, EntityManagerInterface $em)
     {
+        $this->config = $config;
         $this->em = $em;
     }
+
 
     /**
      * Run the database seeds.
@@ -34,17 +43,22 @@ class AthletesTableSeeder extends Seeder
      */
     public function run()
     {
+        $total = ($this->config->has('mooncascade.athlete.total'))
+            ? $this->config->get('mooncascade.athlete.total')
+            : 25;
+
         $entities = entity(Athlete::class)
-            ->times(25)
+            ->times($total)
             ->make();
 
-        $entities->each(function ($item, $index) {
+        $entities->each(
+            function ($item, $index) {
 
-            $item->setStartNumber($index + 1);
+                $item->setStartNumber($index + 1);
 
-            $this->em->persist($item);
-
-        });
+                $this->em->persist($item);
+            }
+        );
 
         $this->em->flush();
     }
