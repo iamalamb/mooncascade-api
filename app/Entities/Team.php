@@ -23,7 +23,7 @@ class Team
      *
      * @var string
      *
-     * @ORM\Column(type="string", length=20, nullable=false)
+     * @ORM\Column(type="string", length=125, nullable=false)
      */
     protected $name;
 
