@@ -28,6 +28,10 @@ class TeamRepositoryTest extends TestCase
         $this->repository = EntityManager::getRepository(Team::class);
     }
 
+    /**
+     * Test to ensure that appropriate parent classes and interfaces are
+     * correctly applied.
+     */
     public function testThatRepositoryIsCorrectType()
     {
         $this->assertInstanceOf(TeamRepository::class, $this->repository);

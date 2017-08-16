@@ -12,6 +12,9 @@ use Tests\TestCase;
 
 class AthleteRepositoryTest extends TestCase
 {
+    /**
+     * @var AthleteRepository
+     */
     protected $repository;
 
     /**
@@ -24,6 +27,10 @@ class AthleteRepositoryTest extends TestCase
         $this->repository = EntityManager::getRepository(Athlete::class);
     }
 
+    /**
+     * Test to ensure that appropriate parent classes and interfaces are
+     * correctly applied.
+     */
     public function testThatRepositoryIsCorrectType()
     {
         $this->assertInstanceOf(AthleteRepository::class, $this->repository);

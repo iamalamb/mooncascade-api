@@ -12,6 +12,9 @@ use Tests\TestCase;
 
 class GenderRepositoryTest extends TestCase
 {
+    /**
+     * @var GenderRepository
+     */
     protected $repository;
 
     /**
@@ -24,6 +27,10 @@ class GenderRepositoryTest extends TestCase
         $this->repository = EntityManager::getRepository(Gender::class);
     }
 
+    /**
+     * Test to ensure that appropriate parent classes and interfaces are
+     * correctly applied.
+     */
     public function testThatRepositoryIsCorrectType()
     {
         $this->assertInstanceOf(GenderRepository::class, $this->repository);
