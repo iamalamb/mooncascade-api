@@ -2,9 +2,11 @@
 
 namespace Mooncascade\Console\Commands;
 
+use Faker\Provider\DateTime;
 use Illuminate\Console\Command;
 use LaravelDoctrine\ORM\Facades\EntityManager;
 use Mooncascade\Entities\Athlete;
+use Carbon\Carbon;
 
 class ExecuteRaceEventTask extends Command
 {
@@ -39,9 +41,47 @@ class ExecuteRaceEventTask extends Command
      */
     public function handle()
     {
+        $this->handleTimeAtGate();
+
+        $repository = EntityManager::getRepository(Athlete::class);
+        $entities = collect($repository->findAll());
+
+        if ($entities->count()) {
+
+            $entities->each(
+                function ($entity) {
+
+                    $date = Carbon::createFromFormat('U.u', $entity->getTimeAtGate());
+                    $info = $entity->getStartNumber() . ': ' . $entity->getName() . ' - ' . $entity->getTimeAtGate();
+
+                    $this->info($info);
+                }
+            );
+
+        }
+    }
+
+    private function handleTimeAtGate()
+    {
+
         $repository = EntityManager::getRepository(Athlete::class);
 
-        $count = $repository->getCount();
-        $this->info($count);
+        $entities = collect($repository->findBy(['timeAtGate' => null]));
+
+        if ($entities->count()) {
+
+            $entities->each(
+                function ($entity) {
+
+                    $entity->setTimeAtGate(microtime(true));
+
+                    EntityManager::persist($entity);
+                    EntityManager::flush();
+                }
+            );
+
+            $this->handleTimeAtGate();
+
+        }
     }
 }

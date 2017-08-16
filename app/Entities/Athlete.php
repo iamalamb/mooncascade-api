@@ -59,9 +59,9 @@ class Athlete
      * Reference to the time the Athlete instance enters
      * the initial finishing gate
      *
-     * @var \DateTime
+     * @var float
      *
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     protected $timeAtGate;
 
@@ -69,9 +69,9 @@ class Athlete
      * Reference to the time the Athlete instance
      * completed the event.
      *
-     * @var \DateTime
+     * @var float
      *
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     protected $timeAtFinish;
 
