@@ -56,6 +56,26 @@ class Athlete
     protected $startNumber;
 
     /**
+     * Reference to the time the Athlete instance enters
+     * the initial finishing gate
+     *
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $timeAtGate;
+
+    /**
+     * Reference to the time the Athlete instance
+     * completed the event.
+     *
+     * @var \DateTime
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $timeAtFinish;
+
+    /**
      * Each Athlete has a single Gender
      *
      * @var Gender
@@ -148,6 +168,45 @@ class Athlete
 
         return $this;
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getTimeAtGate()
+    {
+        return $this->timeAtGate;
+    }
+
+    /**
+     * @param \DateTime $timeAtGate
+     * @return Athlete
+     */
+    public function setTimeAtGate($timeAtGate)
+    {
+        $this->timeAtGate = $timeAtGate;
+
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getTimeAtFinish()
+    {
+        return $this->timeAtFinish;
+    }
+
+    /**
+     * @param \DateTime $timeAtFinish
+     * @return Athlete
+     */
+    public function setTimeAtFinish($timeAtFinish)
+    {
+        $this->timeAtFinish = $timeAtFinish;
+
+        return $this;
+    }
+
 
     /**
      * @return Gender
