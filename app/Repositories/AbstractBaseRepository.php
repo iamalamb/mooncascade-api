@@ -11,13 +11,29 @@ use Doctrine\ORM\EntityRepository;
  */
 abstract class AbstractBaseRepository extends EntityRepository
 {
-    public function findOneByRandom()
+    /**
+     * Retrieve the count of a given
+     * Entity/table.
+     *
+     * @return mixed
+     */
+    public function getCount()
     {
-        $total = $this
+        return $this
             ->createQueryBuilder('c')
             ->select('COUNT(c)')
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+    /**
+     * Retrieve an random Entity instance
+     *
+     * @return mixed
+     */
+    public function findOneByRandom()
+    {
+        $total = $this->getCount();
 
         return $this
             ->createQueryBuilder('c')
