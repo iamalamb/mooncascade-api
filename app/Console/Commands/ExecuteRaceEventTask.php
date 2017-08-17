@@ -2,14 +2,25 @@
 
 namespace Mooncascade\Console\Commands;
 
-use Faker\Provider\DateTime;
 use Illuminate\Console\Command;
 use LaravelDoctrine\ORM\Facades\EntityManager;
 use Mooncascade\Entities\Athlete;
-use Carbon\Carbon;
+use Illuminate\Contracts\Config\Repository;
+use Faker\Generator;
+use Mooncascade\Threads\RaceExecutionThread;
 
 class ExecuteRaceEventTask extends Command
 {
+    /**
+     * @var Repository
+     */
+    protected $config;
+
+    /**
+     * @var Generator
+     */
+    protected $faker;
+
     /**
      * The name and signature of the console command.
      *
@@ -25,14 +36,17 @@ class ExecuteRaceEventTask extends Command
     protected $description = 'Command to run the test race';
 
     /**
-     * Create a new command instance.
-     *
-     * @return void
+     * ExecuteRaceEventTask constructor.
+     * @param Repository $config
      */
-    public function __construct()
+    public function __construct(Repository $config, Generator $faker)
     {
         parent::__construct();
+
+        $this->config = $config;
+        $this->faker = $faker;
     }
+
 
     /**
      * Execute the console command.
@@ -41,47 +55,28 @@ class ExecuteRaceEventTask extends Command
      */
     public function handle()
     {
-        $this->handleTimeAtGate();
+        $this->checkDelayExecution();
 
-        $repository = EntityManager::getRepository(Athlete::class);
-        $entities = collect($repository->findAll());
-
-        if ($entities->count()) {
-
-            $entities->each(
-                function ($entity) {
-
-                    $date = Carbon::createFromFormat('U.u', $entity->getTimeAtGate());
-                    $info = $entity->getStartNumber() . ': ' . $entity->getName() . ' - ' . $entity->getTimeAtGate();
-
-                    $this->info($info);
-                }
-            );
-
-        }
-    }
-
-    private function handleTimeAtGate()
-    {
+        $worker = new \Worker();
+        $worker->start();
 
         $repository = EntityManager::getRepository(Athlete::class);
 
-        $entities = collect($repository->findBy(['timeAtGate' => null]));
+        $entities = $repository->findBy(['timeAtGate' => null]);
 
-        if ($entities->count()) {
+        foreach ($entities as $entity) {
 
-            $entities->each(
-                function ($entity) {
+            $thread = new RaceExecutionThread($this->config, $this->faker);
+            $thread->setAthlete($entity);
 
-                    $entity->setTimeAtGate(microtime(true));
-
-                    EntityManager::persist($entity);
-                    EntityManager::flush();
-                }
-            );
-
-            $this->handleTimeAtGate();
-
+            $worker->stack($thread);
         }
+
+        while($worker->collect()){}
+
+        $worker->shutdown();
+
+        $message = 'Event complete';
+        $this->info($message);
     }
 }
