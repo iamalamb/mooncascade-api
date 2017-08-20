@@ -7,7 +7,6 @@ use LaravelDoctrine\ORM\Facades\EntityManager;
 use Mooncascade\Entities\Athlete;
 use Illuminate\Contracts\Config\Repository;
 use Faker\Generator;
-use Mooncascade\Threads\RaceExecutionThread;
 
 class ExecuteRaceEventTask extends Command
 {
@@ -55,7 +54,7 @@ class ExecuteRaceEventTask extends Command
      */
     public function handle()
     {
-        $this->checkDelayExecution();
+        /*$this->checkDelayExecution();
 
         $worker = new \Worker();
         $worker->start();
@@ -77,6 +76,6 @@ class ExecuteRaceEventTask extends Command
         $worker->shutdown();
 
         $message = 'Event complete';
-        $this->info($message);
+        $this->info($message);*/
     }
 }
