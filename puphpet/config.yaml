@@ -242,6 +242,7 @@ php:
             - cli
             - intl
             - xml
+            - mbstring
         pear: {  }
         pecl: {  }
     ini:
