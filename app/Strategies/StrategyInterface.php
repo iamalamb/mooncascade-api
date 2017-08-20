@@ -16,5 +16,5 @@ interface StrategyInterface
      *
      * @return mixed
      */
-    public static function execute();
+    public function execute();
 }

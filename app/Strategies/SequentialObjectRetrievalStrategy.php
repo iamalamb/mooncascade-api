@@ -15,7 +15,7 @@ class SequentialObjectRetrievalStrategy implements StrategyInterface
      *
      * @return mixed
      */
-    public static function execute()
+    public function execute()
     {
         // TODO: Implement execute() method.
     }
