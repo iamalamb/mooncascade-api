@@ -1,9 +1,9 @@
 <?php
 return [
-    'team'      => [
+    'team'                                  => [
         'total' => env('TOTAL_TEAMS', 50),
     ],
-    'athlete'   => [
+    'athlete'                               => [
         'total' => env('TOTAL_ATHLETES', 500),
         'age'   => [
             'max' => env('MAX_ATHLETE_AGE', 75),
@@ -12,6 +12,10 @@ return [
     ],
     'delay_race_start'                      => env('DELAY_RACE_START', true),
     'delay_race_start_time'                 => env('DELAY_RACE_START_TIME', 60),
+    'delay_athlete_execution_strategy'      => env('DELAY_ATHLETE_EXECUTION_STRATEGY', 'simple'),
+    'delay_athlete_execution_strategy_classes' => [
+      'simple' =>  \Mooncascade\Strategies\RangeCalculationStrategy::class
+    ],
     'delay_athlete_execution_min_threshold' => env('DELAY_ATHLETE_EXECUTION_MIN_THRESHOLD', 5),
     'delay_athlete_execution_max_threshold' => env('DELAY_ATHLETE_EXECUTION_MAX_THRESHOLD', 6),
 ];
