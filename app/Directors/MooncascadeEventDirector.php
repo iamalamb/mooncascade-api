@@ -3,8 +3,8 @@
 namespace Mooncascade\Directors;
 
 use Mooncascade\Builders\MooncascadeEventBuilderInterface;
-use Illuminate\Contracts\Config\Repository as Config;
 use Mooncascade\Managers\MooncascadeEventManagerInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class MooncascadeEventDirector
@@ -17,7 +17,7 @@ use Mooncascade\Managers\MooncascadeEventManagerInterface;
  * @author Jason Lamb <jlamb@iamalamb.com>
  * @see https://sourcemaking.com/design_patterns/builder
  */
-class MooncascadeEventDirector
+class MooncascadeEventDirector implements MooncascadeEventDirectorInterface
 {
     /**
      * @var MooncascadeEventBuilderInterface
@@ -25,19 +25,29 @@ class MooncascadeEventDirector
     protected $builder;
 
     /**
-     * @var Config
+     * @var array
      */
-    protected $config;
+    protected $options;
+
+    /**
+     * @var OptionsResolver
+     */
+    protected $optionsResolver;
 
     /**
      * MooncascadeEventDirector constructor.
      * @param MooncascadeEventBuilderInterface $builder
-     * @param Config $config
+     * @param array $options
+     * @param OptionsResolver $optionsResolver
      */
-    public function __construct(MooncascadeEventBuilderInterface $builder, Config $config)
-    {
+    public function __construct(
+        MooncascadeEventBuilderInterface $builder,
+        array $options,
+        OptionsResolver $optionsResolver
+    ) {
         $this->builder = $builder;
-        $this->config = $config;
+        $this->options = $options;
+        $this->optionsResolver = $optionsResolver;
     }
 
     /**
@@ -56,6 +66,33 @@ class MooncascadeEventDirector
      */
     public function getEventManager(): MooncascadeEventManagerInterface
     {
+        return $this->builder->getEventManager();
+    }
 
+    /**
+     * Used to ensure that the correct options
+     * are retrieved and available.
+     *
+     * @param array $options
+     */
+    public function configureOptions(array $options)
+    {
+        // Set the options that NEED to be available
+        $required = [
+            'delay_race_start',
+            'delay_race_start_time',
+            'delay_athlete_execution_min_threshold',
+            'delay_athlete_execution_max_threshold',
+        ];
+
+        $this->optionsResolver->setRequired($required);
+
+        // Set the allowed types
+        $this->optionsResolver->setAllowedTypes('delay_race_start', 'boolean');
+        $this->optionsResolver->setAllowedTypes('delay_race_start_time', 'integer');
+        $this->optionsResolver->setAllowedTypes('delay_athlete_execution_min_threshold', 'integer');
+        $this->optionsResolver->setAllowedTypes('delay_athlete_execution_max_threshold', 'integer');
+
+        $this->optionsResolver->resolve($options);
     }
 }
