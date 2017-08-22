@@ -41,7 +41,7 @@ class MooncascadeServiceProvider extends ServiceProvider
             function ($app) {
 
                 // Get the config stuff
-                $config = $app->get('config')->get('mooncascade');
+                $config = $app->make('config')->get('mooncascade');
 
                 // Get the range calculation strategy
                 $rangeCalculationStrategy = $app->make(RangeCalculationStrategy::class);

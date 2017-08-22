@@ -34,6 +34,8 @@ class ExecuteRaceEventTask extends Command
      */
     public function __construct(MooncascadeEventManagerInterface $eventManager)
     {
+        parent::__construct();
+
         $this->eventManager = $eventManager;
     }
 

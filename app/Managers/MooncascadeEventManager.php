@@ -154,6 +154,7 @@ class MooncascadeEventManager implements MooncascadeEventManagerInterface
         event($event);
 
         // Start to loop through the results
+        $this->fetchResults();
     }
 
     /**
