@@ -4,13 +4,14 @@ namespace Mooncascade\Strategies;
 
 use Mooncascade\Repositories\AbstractBaseRepository;
 use LaravelDoctrine\ORM\Facades\EntityManager;
+use Mooncascade\Strategies\RangeCalculationStrategy;
 
 /**
  * Class AbstractObjectRetrievalStrategy
  *
  * @author Jason Lamb <jlamb@iamalamb.com>
  */
-abstract class AbstractObjectRetrievalStrategy implements StrategyInterface
+abstract class AbstractObjectRetrievalStrategy implements StrategyInterface, ObjectRetrievalStrategy
 {
     /**
      * @var array
@@ -28,6 +29,21 @@ abstract class AbstractObjectRetrievalStrategy implements StrategyInterface
     protected $entityManager;
 
     /**
+     * @var integer
+     */
+    protected $minThreshold;
+
+    /**
+     * @var integer
+     */
+    protected $maxThreshold;
+
+    /**
+     * @var RangeCalculationStrategy
+     */
+    protected $rangeCalculationStrategy;
+
+    /**
      * @var AbstractBaseRepository
      */
     protected $repository;
@@ -36,11 +52,13 @@ abstract class AbstractObjectRetrievalStrategy implements StrategyInterface
      * AbstractObjectRetrievalStrategy constructor.
      * @param string $class
      * @param EntityManager $entityManager
+     * @param  RangeCalculationStrategy $rangeCalculationStrategy
      */
-    public function __construct($class, EntityManager $entityManager)
+    public function __construct($class, EntityManager $entityManager, RangeCalculationStrategy $rangeCalculationStrategy)
     {
         $this->class = $class;
         $this->entityManager = $entityManager;
+        $this->rangeCalculationStrategy = $rangeCalculationStrategy;
 
         /*
          * Get the repository based on
@@ -105,6 +123,66 @@ abstract class AbstractObjectRetrievalStrategy implements StrategyInterface
 
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getMinThreshold(): int
+    {
+        return $this->minThreshold;
+    }
+
+    /**
+     * @param int $minThreshold
+     * @return AbstractObjectRetrievalStrategy
+     */
+    public function setMinThreshold(int $minThreshold): AbstractObjectRetrievalStrategy
+    {
+        $this->minThreshold = $minThreshold;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxThreshold(): int
+    {
+        return $this->maxThreshold;
+    }
+
+    /**
+     * @param int $maxThreshold
+     * @return AbstractObjectRetrievalStrategy
+     */
+    public function setMaxThreshold(int $maxThreshold): AbstractObjectRetrievalStrategy
+    {
+        $this->maxThreshold = $maxThreshold;
+
+        return $this;
+    }
+
+    /**
+     * @return \Mooncascade\Strategies\RangeCalculationStrategy
+     */
+    public function getRangeCalculationStrategy(): \Mooncascade\Strategies\RangeCalculationStrategy
+    {
+        return $this->rangeCalculationStrategy;
+    }
+
+    /**
+     * @param \Mooncascade\Strategies\RangeCalculationStrategy $rangeCalculationStrategy
+     * @return AbstractObjectRetrievalStrategy
+     */
+    public function setRangeCalculationStrategy(
+        \Mooncascade\Strategies\RangeCalculationStrategy $rangeCalculationStrategy
+    ): AbstractObjectRetrievalStrategy {
+        $this->rangeCalculationStrategy = $rangeCalculationStrategy;
+
+        return $this;
+    }
+
+
 
     /**
      * @return AbstractBaseRepository
