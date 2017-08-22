@@ -69,6 +69,44 @@ abstract class AbstractObjectRetrievalStrategy implements StrategyInterface
     }
 
     /**
+     * @return string
+     */
+    public function getClass(): string
+    {
+        return $this->class;
+    }
+
+    /**
+     * @param string $class
+     * @return AbstractObjectRetrievalStrategy
+     */
+    public function setClass(string $class): AbstractObjectRetrievalStrategy
+    {
+        $this->class = $class;
+
+        return $this;
+    }
+
+    /**
+     * @return EntityManager
+     */
+    public function getEntityManager(): EntityManager
+    {
+        return $this->entityManager;
+    }
+
+    /**
+     * @param EntityManager $entityManager
+     * @return AbstractObjectRetrievalStrategy
+     */
+    public function setEntityManager(EntityManager $entityManager): AbstractObjectRetrievalStrategy
+    {
+        $this->entityManager = $entityManager;
+
+        return $this;
+    }
+
+    /**
      * @return AbstractBaseRepository
      */
     public function getRepository(): AbstractBaseRepository
