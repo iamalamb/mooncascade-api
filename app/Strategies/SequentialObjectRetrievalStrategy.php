@@ -7,7 +7,7 @@ namespace Mooncascade\Strategies;
  *
  * @author Jason Lamb <jlamb@iamalamb.com>
  */
-class SequentialObjectRetrievalStrategy implements StrategyInterface
+class SequentialObjectRetrievalStrategy extends AbstractObjectRetrievalStrategy
 {
     /**
      * Simple Object retreival strategy intended to
@@ -17,7 +17,7 @@ class SequentialObjectRetrievalStrategy implements StrategyInterface
      */
     public function execute()
     {
-        // TODO: Implement execute() method.
+        return $this->repository->findOneBy($this->criteria);
     }
 
 }

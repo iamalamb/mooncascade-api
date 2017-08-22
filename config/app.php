@@ -186,6 +186,11 @@ return [
         LaravelDoctrine\Extensions\BeberleiExtensionsServiceProvider::class,
         LaravelDoctrine\Migrations\MigrationsServiceProvider::class,
         LaravelDoctrine\ACL\AclServiceProvider::class,
+
+        /*
+         * Mooncascade specific Service Providers
+         */
+        Mooncascade\Providers\MooncascadeServiceProvider::class
     ],
 
     /*

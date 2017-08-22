@@ -35,7 +35,7 @@ class MooncascadeEventManagerTest extends TestCase
     {
         Event::fake();
 
-        $time = 10;
+        $time = 2;
 
         $this->eventManager
             ->setDelayRaceStart(true)

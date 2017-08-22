@@ -3,22 +3,16 @@
 namespace Mooncascade\Console\Commands;
 
 use Illuminate\Console\Command;
-use LaravelDoctrine\ORM\Facades\EntityManager;
-use Mooncascade\Entities\Athlete;
-use Illuminate\Contracts\Config\Repository;
-use Faker\Generator;
+use Mooncascade\Managers\MooncascadeEventManagerInterface;
 
 class ExecuteRaceEventTask extends Command
 {
     /**
-     * @var Repository
+     * @var MooncascadeEventManagerInterface
      */
-    protected $config;
+    protected $eventManager;
 
-    /**
-     * @var Generator
-     */
-    protected $faker;
+
 
     /**
      * The name and signature of the console command.
@@ -36,16 +30,12 @@ class ExecuteRaceEventTask extends Command
 
     /**
      * ExecuteRaceEventTask constructor.
-     * @param Repository $config
+     * @param MooncascadeEventManagerInterface $eventManager
      */
-    public function __construct(Repository $config, Generator $faker)
+    public function __construct(MooncascadeEventManagerInterface $eventManager)
     {
-        parent::__construct();
-
-        $this->config = $config;
-        $this->faker = $faker;
+        $this->eventManager = $eventManager;
     }
-
 
     /**
      * Execute the console command.
@@ -54,28 +44,6 @@ class ExecuteRaceEventTask extends Command
      */
     public function handle()
     {
-        /*$this->checkDelayExecution();
-
-        $worker = new \Worker();
-        $worker->start();
-
-        $repository = EntityManager::getRepository(Athlete::class);
-
-        $entities = $repository->findBy(['timeAtGate' => null]);
-
-        foreach ($entities as $entity) {
-
-            $thread = new RaceExecutionThread($this->config, $this->faker);
-            $thread->setAthlete($entity);
-
-            $worker->stack($thread);
-        }
-
-        while($worker->collect()){}
-
-        $worker->shutdown();
-
-        $message = 'Event complete';
-        $this->info($message);*/
+        $this->eventManager->execute();
     }
 }
