@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use Mooncascade\Strategies\RangeCalculationStrategy;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tests\TestCase;
 use Faker\Factory;
 
@@ -21,24 +22,8 @@ class RangeCalculationStrategyTest extends TestCase
         parent::setUp();
 
         $generator = Factory::create();
-        $this->strategy = new RangeCalculationStrategy($generator);
-    }
-
-    /**
-     * Test to ensure that the strategy can correctly sort
-     * the min/max values to enforce that $min < $max
-     *
-     * @dataProvider rangeCalculationStrategyProvider
-     * @return void
-     */
-    public function testThatRangeCalculationStrategyCorrectlySortsValues($min, $max)
-    {
-        $this->strategy->setMin($min)->setMax($max);
-
-        $this->strategy->sort();
-
-        $this->assertGreaterThanOrEqual($this->strategy->getMin(), (int) $min);
-        $this->assertLessThanOrEqual($this->strategy->getMax(), (int) $max);
+        $optionsResolver = new OptionsResolver();
+        $this->strategy = new RangeCalculationStrategy($generator, $optionsResolver);
     }
 
     /**
@@ -50,12 +35,12 @@ class RangeCalculationStrategyTest extends TestCase
      */
     public function testThatRangeCalculationStrategyReturnsInteger($min, $max)
     {
-        $this
-            ->strategy
-            ->setMin($min)
-            ->setMax($max);
+        $params = [
+            'min' => $min,
+            'max' => $max,
+        ];
 
-        $value = $this->strategy->execute();
+        $value = $this->strategy->execute($params);
 
         $this->assertInternalType('integer', $value);
     }
@@ -69,15 +54,15 @@ class RangeCalculationStrategyTest extends TestCase
      */
     public function testThatRangeCalculationStrategyReturnsIntegerWithinRange($min, $max)
     {
-        $this
-            ->strategy
-            ->setMin($min)
-            ->setMax($max);
+        $params = [
+            'min' => $min,
+            'max' => $max,
+        ];
 
-        $value = $this->strategy->execute();
+        $value = $this->strategy->execute($params);
 
-        $this->assertGreaterThanOrEqual($this->strategy->getMin(), $value);
-        $this->assertLessThanOrEqual($this->strategy->getMax(), $value);
+        $this->assertGreaterThanOrEqual((int) $params['min'], $value);
+        $this->assertLessThanOrEqual((int) $params['max'], $value);
     }
 
     /**
@@ -91,7 +76,6 @@ class RangeCalculationStrategyTest extends TestCase
             [4, 15],
             [4.5, 15.4],
             [-4.5, 15.4],
-            [5, 2],
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace Mooncascade\Strategies;
 
 use Faker\Generator;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class RangeCalculationStrategy
@@ -17,110 +18,52 @@ class RangeCalculationStrategy implements StrategyInterface
     protected $generator;
 
     /**
-     * @var integer
+     * @var OptionsResolver
      */
-    protected $min;
+    protected $optionsResolver;
 
     /**
-     * @var integer
-     */
-    protected $max;
-
-    /**
-     * SimpleTimeCalculationStrategy constructor.
+     * RangeCalculationStrategy constructor.
      * @param Generator $generator
+     * @param OptionsResolver $optionsResolver
      */
-    public function __construct(Generator $generator)
+    public function __construct(Generator $generator, OptionsResolver $optionsResolver)
     {
         $this->generator = $generator;
+        $this->optionsResolver = $optionsResolver;
     }
 
     /**
-     * @return Generator
+     * Use an OptionsResolver in order to ensure the correct params
+     * are passed.
      */
-    public function getGenerator(): Generator
+    public function configureParams()
     {
-        return $this->generator;
-    }
+        $required = [
+            'min',
+            'max',
+        ];
 
-    /**
-     * @param Generator $generator
-     * @return RangeCalculationStrategy
-     */
-    public function setGenerator(Generator $generator): RangeCalculationStrategy
-    {
-        $this->generator = $generator;
+        // Set the required values
+        $this->optionsResolver->setRequired($required);
 
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getMin(): int
-    {
-        return $this->min;
-    }
-
-    /**
-     * @param int $min
-     * @return RangeCalculationStrategy
-     */
-    public function setMin(int $min): RangeCalculationStrategy
-    {
-        $this->min = $min;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getMax(): int
-    {
-        return $this->max;
-    }
-
-    /**
-     * @param int $max
-     * @return RangeCalculationStrategy
-     */
-    public function setMax(int $max): RangeCalculationStrategy
-    {
-        $this->max = $max;
-
-        return $this;
+        // Set the allowed types
+        $this->optionsResolver->setAllowedTypes('min', 'integer');
+        $this->optionsResolver->setAllowedTypes('max', 'integer');
     }
 
     /**
      * Used to provide a VERY basic range calculation
      * using Faker.
      *
+     * @param array
      * @return mixed
      */
-    public function execute(): int
+    public function execute(array $params): int
     {
-        $this->sort();
+        // First configure/check our options
+        $this->configureParams();
 
-        return $this
-            ->generator
-            ->numberBetween($this->min, $this->max);
-    }
-
-    /**
-     * Ensures that the min/max values are not
-     * switched. IE: $min > $max.
-     */
-    public function sort()
-    {
-        $values = [
-            $this->getMin(),
-            $this->getMax(),
-        ];
-
-        sort($values, SORT_NUMERIC);
-
-        $this->setMin($values[0]);
-        $this->setMax($values[1]);
+        return $this->generator->numberBetween($params['min'], $params['min']);
     }
 }
