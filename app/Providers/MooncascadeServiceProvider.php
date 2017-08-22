@@ -36,13 +36,8 @@ class MooncascadeServiceProvider extends ServiceProvider
                 $config = $app->make('config')->get('mooncascade');
 
                 // Get the range calculation strategy
-                $rangeCalculationStrategy = $app->make(RangeCalculationStrategy::class);
 
-                // Get the EntityManager
-                $entityManager = $app->make('em');
-                $repository = $entityManager->getRepository(Athlete::class);
-
-                $eventManager = new MooncascadeEventManager($rangeCalculationStrategy, $repository);
+                $eventManager = new MooncascadeEventManager();
 
                 $eventManager
                     ->setDelayRaceStart($config['delay_race_start'])
