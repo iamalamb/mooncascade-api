@@ -15,8 +15,9 @@ interface StrategyInterface
      * implmentations to check/configure the $params
      * argument passed to the execute function.
      *
+     * @param $params
      */
-    public function configureParams();
+    public function configureParams(array $params);
 
     /**
      * Core function intended to be implemented by

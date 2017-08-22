@@ -26,9 +26,19 @@ class RandomBooleanCalculationStrategy implements StrategyInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function configureParams()
+    {
+        // TODO: Implement configureParams() method.
+    }
+
+
+    /**
+     * @param array $params
      * @return boolean
      */
-    public function execute()
+    public function execute(array $params)
     {
         return $this->generator->boolean;
     }

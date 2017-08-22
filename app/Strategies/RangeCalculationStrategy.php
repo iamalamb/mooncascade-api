@@ -36,8 +36,10 @@ class RangeCalculationStrategy implements StrategyInterface
     /**
      * Use an OptionsResolver in order to ensure the correct params
      * are passed.
+     *
+     * @param array $params
      */
-    public function configureParams()
+    public function configureParams(array $params)
     {
         $required = [
             'min',
@@ -48,8 +50,10 @@ class RangeCalculationStrategy implements StrategyInterface
         $this->optionsResolver->setRequired($required);
 
         // Set the allowed types
-        $this->optionsResolver->setAllowedTypes('min', 'integer');
-        $this->optionsResolver->setAllowedTypes('max', 'integer');
+        $this->optionsResolver->setAllowedTypes('min', ['integer', 'double']);
+        $this->optionsResolver->setAllowedTypes('max', ['integer', 'double']);
+
+        $this->optionsResolver->resolve($params);
     }
 
     /**
@@ -62,7 +66,7 @@ class RangeCalculationStrategy implements StrategyInterface
     public function execute(array $params): int
     {
         // First configure/check our options
-        $this->configureParams();
+        $this->configureParams($params);
 
         return $this->generator->numberBetween($params['min'], $params['min']);
     }
