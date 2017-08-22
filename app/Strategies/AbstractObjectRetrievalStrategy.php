@@ -182,8 +182,6 @@ abstract class AbstractObjectRetrievalStrategy implements StrategyInterface, Obj
         return $this;
     }
 
-
-
     /**
      * @return AbstractBaseRepository
      */

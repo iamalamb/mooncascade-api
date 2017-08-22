@@ -26,7 +26,6 @@ class MooncascadeEventManager implements MooncascadeEventManagerInterface
      */
     protected $delayRaceStartTime;
 
-
     /**
      * @return bool
      */
