@@ -3,7 +3,7 @@
 namespace Mooncascade\Strategies;
 
 use Mooncascade\Repositories\AbstractBaseRepository;
-use Doctrine\Common\Persistence\ObjectRepository;
+use LaravelDoctrine\ORM\Facades\EntityManager;
 
 /**
  * Class AbstractObjectRetrievalStrategy
@@ -18,17 +18,35 @@ abstract class AbstractObjectRetrievalStrategy implements StrategyInterface
     protected $criteria = [];
 
     /**
+     * @var string
+     */
+    protected $class;
+
+    /**
+     * @var EntityManager
+     */
+    protected $entityManager;
+
+    /**
      * @var AbstractBaseRepository
      */
     protected $repository;
 
     /**
      * AbstractObjectRetrievalStrategy constructor.
-     * @param AbstractBaseRepository $repository
+     * @param string $class
+     * @param EntityManager $entityManager
      */
-    public function __construct(AbstractBaseRepository $repository)
+    public function __construct($class, EntityManager $entityManager)
     {
-        $this->repository = $repository;
+        $this->class = $class;
+        $this->entityManager = $entityManager;
+
+        /*
+         * Get the repository based on
+         * the provided class
+         */
+        $this->repository = $this->entityManager->getRepository($this->class);
     }
 
     /**
