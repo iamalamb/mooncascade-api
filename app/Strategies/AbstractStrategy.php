@@ -6,11 +6,11 @@ use Faker\Generator;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class RandomBooleanCalculationStrategy
+ * Class AbstractStrategy
  *
  * @author Jason Lamb <jlamb@iamalamb.com>
  */
-class RandomBooleanCalculationStrategy implements StrategyInterface
+abstract class AbstractStrategy implements StrategyInterface
 {
     /**
      * @var Generator
@@ -23,7 +23,7 @@ class RandomBooleanCalculationStrategy implements StrategyInterface
     protected $optionsResolver;
 
     /**
-     * RandomBooleanCalculationStrategy constructor.
+     * AbstractStrategy constructor.
      * @param Generator $generator
      * @param OptionsResolver $optionsResolver
      */
@@ -35,30 +35,10 @@ class RandomBooleanCalculationStrategy implements StrategyInterface
 
     /**
      * @param array $params
-     */
-    public function configureParams(array $params)
-    {
-        $required = [
-            'chance'
-        ];
-
-        // Set the required values
-        $this->optionsResolver->setRequired($required);
-
-        // Set the allowed type
-        $this->optionsResolver->setAllowedTypes('chance', ['integer', 'double']);
-    }
-
-
-    /**
-     * @param array $params
-     * @return boolean
+     * @return mixed
      */
     public function execute(array $params)
     {
-        // First configure/check our options
         $this->configureParams($params);
-
-        return $this->generator->boolean;
     }
 }

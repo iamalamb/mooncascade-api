@@ -10,29 +10,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @author Jason Lamb <jlamb@iamalamb.com>
  */
-class RangeCalculationStrategy implements StrategyInterface
+class RangeCalculationStrategy extends AbstractStrategy
 {
-    /**
-     * @var Generator
-     */
-    protected $generator;
-
-    /**
-     * @var OptionsResolver
-     */
-    protected $optionsResolver;
-
-    /**
-     * RangeCalculationStrategy constructor.
-     * @param Generator $generator
-     * @param OptionsResolver $optionsResolver
-     */
-    public function __construct(Generator $generator, OptionsResolver $optionsResolver)
-    {
-        $this->generator = $generator;
-        $this->optionsResolver = $optionsResolver;
-    }
-
     /**
      * Use an OptionsResolver in order to ensure the correct params
      * are passed.
@@ -66,7 +45,7 @@ class RangeCalculationStrategy implements StrategyInterface
     public function execute(array $params): int
     {
         // First configure/check our options
-        $this->configureParams($params);
+        parent::execute($params);
 
         return $this->generator->numberBetween($params['min'], $params['min']);
     }
