@@ -2,37 +2,13 @@
 
 namespace Mooncascade\Strategies;
 
-use Faker\Generator;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
 /**
  * Class RandomBooleanCalculationStrategy
  *
  * @author Jason Lamb <jlamb@iamalamb.com>
  */
-class RandomBooleanCalculationStrategy implements StrategyInterface
+class RandomBooleanCalculationStrategy extends AbstractStrategy
 {
-    /**
-     * @var Generator
-     */
-    protected $generator;
-
-    /**
-     * @var OptionsResolver
-     */
-    protected $optionsResolver;
-
-    /**
-     * RandomBooleanCalculationStrategy constructor.
-     * @param Generator $generator
-     * @param OptionsResolver $optionsResolver
-     */
-    public function __construct(Generator $generator, OptionsResolver $optionsResolver)
-    {
-        $this->generator = $generator;
-        $this->optionsResolver = $optionsResolver;
-    }
-
     /**
      * @param array $params
      */
@@ -47,8 +23,9 @@ class RandomBooleanCalculationStrategy implements StrategyInterface
 
         // Set the allowed type
         $this->optionsResolver->setAllowedTypes('chance', ['integer', 'double']);
-    }
 
+        $this->optionsResolver->resolve($params);
+    }
 
     /**
      * @param array $params
@@ -56,9 +33,8 @@ class RandomBooleanCalculationStrategy implements StrategyInterface
      */
     public function execute(array $params)
     {
-        // First configure/check our options
-        $this->configureParams($params);
+        parent::execute($params);
 
-        return $this->generator->boolean;
+        return $this->generator->boolean($params['chance']);
     }
 }

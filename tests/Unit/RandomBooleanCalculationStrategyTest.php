@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use Mooncascade\Strategies\RandomBooleanCalculationStrategy;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tests\TestCase;
 use Faker\Factory;
 
@@ -18,10 +19,17 @@ class RandomBooleanCalculationStrategyTest extends TestCase
         $total = 20;
 
         $generator = Factory::create();
-        $strategy = new RandomBooleanCalculationStrategy($generator);
+        $optionsResolver = new OptionsResolver();
+
+        $strategy = new RandomBooleanCalculationStrategy($generator, $optionsResolver);
 
         for($i = 0; $i < $total; $i++) {
-            $this->assertInternalType('boolean', $strategy->execute());
+
+            $params = [
+                'chance' => $generator->numberBetween(5, 100)
+            ];
+
+            $this->assertInternalType('boolean', $strategy->execute($params));
         }
     }
 }
