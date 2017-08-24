@@ -47,6 +47,6 @@ class RangeCalculationStrategy extends AbstractStrategy
         // First configure/check our options
         parent::execute($params);
 
-        return $this->generator->numberBetween($params['min'], $params['min']);
+        return $this->generator->numberBetween($params['min'], $params['max']);
     }
 }

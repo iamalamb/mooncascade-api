@@ -5,7 +5,7 @@ namespace Mooncascade\Strategies;
 /**
  * Interface ObjectRetrievalStrategy
  */
-interface ObjectRetrievalStrategy
+interface ObjectRetrievalStrategyInterface
 {
-
+    public function execute(array $params);
 }
