@@ -98,7 +98,7 @@ class Athlete
     /**
      * @return string
      */
-    public function getCode()
+    public function getCode(): string
     {
         return $this->code;
     }
@@ -107,7 +107,7 @@ class Athlete
      * @param string $code
      * @return Athlete
      */
-    public function setCode($code)
+    public function setCode(string $code): Athlete
     {
         $this->code = $code;
 
@@ -115,26 +115,9 @@ class Athlete
     }
 
     /**
-     * @return \DateTime
-     */
-    public function getDateOfBirth()
-    {
-        return $this->dateOfBirth;
-    }
-
-    /**
-     * @param \DateTime $dateOfBirth
-     */
-    public function setDateOfBirth($dateOfBirth)
-    {
-        $this->dateOfBirth = $dateOfBirth;
-    }
-
-
-    /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -143,7 +126,7 @@ class Athlete
      * @param string $name
      * @return Athlete
      */
-    public function setName($name)
+    public function setName(string $name): Athlete
     {
         $this->name = $name;
 
@@ -151,9 +134,28 @@ class Athlete
     }
 
     /**
+     * @return \DateTime
+     */
+    public function getDateOfBirth(): \DateTime
+    {
+        return $this->dateOfBirth;
+    }
+
+    /**
+     * @param \DateTime $dateOfBirth
+     * @return Athlete
+     */
+    public function setDateOfBirth(\DateTime $dateOfBirth): Athlete
+    {
+        $this->dateOfBirth = $dateOfBirth;
+
+        return $this;
+    }
+
+    /**
      * @return int
      */
-    public function getStartNumber()
+    public function getStartNumber(): int
     {
         return $this->startNumber;
     }
@@ -162,7 +164,7 @@ class Athlete
      * @param int $startNumber
      * @return Athlete
      */
-    public function setStartNumber($startNumber)
+    public function setStartNumber(int $startNumber): Athlete
     {
         $this->startNumber = $startNumber;
 
@@ -170,18 +172,18 @@ class Athlete
     }
 
     /**
-     * @return \DateTime
+     * @return float
      */
-    public function getTimeAtGate()
+    public function getTimeAtGate(): float
     {
         return $this->timeAtGate;
     }
 
     /**
-     * @param \DateTime $timeAtGate
+     * @param float $timeAtGate
      * @return Athlete
      */
-    public function setTimeAtGate($timeAtGate)
+    public function setTimeAtGate(float $timeAtGate): Athlete
     {
         $this->timeAtGate = $timeAtGate;
 
@@ -189,29 +191,28 @@ class Athlete
     }
 
     /**
-     * @return \DateTime
+     * @return float
      */
-    public function getTimeAtFinish()
+    public function getTimeAtFinish(): float
     {
         return $this->timeAtFinish;
     }
 
     /**
-     * @param \DateTime $timeAtFinish
+     * @param float $timeAtFinish
      * @return Athlete
      */
-    public function setTimeAtFinish($timeAtFinish)
+    public function setTimeAtFinish(float $timeAtFinish): Athlete
     {
         $this->timeAtFinish = $timeAtFinish;
 
         return $this;
     }
 
-
     /**
      * @return Gender
      */
-    public function getGender()
+    public function getGender(): Gender
     {
         return $this->gender;
     }
@@ -220,7 +221,7 @@ class Athlete
      * @param Gender $gender
      * @return Athlete
      */
-    public function setGender($gender)
+    public function setGender(Gender $gender): Athlete
     {
         $this->gender = $gender;
 
@@ -230,16 +231,21 @@ class Athlete
     /**
      * @return Team
      */
-    public function getTeam()
+    public function getTeam(): Team
     {
         return $this->team;
     }
 
     /**
      * @param Team $team
+     * @return Athlete
      */
-    public function setTeam($team)
+    public function setTeam(Team $team): Athlete
     {
         $this->team = $team;
+
+        return $this;
     }
+
+
 }

@@ -40,16 +40,16 @@ class Team
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
      * @param string $name
-     * @return Gender
+     * @return Team
      */
-    public function setName($name)
+    public function setName(string $name): Team
     {
         $this->name = $name;
 
@@ -59,16 +59,19 @@ class Team
     /**
      * @return Athlete[]
      */
-    public function getAthletes()
+    public function getAthletes(): array
     {
         return $this->athletes;
     }
 
     /**
      * @param Athlete[] $athletes
+     * @return Team
      */
-    public function setAthletes($athletes)
+    public function setAthletes(array $athletes): Team
     {
         $this->athletes = $athletes;
+
+        return $this;
     }
 }
