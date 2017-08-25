@@ -15,7 +15,7 @@ class RandomBooleanCalculationStrategy extends AbstractStrategy
     public function configureParams(array $params)
     {
         $required = [
-            'chance'
+            'chance',
         ];
 
         // Set the required values
@@ -31,7 +31,7 @@ class RandomBooleanCalculationStrategy extends AbstractStrategy
      * @param array $params
      * @return boolean
      */
-    public function execute(array $params)
+    public function execute(array $params): bool
     {
         parent::execute($params);
 

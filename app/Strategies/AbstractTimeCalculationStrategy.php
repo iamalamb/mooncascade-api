@@ -51,6 +51,9 @@ abstract class AbstractTimeCalculationStrategy implements TimeCalculationStrateg
     }
 
     /**
+     * Get the minimum time threshold when calculating a
+     * dynamic time
+     *
      * @return int
      */
     public function getMinThreshold(): int
@@ -59,10 +62,13 @@ abstract class AbstractTimeCalculationStrategy implements TimeCalculationStrateg
     }
 
     /**
+     * Set the minimum threshold when
+     * calculating a dynamic time.
+     *
      * @param int $minThreshold
-     * @return AbstractTimeCalculationStrategy
+     * @return TimeCalculationStrategyInterface
      */
-    public function setMinThreshold(int $minThreshold): AbstractTimeCalculationStrategy
+    public function setMinThreshold(int $minThreshold): TimeCalculationStrategyInterface
     {
         $this->minThreshold = $minThreshold;
 
@@ -70,6 +76,9 @@ abstract class AbstractTimeCalculationStrategy implements TimeCalculationStrateg
     }
 
     /**
+     * Get the maximum time threshold when calculating a
+     * dynamic time
+     *
      * @return int
      */
     public function getMaxThreshold(): int
@@ -78,10 +87,13 @@ abstract class AbstractTimeCalculationStrategy implements TimeCalculationStrateg
     }
 
     /**
+     * Set the maximum threshold when
+     * calculating a dynamic time.
+     *
      * @param int $maxThreshold
-     * @return AbstractTimeCalculationStrategy
+     * @return TimeCalculationStrategyInterface
      */
-    public function setMaxThreshold(int $maxThreshold): AbstractTimeCalculationStrategy
+    public function setMaxThreshold(int $maxThreshold): TimeCalculationStrategyInterface
     {
         $this->maxThreshold = $maxThreshold;
 
@@ -89,9 +101,13 @@ abstract class AbstractTimeCalculationStrategy implements TimeCalculationStrateg
     }
 
     /**
-     * @return mixed
+     * Calculates a random time in seconds
+     * using the RangeCalculationStrategy
+     * between min and max thresholds.
+     *
+     * @return float
      */
-    public function calculateTime()
+    public function calculateTime(): float
     {
         $params = [
             'min' => $this->minThreshold,
@@ -106,6 +122,9 @@ abstract class AbstractTimeCalculationStrategy implements TimeCalculationStrateg
     }
 
     /**
+     * Configure params function used to ensure
+     * that the correct parameters are available.
+     *
      * @param array $params
      */
     public function configureParams(array $params)
@@ -119,9 +138,13 @@ abstract class AbstractTimeCalculationStrategy implements TimeCalculationStrateg
 
         $this->optionsResolver->setAllowedTypes('entities', [Collection::class]);
         $this->optionsResolver->setAllowedTypes('property', ['string']);
+
+        $this->optionsResolver->resolve($params);
     }
 
     /**
+     * Simply checks that we have entities to work on.
+     *
      * @param Collection $entities
      * @return bool
      */
@@ -135,6 +158,9 @@ abstract class AbstractTimeCalculationStrategy implements TimeCalculationStrateg
     }
 
     /**
+     * Initial execute function intended for
+     * overloading by concrete implementations.
+     *
      * @param array $params
      * @return mixed
      */
@@ -150,6 +176,8 @@ abstract class AbstractTimeCalculationStrategy implements TimeCalculationStrateg
     }
 
     /**
+     * Sets the calculated time on an Entity.
+     *
      * @param Athlete $entity
      * @param $property
      * @param $time

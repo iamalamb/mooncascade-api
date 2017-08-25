@@ -21,7 +21,7 @@ interface TimeCalculationStrategyInterface extends StrategyInterface
      *
      * @return float
      */
-    public function calculateTime();
+    public function calculateTime(): float;
 
     /**
      * Used to ensure that we actually HAVE
@@ -30,7 +30,7 @@ interface TimeCalculationStrategyInterface extends StrategyInterface
      * @param Collection $entities
      * @return bool
      */
-    public function checkIfCalculationNeeded(Collection $entities);
+    public function checkIfCalculationNeeded(Collection $entities): bool;
 
     /**
      * Used to set the time on an individual
@@ -41,5 +41,5 @@ interface TimeCalculationStrategyInterface extends StrategyInterface
      * @param $time
      * @return Athlete
      */
-    public function setCalculatedTimeForEntity(Athlete $entity, $property, $time);
+    public function setCalculatedTimeForEntity(Athlete $entity, $property, $time): Athlete;
 }
