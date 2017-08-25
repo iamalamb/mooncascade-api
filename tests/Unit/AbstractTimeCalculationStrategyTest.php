@@ -48,16 +48,14 @@ class AbstractTimeCalculationStrategyTest extends TestCase
         $this->rangeCalculationStrategy
             ->expects($this->any())
             ->method('execute')
-            ->willReturn(5);
+            ->willReturn(1);
 
 
         $this->optionsResolver = $this
             ->getMockBuilder(OptionsResolver::class)
             ->getMock();
 
-        $this->propertyAccessor = $this
-            ->getMockBuilder(PropertyAccessor::class)
-            ->getMock();
+        $this->propertyAccessor = new PropertyAccessor();
 
         $args = [
             $this->optionsResolver,
@@ -108,20 +106,9 @@ class AbstractTimeCalculationStrategyTest extends TestCase
 
         $time = $this->strategy->calculateTime();
 
-        $this->propertyAccessor
-            ->expects($this->once())
-            ->method('isWritable')
-            ->with($entity, 'timeAtGate')
-            ->willReturn(true);
-
-        $this->propertyAccessor
-            ->expects($this->once())
-            ->method('setValue')
-            ->with($entity, 'timeAtGate', $time)
-            ->willReturn($entity);
-
         $entity = $this->strategy->setCalculatedTimeForEntity($entity, 'timeAtGate', $time);
 
+        $this->assertInstanceOf(Athlete::class, $entity);
         $this->assertInternalType('float', $entity->getTimeAtGate());
     }
 }

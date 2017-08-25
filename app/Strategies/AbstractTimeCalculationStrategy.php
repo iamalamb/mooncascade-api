@@ -2,15 +2,11 @@
 
 namespace Mooncascade\Strategies;
 
+use Illuminate\Support\Collection;
 use Mooncascade\Entities\Athlete;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
-/**
- * Class AbstractTimeCalculationStrategy
- *
- * @author Jason Lamb <jlamb@iamalamb.com>
- */
 abstract class AbstractTimeCalculationStrategy implements TimeCalculationStrategyInterface
 {
     /**
@@ -54,20 +50,19 @@ abstract class AbstractTimeCalculationStrategy implements TimeCalculationStrateg
         $this->rangeCalculationStrategy = $rangeCalculationStrategy;
     }
 
-
     /**
      * @return int
      */
-    public function getMinThreshold()
+    public function getMinThreshold(): int
     {
         return $this->minThreshold;
     }
 
     /**
-     * @param $minThreshold
-     * @return $this
+     * @param int $minThreshold
+     * @return AbstractTimeCalculationStrategy
      */
-    public function setMinThreshold($minThreshold)
+    public function setMinThreshold(int $minThreshold): AbstractTimeCalculationStrategy
     {
         $this->minThreshold = $minThreshold;
 
@@ -77,16 +72,16 @@ abstract class AbstractTimeCalculationStrategy implements TimeCalculationStrateg
     /**
      * @return int
      */
-    public function getMaxThreshold()
+    public function getMaxThreshold(): int
     {
         return $this->maxThreshold;
     }
 
     /**
-     * @param $maxThreshold
-     * @return $this
+     * @param int $maxThreshold
+     * @return AbstractTimeCalculationStrategy
      */
-    public function setMaxThreshold($maxThreshold)
+    public function setMaxThreshold(int $maxThreshold): AbstractTimeCalculationStrategy
     {
         $this->maxThreshold = $maxThreshold;
 
@@ -110,7 +105,27 @@ abstract class AbstractTimeCalculationStrategy implements TimeCalculationStrateg
         return microtime(true);
     }
 
-    public function checkIfCalculationNeeded($entities)
+    /**
+     * @param array $params
+     */
+    public function configureParams(array $params)
+    {
+        $required = [
+            'entities',
+            'property',
+        ];
+
+        $this->optionsResolver->setRequired($required);
+
+        $this->optionsResolver->setAllowedTypes('entities', [Collection::class]);
+        $this->optionsResolver->setAllowedTypes('property', ['string']);
+    }
+
+    /**
+     * @param Collection $entities
+     * @return bool
+     */
+    public function checkIfCalculationNeeded(Collection $entities): bool
     {
         if (!$entities->count()) {
             return false;
@@ -119,12 +134,30 @@ abstract class AbstractTimeCalculationStrategy implements TimeCalculationStrateg
         return true;
     }
 
-    public function setCalculatedTimeForEntity(Athlete $entity, $property, $time)
+    /**
+     * @param array $params
+     * @return mixed
+     */
+    public function execute(array $params)
     {
-        if($this->propertyAccessor->isWritable($entity, $property)) {
+        $this->configureParams($params);
 
-            $this->propertyAccessor->setValue($entity, $property, $time);
+        if (!$this->checkIfCalculationNeeded($params['entities'])) {
+            return false;
         }
+
+        return $params['entities'];
+    }
+
+    /**
+     * @param Athlete $entity
+     * @param $property
+     * @param $time
+     * @return Athlete
+     */
+    public function setCalculatedTimeForEntity(Athlete $entity, $property, $time): Athlete
+    {
+        $this->propertyAccessor->setValue($entity, $property, $time);
 
         return $entity;
     }
