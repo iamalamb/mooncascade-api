@@ -7,10 +7,10 @@ use Mooncascade\Entities\Athlete;
 use Mooncascade\Strategies\RangeCalculationStrategy;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Tests\TestCase;
-use Mooncascade\Strategies\TieAthleteStrategy;
+use Mooncascade\Strategies\OvertakeAthleteStrategy;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TieAthleteStrategyTest extends TestCase
+class OvertakeAthleteStrategyTest extends TestCase
 {
     /**
      * @var RangeCalculationStrategy
@@ -56,9 +56,9 @@ class TieAthleteStrategyTest extends TestCase
         ];
 
         $this->strategy = $this
-            ->getMockBuilder(TieAthleteStrategy::class)
+            ->getMockBuilder(OvertakeAthleteStrategy::class)
             ->setConstructorArgs($args)
-            ->getMockForAbstractClass(TieAthleteStrategy::class);
+            ->getMockForAbstractClass(OvertakeAthleteStrategy::class);
 
         $this->strategy
             ->setMinThreshold(2)
@@ -100,6 +100,12 @@ class TieAthleteStrategyTest extends TestCase
 
         $this->assertCount(5, $times);
         $times = array_unique($times);
-        $this->assertCount(1, $times);
+        $this->assertCount(5, $times);
+
+        $params['entities'] = collect([]);
+
+        $entities = $this->strategy->execute($params);
+
+        $this->assertInternalType('bool', $entities);
     }
 }
