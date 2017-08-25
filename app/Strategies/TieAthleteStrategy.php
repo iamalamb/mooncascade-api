@@ -20,15 +20,18 @@ class TieAthleteStrategy extends AbstractTimeCalculationStrategy
     {
         $entities = parent::execute($params);
 
-        $time = $this->calculateTime();
-        $property = $params['property'];
+        if ($entities) {
 
-        $entities->each(
-            function (Athlete $entity) use ($time, $property) {
+            $time = $this->calculateTime();
+            $property = $params['property'];
 
-                $this->setCalculatedTimeForEntity($entity, $property, $time);
-            }
-        );
+            $entities->each(
+                function (Athlete $entity) use ($time, $property) {
+
+                    $this->setCalculatedTimeForEntity($entity, $property, $time);
+                }
+            );
+        }
 
         return $entities;
     }

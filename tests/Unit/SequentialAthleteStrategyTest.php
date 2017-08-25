@@ -100,5 +100,11 @@ class SequentialAthleteStrategyTest extends TestCase
         $this->assertCount(5, $times);
         $times = array_unique($times);
         $this->assertCount(5, $times);
+
+        $params['entities'] = collect([]);
+
+        $entities = $this->strategy->execute($params);
+
+        $this->assertInternalType('bool', $entities);
     }
 }

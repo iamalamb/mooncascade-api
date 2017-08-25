@@ -17,15 +17,18 @@ class SequentialAthleteStrategy extends AbstractTimeCalculationStrategy
     {
         $entities = parent::execute($params);
 
-        $property = $params['property'];
+        if ($entities) {
+            $property = $params['property'];
 
-        $entities->each(
-            function ($entity) use ($property) {
+            $entities->each(
+                function ($entity) use ($property) {
 
-                $time = $this->calculateTime();
-                $this->setCalculatedTimeForEntity($entity, $property, $time);
-            }
-        );
+                    $time = $this->calculateTime();
+                    $this->setCalculatedTimeForEntity($entity, $property, $time);
+                }
+            );
+        }
+
 
         return $entities;
     }
