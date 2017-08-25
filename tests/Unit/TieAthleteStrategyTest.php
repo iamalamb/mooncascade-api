@@ -2,10 +2,13 @@
 
 namespace Tests\Unit;
 
-use Mooncascade\Strategies\RandomBooleanCalculationStrategy;
+use Illuminate\Support\Collection;
+use Mooncascade\Entities\Athlete;
+use Mooncascade\Strategies\RangeCalculationStrategy;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Tests\TestCase;
 use Mooncascade\Strategies\TieAthleteStrategy;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Tests\TestCase;
 
 class TieAthleteStrategyTest extends TestCase
 {
@@ -31,28 +34,69 @@ class TieAthleteStrategyTest extends TestCase
     {
         parent::setUp();
 
-        $this->booleanCalculationStrategy = $this
-            ->getMockBuilder(RandomBooleanCalculationStrategy::class)
+        $this->rangeCalculationStrategy = $this
+            ->getMockBuilder(RangeCalculationStrategy::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->optionsResolver = $this->getMockBuilder(OptionsResolver::class);
+        $this->rangeCalculationStrategy
+            ->expects($this->any())
+            ->method('execute')
+            ->willReturn(1);
 
-        $this->strategy = new TieAthleteStrategy($this->booleanCalculationStrategy, $this->optionsResolver);
+
+        $this->optionsResolver = new OptionsResolver();
+
+        $this->propertyAccessor = new PropertyAccessor();
+
+        $args = [
+            $this->optionsResolver,
+            $this->propertyAccessor,
+            $this->rangeCalculationStrategy,
+        ];
+
+        $this->strategy = $this
+            ->getMockBuilder(TieAthleteStrategy::class)
+            ->setConstructorArgs($args)
+            ->getMockForAbstractClass(TieAthleteStrategy::class);
+
+        $this->strategy
+            ->setMinThreshold(2)
+            ->setMaxThreshold(10);
     }
 
     /**
-     * A basic test example.
+     * Test to ensure that execute is overloaded correctly.
+     * All entities should have the exact same time
      *
      * @return void
      */
-    public function testThatTieAthleteStrategySetsSameValueWhenRequired()
+    public function testExecuteFunctionExecutesCorrectly()
     {
-        $this->booleanCalculationStrategy
-            ->expects($this->once())
-            ->method('execute')
-            ->willReturn(true);
+        $params = [
+            'property' => 'timeAtGate',
+            'entities' => collect([]),
+        ];
 
-        $this->assertTrue(true);
+        $total = 5;
+
+        for ($i = 0; $i < $total; $i++) {
+
+            $params['entities']->push(new Athlete);
+        }
+
+        $entities = $this->strategy->execute($params);
+
+        $this->assertInstanceOf(Collection::class, $entities);
+
+        $times = [];
+        $entities = $entities->toArray();
+        foreach($entities as $entity) {
+            $times[] = $entity->getTimeAtGate();
+        }
+
+        $this->assertCount(5, $times);
+        $times = array_unique($times);
+        $this->assertCount(1, $times);
     }
 }
