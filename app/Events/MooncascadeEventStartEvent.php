@@ -25,7 +25,7 @@ class MooncascadeEventStartEvent
     /**
      * @return int
      */
-    public function getStartTime()
+    public function getStartTime(): int
     {
         return $this->startTime;
     }
@@ -34,11 +34,10 @@ class MooncascadeEventStartEvent
      * @param int $startTime
      * @return MooncascadeEventStartEvent
      */
-    public function setStartTime($startTime)
+    public function setStartTime(int $startTime): MooncascadeEventStartEvent
     {
         $this->startTime = $startTime;
 
         return $this;
     }
-
 }

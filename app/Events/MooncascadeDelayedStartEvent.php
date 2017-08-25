@@ -25,7 +25,7 @@ class MooncascadeDelayedStartEvent
     /**
      * @return int
      */
-    public function getDelayRaceStartTime()
+    public function getDelayRaceStartTime(): int
     {
         return $this->delayRaceStartTime;
     }
@@ -34,11 +34,13 @@ class MooncascadeDelayedStartEvent
      * @param int $delayRaceStartTime
      * @return MooncascadeDelayedStartEvent
      */
-    public function setDelayRaceStartTime($delayRaceStartTime)
+    public function setDelayRaceStartTime(int $delayRaceStartTime): MooncascadeDelayedStartEvent
     {
         $this->delayRaceStartTime = $delayRaceStartTime;
 
         return $this;
     }
+
+
 
 }
