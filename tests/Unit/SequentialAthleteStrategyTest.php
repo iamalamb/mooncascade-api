@@ -5,13 +5,15 @@ namespace Tests\Unit;
 use Illuminate\Support\Collection;
 use Mooncascade\Entities\Athlete;
 use Mooncascade\Strategies\RangeCalculationStrategy;
-use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Tests\TestCase;
-use Mooncascade\Strategies\TieAthleteStrategy;
+use Mooncascade\Strategies\SequentialAthleteStrategy;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
-class TieAthleteStrategyTest extends TestCase
+class SequentialAthleteStrategyTest extends TestCase
 {
+
+
     /**
      * @var RangeCalculationStrategy
      */
@@ -56,9 +58,9 @@ class TieAthleteStrategyTest extends TestCase
         ];
 
         $this->strategy = $this
-            ->getMockBuilder(TieAthleteStrategy::class)
+            ->getMockBuilder(SequentialAthleteStrategy::class)
             ->setConstructorArgs($args)
-            ->getMockForAbstractClass(TieAthleteStrategy::class);
+            ->getMockForAbstractClass(SequentialAthleteStrategy::class);
 
         $this->strategy
             ->setMinThreshold(2)
@@ -91,12 +93,12 @@ class TieAthleteStrategyTest extends TestCase
 
         $times = [];
         $entities = $entities->toArray();
-        foreach($entities as $entity) {
+        foreach ($entities as $entity) {
             $times[] = $entity->getTimeAtGate();
         }
 
         $this->assertCount(5, $times);
         $times = array_unique($times);
-        $this->assertCount(1, $times);
+        $this->assertCount(5, $times);
     }
 }
