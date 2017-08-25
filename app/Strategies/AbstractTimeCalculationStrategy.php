@@ -4,10 +4,11 @@ namespace Mooncascade\Strategies;
 
 use Illuminate\Support\Collection;
 use Mooncascade\Entities\Athlete;
+use Mooncascade\Factories\FactoryItemInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
-abstract class AbstractTimeCalculationStrategy implements TimeCalculationStrategyInterface
+abstract class AbstractTimeCalculationStrategy implements TimeCalculationStrategyInterface, FactoryItemInterface
 {
     /**
      * @var integer
