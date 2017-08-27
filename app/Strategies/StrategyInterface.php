@@ -11,21 +11,11 @@ namespace Mooncascade\Strategies;
 interface StrategyInterface
 {
     /**
-     * Core internal function intended by all concrete
-     * implmentations to check/configure the $params
-     * argument passed to the execute function.
-     *
-     * @param $params
-     */
-    public function configureParams(array $params);
-
-    /**
      * Core function intended to be implemented by
      * all concrete classes intending to implement
      * this interface.
      *
-     * @param array $params
      * @return mixed
      */
-    public function execute(array $params);
+    public function execute();
 }

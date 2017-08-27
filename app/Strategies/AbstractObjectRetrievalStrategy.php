@@ -43,15 +43,18 @@ abstract class AbstractObjectRetrievalStrategy implements ObjectRetrievalStrateg
      * @param string $class
      * @param EntityManager $entityManager
      * @param RangeCalculationStrategy $rangeCalculationStrategy
+     * @param TimeRetrievalStrategyFactory $timeRetrievalStrategyFactory
      */
     public function __construct(
         $class,
         EntityManager $entityManager,
-        RangeCalculationStrategy $rangeCalculationStrategy
+        RangeCalculationStrategy $rangeCalculationStrategy,
+        TimeRetrievalStrategyFactory $timeRetrievalStrategyFactory
     ) {
         $this->class = $class;
         $this->entityManager = $entityManager;
         $this->rangeCalculationStrategy = $rangeCalculationStrategy;
+        $this->timeRetrievalStrategyFactory = $timeRetrievalStrategyFactory;
 
         /*
          * Get the repository based on
