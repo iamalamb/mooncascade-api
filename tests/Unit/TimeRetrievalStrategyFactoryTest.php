@@ -5,7 +5,6 @@ namespace Tests\Unit;
 use Mooncascade\Factories\FactoryItemInterface;
 use Mooncascade\Factories\TimeRetrievalStrategyFactory;
 use Mooncascade\Strategies\OvertakeAthleteStrategy;
-use Mooncascade\Strategies\RandomBooleanCalculationStrategy;
 use Mooncascade\Strategies\SequentialAthleteStrategy;
 use Mooncascade\Strategies\TieAthleteStrategy;
 use Tests\TestCase;
