@@ -2,6 +2,7 @@
 
 namespace Mooncascade\Strategies;
 
+use Mooncascade\Factories\TimeRetrievalStrategyFactory;
 use Mooncascade\Repositories\AbstractBaseRepository;
 use Doctrine\ORM\EntityManager;
 
@@ -23,11 +24,6 @@ abstract class AbstractObjectRetrievalStrategy implements ObjectRetrievalStrateg
     protected $entityManager;
 
     /**
-     * @var RandomBooleanCalculationStrategy
-     */
-    protected $randomBooleanCalculationStrategy;
-
-    /**
      * @var RangeCalculationStrategy
      */
     protected $rangeCalculationStrategy;
@@ -38,21 +34,23 @@ abstract class AbstractObjectRetrievalStrategy implements ObjectRetrievalStrateg
     protected $repository;
 
     /**
+     * @var TimeRetrievalStrategyFactory
+     */
+    protected $timeRetrievalStrategyFactory;
+
+    /**
      * AbstractObjectRetrievalStrategy constructor.
      * @param string $class
      * @param EntityManager $entityManager
-     * @param RandomBooleanCalculationStrategy $randomBooleanCalculationStrategy
      * @param RangeCalculationStrategy $rangeCalculationStrategy
      */
     public function __construct(
         $class,
         EntityManager $entityManager,
-        RandomBooleanCalculationStrategy $randomBooleanCalculationStrategy,
         RangeCalculationStrategy $rangeCalculationStrategy
     ) {
         $this->class = $class;
         $this->entityManager = $entityManager;
-        $this->randomBooleanCalculationStrategy = $randomBooleanCalculationStrategy;
         $this->rangeCalculationStrategy = $rangeCalculationStrategy;
 
         /*
@@ -96,26 +94,6 @@ abstract class AbstractObjectRetrievalStrategy implements ObjectRetrievalStrateg
     public function setEntityManager(EntityManager $entityManager): AbstractObjectRetrievalStrategy
     {
         $this->entityManager = $entityManager;
-
-        return $this;
-    }
-
-    /**
-     * @return RandomBooleanCalculationStrategy
-     */
-    public function getRandomBooleanCalculationStrategy(): RandomBooleanCalculationStrategy
-    {
-        return $this->randomBooleanCalculationStrategy;
-    }
-
-    /**
-     * @param RandomBooleanCalculationStrategy $randomBooleanCalculationStrategy
-     * @return AbstractObjectRetrievalStrategy
-     */
-    public function setRandomBooleanCalculationStrategy(
-        RandomBooleanCalculationStrategy $randomBooleanCalculationStrategy
-    ): AbstractObjectRetrievalStrategy {
-        $this->randomBooleanCalculationStrategy = $randomBooleanCalculationStrategy;
 
         return $this;
     }
