@@ -14,6 +14,17 @@ use Mooncascade\Events\MooncascadeEventStartEvent;
  */
 class MooncascadeEventManager implements MooncascadeEventManagerInterface
 {
+
+    /**
+     * @var boolean
+     */
+    protected $delayRaceStart;
+
+    /**
+     * @var integer
+     */
+    protected $delayRaceStartTime;
+
     /**
      * Single point of execution.
      * Responsible for all underlying processes.
@@ -26,7 +37,6 @@ class MooncascadeEventManager implements MooncascadeEventManagerInterface
          * the event
          */
         if ($this->delayRaceStart) {
-
             $event = new MooncascadeDelayedStartEvent($this->delayRaceStartTime);
             event($event);
 
@@ -41,5 +51,43 @@ class MooncascadeEventManager implements MooncascadeEventManagerInterface
 
         $event = new MooncascadeEventStartEvent($time);
         event($event);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDelayRaceStart(): bool
+    {
+        return $this->delayRaceStart;
+    }
+
+    /**
+     * @param bool $delayRaceStart
+     * @return MooncascadeEventManager
+     */
+    public function setDelayRaceStart(bool $delayRaceStart): MooncascadeEventManager
+    {
+        $this->delayRaceStart = $delayRaceStart;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDelayRaceStartTime(): int
+    {
+        return $this->delayRaceStartTime;
+    }
+
+    /**
+     * @param int $delayRaceStartTime
+     * @return MooncascadeEventManager
+     */
+    public function setDelayRaceStartTime(int $delayRaceStartTime): MooncascadeEventManager
+    {
+        $this->delayRaceStartTime = $delayRaceStartTime;
+
+        return $this;
     }
 }

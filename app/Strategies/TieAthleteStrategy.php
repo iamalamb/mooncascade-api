@@ -16,7 +16,7 @@ class TieAthleteStrategy extends AbstractTimeCalculationStrategy
      * @param array $params
      * @return Collection
      */
-    public function execute(array $params): Collection
+    public function execute(array $params)
     {
         $entities = parent::execute($params);
 
