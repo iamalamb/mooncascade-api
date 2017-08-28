@@ -4,16 +4,16 @@ namespace Mooncascade\Factories;
 
 
 /**
- * Class TimeRetrievalStrategyFactory
+ * Class AthleteRaceStrategyFactory
  *
  * @author Jason Lamb <jlamb@iamalamb.com>
  */
-class TimeRetrievalStrategyFactory implements FactoryInterface
+class AthleteRaceStrategyFactory implements FactoryInterface
 {
     protected $strategies = [];
 
     /**
-     * TimeRetrievalStrategyFactory constructor.
+     * AthleteRaceStrategyFactory constructor.
      * @param array $strategies
      */
     public function __construct(array $strategies)

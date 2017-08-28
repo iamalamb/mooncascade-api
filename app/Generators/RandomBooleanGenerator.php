@@ -2,8 +2,6 @@
 
 namespace Mooncascade\Generators;
 
-use Mooncascade\Strategies\StrategyInterface;
-
 /**
  * Class RandomBooleanGenerator
  *

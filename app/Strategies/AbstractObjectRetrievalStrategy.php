@@ -2,7 +2,7 @@
 
 namespace Mooncascade\Strategies;
 
-use Mooncascade\Factories\TimeRetrievalStrategyFactory;
+use Mooncascade\Factories\AthleteRaceStrategyFactory;
 use Mooncascade\Repositories\AbstractBaseRepository;
 use Doctrine\ORM\EntityManager;
 
@@ -34,7 +34,7 @@ abstract class AbstractObjectRetrievalStrategy implements ObjectRetrievalStrateg
     protected $repository;
 
     /**
-     * @var TimeRetrievalStrategyFactory
+     * @var AthleteRaceStrategyFactory
      */
     protected $timeRetrievalStrategyFactory;
 
@@ -43,13 +43,13 @@ abstract class AbstractObjectRetrievalStrategy implements ObjectRetrievalStrateg
      * @param string $class
      * @param EntityManager $entityManager
      * @param RangeCalculationStrategy $rangeCalculationStrategy
-     * @param TimeRetrievalStrategyFactory $timeRetrievalStrategyFactory
+     * @param AthleteRaceStrategyFactory $timeRetrievalStrategyFactory
      */
     public function __construct(
         $class,
         EntityManager $entityManager,
         RangeCalculationStrategy $rangeCalculationStrategy,
-        TimeRetrievalStrategyFactory $timeRetrievalStrategyFactory
+        AthleteRaceStrategyFactory $timeRetrievalStrategyFactory
     ) {
         $this->class = $class;
         $this->entityManager = $entityManager;

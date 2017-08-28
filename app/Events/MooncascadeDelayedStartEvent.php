@@ -40,7 +40,4 @@ class MooncascadeDelayedStartEvent
 
         return $this;
     }
-
-
-
 }

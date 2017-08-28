@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use Mooncascade\Factories\FactoryItemInterface;
-use Mooncascade\Factories\TimeRetrievalStrategyFactory;
+use Mooncascade\Factories\AthleteRaceStrategyFactory;
 use Mooncascade\Strategies\OvertakeAthleteRaceStrategy;
 use Mooncascade\Strategies\SequentialAthleteRaceStrategy;
 use Mooncascade\Strategies\TieAthleteRaceStrategy;
@@ -22,7 +22,7 @@ class TimeRetrievalStrategyFactoryTest extends TestCase
     protected $strategies;
 
     /**
-     * @var TimeRetrievalStrategyFactory
+     * @var AthleteRaceStrategyFactory
      */
     protected $factory;
 
@@ -52,7 +52,7 @@ class TimeRetrievalStrategyFactoryTest extends TestCase
             'tie'        => $tieStrategy,
         ];
 
-        $this->factory = new TimeRetrievalStrategyFactory($this->strategies);
+        $this->factory = new AthleteRaceStrategyFactory($this->strategies);
     }
 
 
