@@ -3,7 +3,6 @@
 namespace Mooncascade\Strategies;
 
 use Illuminate\Support\Collection;
-use Mooncascade\Entities\Athlete;
 
 /**
  * Class TieAthleteRaceStrategy
@@ -13,27 +12,21 @@ use Mooncascade\Entities\Athlete;
 class TieAthleteRaceStrategy extends AbstractAthleteRaceStrategy
 {
     /**
-     * @param array $params
      * @return Collection
      */
-    public function execute(array $params)
+    public function execute(): Collection
     {
-        $entities = parent::execute($params);
+        parent::execute();
 
-        if ($entities) {
-
+        if ($this->entities->count() > 1) {
             $time = $this->calculateTime();
-            $property = $params['property'];
-
-            $entities->each(
-                function (Athlete $entity) use ($time, $property) {
-
-                    $this->setCalculatedTimeForEntity($entity, $property, $time);
+            $this->entities->each(
+                function ($entity) use ($time) {
+                    $this->setCalculatedTimeForEntity($entity, $this->getProperty(), $time);
                 }
             );
         }
 
-        return $entities;
+        return $this->entities;
     }
-
 }

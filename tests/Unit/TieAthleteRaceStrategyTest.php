@@ -4,26 +4,25 @@ namespace Tests\Unit;
 
 use Illuminate\Support\Collection;
 use Mooncascade\Entities\Athlete;
-use Mooncascade\Strategies\RangeCalculationStrategy;
+use Mooncascade\Generators\RandomIntegerGenerator;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Tests\TestCase;
 use Mooncascade\Strategies\TieAthleteRaceStrategy;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class TieAthleteStrategyTest extends TestCase
+class TieAthleteRaceStrategyTest extends TestCase
 {
     /**
-     * @var RangeCalculationStrategy
+     * @var RandomIntegerGenerator
      */
-    protected $rangeCalculationStrategy;
+    protected $integerGenerator;
 
     /**
-     * @var OptionsResolver
+     * @var PropertyAccessor
      */
-    protected $optionsResolver;
+    protected $propertyAccessor;
 
     /**
-     * @var TieAthleteRaceStrategy
+     * @var OvertakeAthleteRaceStrategy
      */
     protected $strategy;
 
@@ -34,35 +33,27 @@ class TieAthleteStrategyTest extends TestCase
     {
         parent::setUp();
 
-        $this->rangeCalculationStrategy = $this
-            ->getMockBuilder(RangeCalculationStrategy::class)
+        $this->integerGenerator = $this
+            ->getMockBuilder(RandomIntegerGenerator::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->rangeCalculationStrategy
+        $this->integerGenerator
             ->expects($this->any())
-            ->method('execute')
+            ->method('generate')
             ->willReturn(1);
-
-
-        $this->optionsResolver = new OptionsResolver();
 
         $this->propertyAccessor = new PropertyAccessor();
 
-        $args = [
-            $this->optionsResolver,
-            $this->propertyAccessor,
-            $this->rangeCalculationStrategy,
-        ];
-
         $this->strategy = $this
-            ->getMockBuilder(TieAthleteRaceStrategy::class)
-            ->setConstructorArgs($args)
             ->getMockForAbstractClass(TieAthleteRaceStrategy::class);
 
         $this->strategy
-            ->setMinThreshold(2)
-            ->setMaxThreshold(10);
+            ->setIntegerGenerator($this->integerGenerator)
+            ->setMin(1)
+            ->setMax(10)
+            ->setProperty('timeAtGate')
+            ->setPropertyAccessor($this->propertyAccessor);
     }
 
     /**
@@ -73,10 +64,7 @@ class TieAthleteStrategyTest extends TestCase
      */
     public function testExecuteFunctionExecutesCorrectly()
     {
-        $params = [
-            'property' => 'timeAtGate',
-            'entities' => collect([]),
-        ];
+        $collection = new Collection();
 
         $total = 5;
 
@@ -85,10 +73,12 @@ class TieAthleteStrategyTest extends TestCase
             $athlete = new Athlete();
             $athlete->setStartNumber($i + 1);
 
-            $params['entities']->push($athlete);
+            $collection->push($athlete);
         }
 
-        $entities = $this->strategy->execute($params);
+        $this->strategy->setEntities($collection);
+
+        $entities = $this->strategy->execute();
 
         $this->assertInstanceOf(Collection::class, $entities);
 
@@ -101,11 +91,5 @@ class TieAthleteStrategyTest extends TestCase
         $this->assertCount(5, $times);
         $times = array_unique($times);
         $this->assertCount(1, $times);
-
-        $params['entities'] = collect([]);
-
-        $entities = $this->strategy->execute($params);
-
-        $this->assertInternalType('bool', $entities);
     }
 }

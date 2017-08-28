@@ -2,6 +2,8 @@
 
 namespace Mooncascade\Strategies;
 
+use Illuminate\Support\Collection;
+
 /**
  * Class SequentialAthleteRaceStrategy
  *
@@ -10,26 +12,22 @@ namespace Mooncascade\Strategies;
 class SequentialAthleteRaceStrategy extends AbstractAthleteRaceStrategy
 {
     /**
-     * @param array $params
-     * @return bool|mixed
+     * @return Collection
      */
-    public function execute(array $params)
+    public function execute(): Collection
     {
-        $entities = parent::execute($params);
+        parent::execute();
 
-        if ($entities) {
-            $property = $params['property'];
-
-            $entities->each(
-                function ($entity) use ($property) {
-
+        if ($this->entities->count() > 1) {
+            $this->entities->each(
+                function ($entity) {
                     $time = $this->calculateTime();
-                    $this->setCalculatedTimeForEntity($entity, $property, $time);
+                    $this->setCalculatedTimeForEntity($entity, $this->getProperty(), $time);
                 }
             );
         }
 
 
-        return $entities;
+        return $this->entities;
     }
 }
