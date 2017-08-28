@@ -65,7 +65,7 @@ class RandomRaceStrategyEventGenerator implements GeneratorInterface
      */
     public function generate()
     {
-        $key = $this->allowedStrategies->random(1);
+        $key = $this->allowedStrategies->random(1)->shift();
 
         $strategy = $this->strategyFactory->create($key);
 
