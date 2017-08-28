@@ -207,7 +207,7 @@ abstract class AbstractAthleteRaceStrategy implements
             ->setMax($this->max);
 
         // Calculate a dynamic time and sleep
-        $time = $this->integerGenerator->execute();
+        $time = $this->integerGenerator->generate();
         sleep($time);
 
         // Return the current microtime for storage
@@ -241,6 +241,7 @@ abstract class AbstractAthleteRaceStrategy implements
          * with, there's no point in proceeding further
          */
         if ($this->checkIfCalculationNeeded()) {
+
             // If there is only one entity process it
             if ($this->entities->count() === 1) {
                 // Retrieve the entity

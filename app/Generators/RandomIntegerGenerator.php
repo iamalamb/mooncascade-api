@@ -29,9 +29,9 @@ class RandomIntegerGenerator extends AbstractBaseGenerator
 
     /**
      * @param int $min
-     * @return GeneratorInterface
+     * @return RandomIntegerGenerator
      */
-    public function setMin(int $min): GeneratorInterface
+    public function setMin(int $min): RandomIntegerGenerator
     {
         $this->min = $min;
 
@@ -48,9 +48,9 @@ class RandomIntegerGenerator extends AbstractBaseGenerator
 
     /**
      * @param int $max
-     * @return GeneratorInterface
+     * @return RandomIntegerGenerator
      */
-    public function setMax(int $max): GeneratorInterface
+    public function setMax(int $max): RandomIntegerGenerator
     {
         $this->max = $max;
 

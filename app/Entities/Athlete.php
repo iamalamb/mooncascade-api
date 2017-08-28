@@ -174,7 +174,7 @@ class Athlete
     /**
      * @return float
      */
-    public function getTimeAtGate(): float
+    public function getTimeAtGate()
     {
         return $this->timeAtGate;
     }

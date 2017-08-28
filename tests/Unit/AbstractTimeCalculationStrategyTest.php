@@ -95,65 +95,7 @@ class AbstractTimeCalculationStrategyTest extends TestCase
         $this->assertInternalType('float', $time);
     }
 
-    /**
-     * Test to ensure that checkIfCalculationNeeded function
-     * will return a boolean value which determines if
-     * the strategy should continue to calculate the time.
-     */
-    public function testCheckIfCalculationNeededExecutesCorrectly()
-    {
-        $result = $this->strategy->checkIfCalculationNeeded(collect([]));
 
-        $this->assertInternalType('boolean', $result);
-        $this->assertEquals(false, $result);
-
-        $entity = new Athlete();
-        $result = $this->strategy->checkIfCalculationNeeded(collect([$entity]));
-
-        $this->assertInternalType('boolean', $result);
-        $this->assertEquals(true, $result);
-    }
-
-    /**
-     * Test to ensure that setCalculatedTimeForEntity correctly
-     * sets the time on a dynamic property as passed by the params.
-     */
-    public function testSetCalculatedTimeForEntityExecutesCorrectly()
-    {
-        $entity = new Athlete();
-
-        $time = $this->strategy->calculateTime();
-
-        $entity = $this->strategy->setCalculatedTimeForEntity($entity, 'timeAtGate', $time);
-
-        $this->assertInstanceOf(Athlete::class, $entity);
-        $this->assertInternalType('float', $entity->getTimeAtGate());
-    }
-
-    /**
-     * Test to ensure that the abstract implementation of
-     * execute runs as expected.
-     */
-    public function testExecuteFunctionExecutesCorrectly()
-    {
-        $params = [
-            'entities' => collect([]),
-            'property' => 'timeAtGate',
-        ];
-
-        $result = $this->strategy->execute($params);
-
-        $this->assertInternalType('bool', $result);
-        $this->assertEquals(false, $result);
-
-        $athlete = new Athlete();
-
-        $params['entities'] = collect([$athlete]);
-
-        $result = $this->strategy->execute($params);
-
-        $this->assertInstanceOf(Collection::class, $result);
-    }
 
     /**
      * Ensure that the configureParams function
