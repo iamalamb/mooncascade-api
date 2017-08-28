@@ -7,7 +7,7 @@ use Mooncascade\Entities\Athlete;
 use Mooncascade\Strategies\RangeCalculationStrategy;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Tests\TestCase;
-use Mooncascade\Strategies\OvertakeAthleteStrategy;
+use Mooncascade\Strategies\OvertakeAthleteRaceStrategy;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class OvertakeAthleteStrategyTest extends TestCase
@@ -56,9 +56,9 @@ class OvertakeAthleteStrategyTest extends TestCase
         ];
 
         $this->strategy = $this
-            ->getMockBuilder(OvertakeAthleteStrategy::class)
+            ->getMockBuilder(OvertakeAthleteRaceStrategy::class)
             ->setConstructorArgs($args)
-            ->getMockForAbstractClass(OvertakeAthleteStrategy::class);
+            ->getMockForAbstractClass(OvertakeAthleteRaceStrategy::class);
 
         $this->strategy
             ->setMinThreshold(2)

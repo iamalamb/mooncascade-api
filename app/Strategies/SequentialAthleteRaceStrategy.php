@@ -3,11 +3,11 @@
 namespace Mooncascade\Strategies;
 
 /**
- * Class SequentialAthleteStrategy
+ * Class SequentialAthleteRaceStrategy
  *
  * @author Jason Lamb <jlamb@iamalamb.com>
  */
-class SequentialAthleteStrategy extends AbstractTimeCalculationStrategy
+class SequentialAthleteRaceStrategy extends AbstractAthleteRaceStrategy
 {
     /**
      * @param array $params

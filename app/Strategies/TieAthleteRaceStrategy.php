@@ -6,11 +6,11 @@ use Illuminate\Support\Collection;
 use Mooncascade\Entities\Athlete;
 
 /**
- * Class TieAthleteStrategy
+ * Class TieAthleteRaceStrategy
  *
  * @author Jason Lamb <jlamb@iamalamb.com>
  */
-class TieAthleteStrategy extends AbstractTimeCalculationStrategy
+class TieAthleteRaceStrategy extends AbstractAthleteRaceStrategy
 {
     /**
      * @param array $params

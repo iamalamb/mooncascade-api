@@ -6,7 +6,7 @@ use Illuminate\Support\Collection;
 use Mooncascade\Entities\Athlete;
 use Mooncascade\Strategies\RangeCalculationStrategy;
 use Tests\TestCase;
-use Mooncascade\Strategies\SequentialAthleteStrategy;
+use Mooncascade\Strategies\SequentialAthleteRaceStrategy;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
@@ -58,9 +58,9 @@ class SequentialAthleteStrategyTest extends TestCase
         ];
 
         $this->strategy = $this
-            ->getMockBuilder(SequentialAthleteStrategy::class)
+            ->getMockBuilder(SequentialAthleteRaceStrategy::class)
             ->setConstructorArgs($args)
-            ->getMockForAbstractClass(SequentialAthleteStrategy::class);
+            ->getMockForAbstractClass(SequentialAthleteRaceStrategy::class);
 
         $this->strategy
             ->setMinThreshold(2)

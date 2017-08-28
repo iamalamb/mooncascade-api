@@ -7,7 +7,7 @@ use Mooncascade\Entities\Athlete;
 use Mooncascade\Strategies\RangeCalculationStrategy;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Tests\TestCase;
-use Mooncascade\Strategies\TieAthleteStrategy;
+use Mooncascade\Strategies\TieAthleteRaceStrategy;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TieAthleteStrategyTest extends TestCase
@@ -23,7 +23,7 @@ class TieAthleteStrategyTest extends TestCase
     protected $optionsResolver;
 
     /**
-     * @var TieAthleteStrategy
+     * @var TieAthleteRaceStrategy
      */
     protected $strategy;
 
@@ -56,9 +56,9 @@ class TieAthleteStrategyTest extends TestCase
         ];
 
         $this->strategy = $this
-            ->getMockBuilder(TieAthleteStrategy::class)
+            ->getMockBuilder(TieAthleteRaceStrategy::class)
             ->setConstructorArgs($args)
-            ->getMockForAbstractClass(TieAthleteStrategy::class);
+            ->getMockForAbstractClass(TieAthleteRaceStrategy::class);
 
         $this->strategy
             ->setMinThreshold(2)

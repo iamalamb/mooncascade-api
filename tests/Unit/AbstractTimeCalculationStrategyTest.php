@@ -4,13 +4,13 @@ namespace Tests\Unit;
 
 use Illuminate\Support\Collection;
 use Mooncascade\Entities\Athlete;
-use Mooncascade\Strategies\AbstractTimeCalculationStrategy;
+use Mooncascade\Strategies\AbstractAthleteRaceStrategy;
 use Mooncascade\Strategies\RangeCalculationStrategy;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Tests\TestCase;
-use Mooncascade\Strategies\TieAthleteStrategy;
+use Mooncascade\Strategies\TieAthleteRaceStrategy;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -37,7 +37,7 @@ class AbstractTimeCalculationStrategyTest extends TestCase
     protected $propertyAccessor;
 
     /**
-     * @var TieAthleteStrategy
+     * @var TieAthleteRaceStrategy
      */
     protected $strategy;
 
@@ -71,9 +71,9 @@ class AbstractTimeCalculationStrategyTest extends TestCase
         ];
 
         $this->strategy = $this
-            ->getMockBuilder(AbstractTimeCalculationStrategy::class)
+            ->getMockBuilder(AbstractAthleteRaceStrategy::class)
             ->setConstructorArgs($args)
-            ->getMockForAbstractClass(AbstractTimeCalculationStrategy::class);
+            ->getMockForAbstractClass(AbstractAthleteRaceStrategy::class);
 
         $this->strategy
             ->setMinThreshold(2)

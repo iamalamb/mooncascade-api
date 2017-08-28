@@ -5,11 +5,11 @@ namespace Mooncascade\Strategies;
 use Mooncascade\Entities\Athlete;
 
 /**
- * Class OvertakeAthleteStrategy
+ * Class OvertakeAthleteRaceStrategy
  *
  * @author Jason Lamb <jlamb@iamalamb.com>
  */
-class OvertakeAthleteStrategy extends AbstractTimeCalculationStrategy
+class OvertakeAthleteRaceStrategy extends AbstractAthleteRaceStrategy
 {
     /**
      * @param array $params

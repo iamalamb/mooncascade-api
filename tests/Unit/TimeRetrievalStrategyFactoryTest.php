@@ -4,9 +4,9 @@ namespace Tests\Unit;
 
 use Mooncascade\Factories\FactoryItemInterface;
 use Mooncascade\Factories\TimeRetrievalStrategyFactory;
-use Mooncascade\Strategies\OvertakeAthleteStrategy;
-use Mooncascade\Strategies\SequentialAthleteStrategy;
-use Mooncascade\Strategies\TieAthleteStrategy;
+use Mooncascade\Strategies\OvertakeAthleteRaceStrategy;
+use Mooncascade\Strategies\SequentialAthleteRaceStrategy;
+use Mooncascade\Strategies\TieAthleteRaceStrategy;
 use Tests\TestCase;
 
 /**
@@ -33,16 +33,16 @@ class TimeRetrievalStrategyFactoryTest extends TestCase
     {
         parent::setUp();
 
-        $overTakeStrategy = $this->getMockBuilder(OvertakeAthleteStrategy::class)
+        $overTakeStrategy = $this->getMockBuilder(OvertakeAthleteRaceStrategy::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $sequentialStrategy = $this->getMockBuilder(SequentialAthleteStrategy::class)
+        $sequentialStrategy = $this->getMockBuilder(SequentialAthleteRaceStrategy::class)
             ->disableOriginalConstructor()
             ->getMock();
 
 
-        $tieStrategy = $this->getMockBuilder(TieAthleteStrategy::class)
+        $tieStrategy = $this->getMockBuilder(TieAthleteRaceStrategy::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -84,9 +84,9 @@ class TimeRetrievalStrategyFactoryTest extends TestCase
     public function factoryProvider()
     {
         return [
-            ['overtake', OvertakeAthleteStrategy::class],
-            ['sequential', SequentialAthleteStrategy::class],
-            ['tie', TieAthleteStrategy::class],
+            ['overtake', OvertakeAthleteRaceStrategy::class],
+            ['sequential', SequentialAthleteRaceStrategy::class],
+            ['tie', TieAthleteRaceStrategy::class],
         ];
     }
 }

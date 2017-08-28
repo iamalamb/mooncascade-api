@@ -2,16 +2,9 @@
 
 namespace Mooncascade\Strategies;
 
-use Illuminate\Support\Collection;
 use Mooncascade\Entities\Athlete;
 
-
-/**
- * Class AbstractTimeCalculationStrategy
- *
- * @author Jason Lamb <jlamb@iamalamb.com>
- */
-interface TimeCalculationStrategyInterface extends StrategyInterface
+interface AthleteRaceStrategyInterface
 {
     /**
      * Time calculation method.
@@ -27,10 +20,9 @@ interface TimeCalculationStrategyInterface extends StrategyInterface
      * Used to ensure that we actually HAVE
      * a collection of Entities to work with.
      *
-     * @param Collection $entities
      * @return bool
      */
-    public function checkIfCalculationNeeded(Collection $entities): bool;
+    public function checkIfCalculationNeeded(): bool;
 
     /**
      * Used to set the time on an individual
