@@ -2,6 +2,7 @@
 
 namespace Mooncascade\Strategies;
 
+use Illuminate\Support\Collection;
 use Mooncascade\Entities\Athlete;
 
 /**
@@ -12,17 +13,13 @@ use Mooncascade\Entities\Athlete;
 class OvertakeAthleteRaceStrategy extends AbstractAthleteRaceStrategy
 {
     /**
-     * @param array $params
      * @return bool|mixed
      */
-    public function execute(array $params)
+    public function execute(): Collection
     {
-        $entities = parent::execute($params);
+        parent::execute();
 
-        if ($entities) {
-
-            $property = $params['property'];
-
+        if ($this->entities->count() > 1) {
             /*
              * Simple random re-ordering of
              * the original entities provided.
@@ -30,17 +27,17 @@ class OvertakeAthleteRaceStrategy extends AbstractAthleteRaceStrategy
              * Time permitting, I would have probably
              * implemented an alternative algorithm.
              */
-            $entities = $entities->shuffle();
+            $entities = $this->entities->shuffle();
 
             // Loop through each shuffled entity
             $entities->each(
-                function (Athlete $entity) use ($property) {
+                function (Athlete $entity) {
 
                     // Calculate a random time, and sleep
                     $time = $this->calculateTime();
 
                     // Set our dynamic property
-                    $this->setCalculatedTimeForEntity($entity, $property, $time);
+                    $this->setCalculatedTimeForEntity($entity, $this->getProperty(), $time);
                 }
             );
         }

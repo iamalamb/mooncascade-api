@@ -10,11 +10,11 @@ use Mooncascade\Strategies\TieAthleteRaceStrategy;
 use Tests\TestCase;
 
 /**
- * Class TimeRetrievalStrategyFactoryTest
+ * Class AthleteRaceStrategyFactoryTest
  *
  * @author Jason Lamb <jlamb@iamalamb.com>
  */
-class TimeRetrievalStrategyFactoryTest extends TestCase
+class AthleteRaceStrategyFactoryTest extends TestCase
 {
     /**
      * @var array
