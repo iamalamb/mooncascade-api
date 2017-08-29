@@ -2,20 +2,25 @@
 
 namespace Mooncascade\Listeners;
 
+use Doctrine\ORM\EntityRepository;
+use Illuminate\Support\Facades\Log;
 use Mooncascade\Events\MooncascadeEventStartEvent;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class MooncascadeEventStartEventListener
+class MooncascadeEventStartEventListener extends AbstractLoggableEventListener
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
+     * @var EntityRepository
      */
-    public function __construct()
+    protected $repository;
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(Log $logger, EntityRepository $repository)
     {
-        //
+        parent::__construct($logger);
+
+        $this->repository = $repository;
     }
 
     /**
@@ -26,6 +31,7 @@ class MooncascadeEventStartEventListener
      */
     public function handle(MooncascadeEventStartEvent $event)
     {
-        //
+        $message = 'Event has now started';
+        $this->logMessage($message);
     }
 }

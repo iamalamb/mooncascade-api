@@ -32,12 +32,12 @@ class ExecuteRaceEventTask extends Command
      * ExecuteRaceEventTask constructor.
      * @param MooncascadeEventManagerInterface $eventManager
      */
-//    public function __construct(MooncascadeEventManagerInterface $eventManager)
-//    {
-//        parent::__construct();
-//
-//        $this->eventManager = $eventManager;
-//    }
+    public function __construct(MooncascadeEventManagerInterface $eventManager)
+    {
+        parent::__construct();
+
+        $this->eventManager = $eventManager;
+    }
 
     /**
      * Execute the console command.
@@ -46,6 +46,6 @@ class ExecuteRaceEventTask extends Command
      */
     public function handle()
     {
-//        $this->eventManager->execute();
+        $this->eventManager->execute();
     }
 }

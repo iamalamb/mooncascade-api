@@ -13,6 +13,9 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
+        'Mooncascade\Events\MooncascadeDelayedStartEvent' => [
+            'Mooncascade\Listeners\MooncascadeDelayedStartEventListener'
+        ],
         'Mooncascade\Events\MooncascadeEventStartEvent' => [
             'Mooncascade\Listeners\MooncascadeEventStartEventListener',
         ],

@@ -14,12 +14,30 @@ class AthleteRaceStrategyFactory implements FactoryInterface
 
     /**
      * AthleteRaceStrategyFactory constructor.
-     * @param array $strategies
      */
-    public function __construct(array $strategies)
+    public function __construct()
+    {
+    }
+
+    /**
+     * @return array
+     */
+    public function getStrategies(): array
+    {
+        return $this->strategies;
+    }
+
+    /**
+     * @param array $strategies
+     * @return AthleteRaceStrategyFactory
+     */
+    public function setStrategies(array $strategies): AthleteRaceStrategyFactory
     {
         $this->strategies = $strategies;
+
+        return $this;
     }
+
 
     /**
      * @inheritDoc
