@@ -9,5 +9,4 @@ namespace Mooncascade\Repositories;
  */
 class AthleteRepository extends AbstractBaseRepository
 {
-
 }

@@ -9,9 +9,12 @@ use Mooncascade\Factories\AthleteRaceStrategyFactory;
 use Mooncascade\Generators\RandomBooleanGenerator;
 use Mooncascade\Generators\RandomIntegerGenerator;
 use Mooncascade\Generators\RandomRaceStrategyEventGenerator;
+use Mooncascade\Handlers\ObjectRetrievalHandler;
+use Mooncascade\Handlers\ObjectRetrievalHandlerInterface;
 use Mooncascade\Managers\MooncascadeEventManager;
 use Mooncascade\Managers\MooncascadeEventManagerInterface;
 use Mooncascade\Strategies\AthleteRaceStrategyInterface;
+use Mooncascade\Strategies\AthleteRetrievalStrategy;
 use Mooncascade\Strategies\ObjectRetrievalStrategyInterface;
 use Mooncascade\Strategies\OvertakeAthleteRaceStrategy;
 use Mooncascade\Strategies\RandomBooleanCalculationStrategy;
@@ -33,21 +36,6 @@ class MooncascadeServiceProvider extends ServiceProvider
      */
     protected $optionsResolver;
 
-    /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->resolveOptions();
-
-        $this->registerGenerators();
-        $this->registerStrategies();
-        $this->registerEventManager();
-        $this->registerFactories();
-    }
-
     protected function resolveOptions()
     {
         // First ensure the configuration is correct
@@ -67,6 +55,7 @@ class MooncascadeServiceProvider extends ServiceProvider
             'batch_athlete_retrieval_max_threshold',
             'batch_athlete_retrieval_min_threshold',
             'available_strategies',
+            'gate_strategies',
         ];
 
         $this->optionsResolver->setRequired($required);
@@ -79,9 +68,14 @@ class MooncascadeServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function boot()
     {
+        $this->resolveOptions();
 
+        $this->registerGenerators();
+        $this->registerStrategies();
+        $this->registerEventManager();
+        $this->registerFactories();
     }
 
     private function registerGenerators()
@@ -112,7 +106,7 @@ class MooncascadeServiceProvider extends ServiceProvider
                 RandomIntegerGenerator::class,
                 function ($app) use ($generator) {
 
-                    $integerGenerator = new RandomBooleanGenerator();
+                    $integerGenerator = new RandomIntegerGenerator();
                     $integerGenerator->setGenerator($generator);
 
                     return $integerGenerator;
@@ -215,6 +209,29 @@ class MooncascadeServiceProvider extends ServiceProvider
         ];
 
         $this->app->tag($strategies, 'strategies');
+
+        $this->app->singleton(
+            AthleteRetrievalStrategy::class,
+            function ($app) {
+
+                $entityManager = $app->make('Doctrine\ORM\EntityManagerInterface');
+                $min = $this->options['batch_athlete_retrieval_min_threshold'];
+                $max = $this->options['batch_athlete_retrieval_max_threshold'];
+                $generator = $app->make(RandomIntegerGenerator::class);
+                $repository = $entityManager->getRepository(Athlete::class);
+
+                $strategy = new AthleteRetrievalStrategy();
+
+                $strategy
+                    ->setEntityManager($entityManager)
+                    ->setMin($min)
+                    ->setMax($max)
+                    ->setRandomIntegerGenerator($generator)
+                    ->setRepository($repository);
+
+                return $strategy;
+            }
+        );
     }
 
     protected function registerFactories()

@@ -17,11 +17,28 @@ abstract class AbstractBaseRepository extends EntityRepository
      *
      * @return mixed
      */
-    public function getCount()
+    public function getCount(array $criteria = [])
     {
-        return $this
+        $query = $this
             ->createQueryBuilder('c')
-            ->select('COUNT(c)')
+            ->select('COUNT(c)');
+
+        if ($criteria) {
+
+            foreach ($criteria as $key => $val) {
+
+                if ($val === null) {
+
+                    $query->where('c.'.$key.' IS NULL');
+                } else {
+                    $query->where('c.'.$key.' = :'.$key)
+                        ->setParameter($key, $val);
+                }
+
+            }
+        }
+
+        return $query
             ->getQuery()
             ->getSingleScalarResult();
     }
