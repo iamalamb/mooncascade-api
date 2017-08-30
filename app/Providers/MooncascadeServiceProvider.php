@@ -9,6 +9,7 @@ use Mooncascade\Factories\AthleteRaceStrategyFactory;
 use Mooncascade\Generators\RandomBooleanGenerator;
 use Mooncascade\Generators\RandomIntegerGenerator;
 use Mooncascade\Generators\RandomRaceStrategyEventGenerator;
+use Mooncascade\Handlers\BatchEntityCollectionHandler;
 use Mooncascade\Handlers\ObjectRetrievalHandler;
 use Mooncascade\Handlers\ObjectRetrievalHandlerInterface;
 use Mooncascade\Managers\MooncascadeEventManager;
@@ -36,6 +37,11 @@ class MooncascadeServiceProvider extends ServiceProvider
      */
     protected $optionsResolver;
 
+    /**
+     * Uses a Symony OptionsResolver
+     * to ensure that all configuration
+     * options are correctly wired up.
+     */
     protected function resolveOptions()
     {
         // First ensure the configuration is correct
@@ -76,8 +82,14 @@ class MooncascadeServiceProvider extends ServiceProvider
         $this->registerStrategies();
         $this->registerEventManager();
         $this->registerFactories();
+        $this->registerHandlers();
     }
 
+    /**
+     * Registers the various
+     * generators used throughout
+     * the app.
+     */
     private function registerGenerators()
     {
         $generator = Factory::create();
@@ -95,12 +107,7 @@ class MooncascadeServiceProvider extends ServiceProvider
                 }
             );
 
-        /**
-         * Need a bit more effort to ensure that the
-         * random integer is correctly registered based
-         * on it's usage
-         */
-        // Get the configuration
+        // Register the random integer generator
         $this->app
             ->singleton(
                 RandomIntegerGenerator::class,
@@ -113,6 +120,7 @@ class MooncascadeServiceProvider extends ServiceProvider
                 }
             );
 
+        // Register the race strategy event generator
         $this->app->singleton(
             RandomRaceStrategyEventGenerator::class,
             function ($app) {
@@ -128,6 +136,10 @@ class MooncascadeServiceProvider extends ServiceProvider
         );
     }
 
+    /**
+     * Registers the event manager which is used to
+     * start and control the actual event.
+     */
     protected function registerEventManager()
     {
         $this->app->bind(
@@ -148,14 +160,22 @@ class MooncascadeServiceProvider extends ServiceProvider
         );
     }
 
+    /**
+     * Register the various strategies used
+     * within the app
+     */
     protected function registerStrategies()
     {
+
+        // ALL strategies make use of the RandomIntegerGenerator
         $generator = $this->app->make(RandomIntegerGenerator::class);
         $propertyAccessor = new PropertyAccessor();
 
+        // Get the min/max thresholds for delaying athletes
         $min = $this->options['delay_athlete_execution_min_threshold'];
         $max = $this->options['delay_athlete_execution_min_threshold'];
 
+        // Register the OvertakeAthleteRaceStrategy
         $this->app->singleton(
             OvertakeAthleteRaceStrategy::class,
             function ($app) use ($generator, $propertyAccessor, $min, $max) {
@@ -172,6 +192,7 @@ class MooncascadeServiceProvider extends ServiceProvider
             }
         );
 
+        // Register the SequentialAthleteRaceStrategy
         $this->app->singleton(
             SequentialAthleteRaceStrategy::class,
             function ($app) use ($generator, $propertyAccessor, $min, $max) {
@@ -188,6 +209,7 @@ class MooncascadeServiceProvider extends ServiceProvider
             }
         );
 
+        // Register the SequentialAthleteRaceStrategy
         $this->app->singleton(
             TieAthleteRaceStrategy::class,
             function ($app) use ($generator, $propertyAccessor, $min, $max) {
@@ -208,12 +230,15 @@ class MooncascadeServiceProvider extends ServiceProvider
             TieAthleteRaceStrategy::class,
         ];
 
+        // Tag the strategies so we can use them with the AthleteRaceStrategyFactory
         $this->app->tag($strategies, 'strategies');
 
+        // Register the AthleteRetrievalStrategy
         $this->app->singleton(
             AthleteRetrievalStrategy::class,
             function ($app) {
 
+                $batchEntityCollectionHandler = $app->make(BatchEntityCollectionHandler::class);
                 $entityManager = $app->make('Doctrine\ORM\EntityManagerInterface');
                 $min = $this->options['batch_athlete_retrieval_min_threshold'];
                 $max = $this->options['batch_athlete_retrieval_max_threshold'];
@@ -223,6 +248,8 @@ class MooncascadeServiceProvider extends ServiceProvider
                 $strategy = new AthleteRetrievalStrategy();
 
                 $strategy
+                    ->setAllowedStrategies($this->options['gate_strategies'])
+                    ->setBatchEntityCollectionHandler($batchEntityCollectionHandler)
                     ->setEntityManager($entityManager)
                     ->setMin($min)
                     ->setMax($max)
@@ -234,6 +261,9 @@ class MooncascadeServiceProvider extends ServiceProvider
         );
     }
 
+    /**
+     * Registers the AthleteRaceStrategyFactory
+     */
     protected function registerFactories()
     {
         $this->app->singleton(
@@ -247,6 +277,29 @@ class MooncascadeServiceProvider extends ServiceProvider
                 $factory->setStrategies($strategies);
 
                 return $factory;
+            }
+        );
+    }
+
+    /**
+     * Registers the BatchEntityCollectionHandler
+     */
+    protected function registerHandlers()
+    {
+        $this->app->singleton(
+            BatchEntityCollectionHandler::class,
+            function ($app) {
+
+                $handler = new BatchEntityCollectionHandler();
+
+                $factory = $app->make(AthleteRaceStrategyFactory::class);
+                $generator = $app->make(RandomRaceStrategyEventGenerator::class);
+
+                $handler
+                    ->setRandomRaceStrategyEventGenerator($generator)
+                    ->setAthleteRaceStrategyFactory($factory);
+
+                return $handler;
             }
         );
     }

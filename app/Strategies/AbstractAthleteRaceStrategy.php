@@ -2,6 +2,7 @@
 
 namespace Mooncascade\Strategies;
 
+use Doctrine\ORM\EntityManagerInterface;
 use function foo\func;
 use Illuminate\Support\Collection;
 use Mooncascade\Entities\Athlete;

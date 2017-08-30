@@ -86,12 +86,10 @@ class BatchEntityCollectionHandler implements BatchEntityCollectionHandlerInterf
         return $this;
     }
 
-
     /**
      * @param Collection $entites
      */
     public function handle(Collection $entites)
     {
-
     }
 }
