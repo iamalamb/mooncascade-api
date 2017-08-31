@@ -27,10 +27,10 @@ class OvertakeAthleteRaceStrategy extends AbstractAthleteRaceStrategy
              * Time permitting, I would have probably
              * implemented an alternative algorithm.
              */
-            $entities = $this->entities->shuffle();
+            $this->entities = $this->entities->shuffle();
 
             // Loop through each shuffled entity
-            $entities->each(
+            $this->entities->each(
                 function (Athlete $entity) {
 
                     // Calculate a random time, and sleep
@@ -44,6 +44,6 @@ class OvertakeAthleteRaceStrategy extends AbstractAthleteRaceStrategy
             );
         }
 
-        return $entities;
+        return $this->entities;
     }
 }

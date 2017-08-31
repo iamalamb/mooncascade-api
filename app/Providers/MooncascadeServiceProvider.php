@@ -10,20 +10,20 @@ use Mooncascade\Generators\RandomBooleanGenerator;
 use Mooncascade\Generators\RandomIntegerGenerator;
 use Mooncascade\Generators\RandomRaceStrategyEventGenerator;
 use Mooncascade\Handlers\BatchEntityCollectionHandler;
-use Mooncascade\Handlers\ObjectRetrievalHandler;
-use Mooncascade\Handlers\ObjectRetrievalHandlerInterface;
 use Mooncascade\Managers\MooncascadeEventManager;
 use Mooncascade\Managers\MooncascadeEventManagerInterface;
-use Mooncascade\Strategies\AthleteRaceStrategyInterface;
+use Mooncascade\Serializers\JSONSerializer;
 use Mooncascade\Strategies\AthleteRetrievalStrategy;
-use Mooncascade\Strategies\ObjectRetrievalStrategyInterface;
 use Mooncascade\Strategies\OvertakeAthleteRaceStrategy;
-use Mooncascade\Strategies\RandomBooleanCalculationStrategy;
-use Mooncascade\Strategies\RangeCalculationStrategy;
 use Mooncascade\Strategies\SequentialAthleteRaceStrategy;
 use Mooncascade\Strategies\TieAthleteRaceStrategy;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use Symfony\Component\Serializer\Mapping\Loader\XmlFileLoader;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 class MooncascadeServiceProvider extends ServiceProvider
 {
@@ -83,6 +83,7 @@ class MooncascadeServiceProvider extends ServiceProvider
         $this->registerEventManager();
         $this->registerFactories();
         $this->registerHandlers();
+        $this->registerSerializers();
     }
 
     /**
@@ -289,6 +290,27 @@ class MooncascadeServiceProvider extends ServiceProvider
                 $handler->setRandomRaceStrategyEventGenerator($generator);
 
                 return $handler;
+            }
+        );
+    }
+
+    protected function registerSerializers()
+    {
+        $this->app->singleton(
+            JSONSerializer::class,
+            function ($app) {
+
+                $classMetaDataFactory = new ClassMetadataFactory(new XmlFileLoader(base_path() .  '/serializers/entities.xml'));
+
+                $normalizers = [new ObjectNormalizer($classMetaDataFactory)];
+                $encoders = [new JsonEncoder()];
+
+                $serializer = new Serializer($normalizers, $encoders);
+
+                $jsonSerializer = new JSONSerializer();
+                $jsonSerializer->setSerializer($serializer);
+
+                return $jsonSerializer;
             }
         );
     }

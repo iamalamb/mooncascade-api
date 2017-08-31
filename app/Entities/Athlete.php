@@ -193,7 +193,7 @@ class Athlete
     /**
      * @return float
      */
-    public function getTimeAtGate()
+    public function getTimeAtGate(): ?float
     {
         return $this->timeAtGate;
     }
@@ -212,7 +212,7 @@ class Athlete
     /**
      * @return float
      */
-    public function getTimeAtFinish(): float
+    public function getTimeAtFinish(): ?float
     {
         return $this->timeAtFinish;
     }
@@ -265,6 +265,4 @@ class Athlete
 
         return $this;
     }
-
-
 }

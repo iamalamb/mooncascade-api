@@ -3,6 +3,8 @@
 namespace Mooncascade\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
+use Illuminate\Support\Collection;
 use Mooncascade\Traits\IDAsIntegerTrait;
 use LaravelDoctrine\Extensions\Timestamps\Timestamps;
 
@@ -31,7 +33,7 @@ class Gender
     /**
      * One Gender has many Athlete instances
      *
-     * @var Athlete[]
+     * @var PersistentCollection
      *
      * @ORM\OneToMany(targetEntity="Athlete", mappedBy="gender")
      */
@@ -57,21 +59,18 @@ class Gender
     }
 
     /**
-     * @return Athlete[]
+     * @return PersistentCollection
      */
-    public function getAthletes(): array
+    public function getAthletes(): PersistentCollection
     {
         return $this->athletes;
     }
 
     /**
-     * @param Athlete[] $athletes
-     * @return Gender
+     * @param PersistentCollection $athletes
      */
-    public function setAthletes(array $athletes): Gender
+    public function setAthletes(PersistentCollection $athletes)
     {
         $this->athletes = $athletes;
-
-        return $this;
     }
 }

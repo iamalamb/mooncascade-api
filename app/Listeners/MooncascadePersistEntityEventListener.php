@@ -4,7 +4,9 @@ namespace Mooncascade\Listeners;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Support\Facades\Log;
+use Mooncascade\Events\MooncascadeBroadcastAthleteEvent;
 use Mooncascade\Events\MooncascadePersistEntityEvent;
+use Mooncascade\Serializers\JSONSerializer;
 
 class MooncascadePersistEntityEventListener extends AbstractLoggableEventListener
 {
@@ -14,14 +16,20 @@ class MooncascadePersistEntityEventListener extends AbstractLoggableEventListene
     protected $entityManager;
 
     /**
+     * @var JSONSerializer
+     */
+    protected $serializer;
+
+    /**
      * AbstractLoggableEventListener constructor.
      * @param Log $logger
      */
-    public function __construct(Log $logger, EntityManagerInterface $entityManager)
+    public function __construct(Log $logger, EntityManagerInterface $entityManager, JSONSerializer $serializer)
     {
         parent::__construct($logger);
 
         $this->entityManager = $entityManager;
+        $this->serializer = $serializer;
     }
 
     /**
@@ -42,5 +50,9 @@ class MooncascadePersistEntityEventListener extends AbstractLoggableEventListene
             $this->entityManager->persist($entity);
         }
 
+        $broadCastEvent = new MooncascadeBroadcastAthleteEvent();
+        $broadCastEvent->setEntity($this->serializer->serialize($entity, ['groups' => ['overview']]));
+
+        broadcast($broadCastEvent);
     }
 }

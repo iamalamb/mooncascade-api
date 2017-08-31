@@ -45,16 +45,16 @@ class AthletesTableSeeder extends Seeder
      */
     public function run()
     {
-        $total = ($this->config->has('mooncascade.athlete.total'))
-            ? $this->config->get('mooncascade.athlete.total')
+        $total = ($this->config->has('mooncascade.total_athletes'))
+            ? $this->config->get('mooncascade.total_athletes')
             : 25;
 
-        $maxAge = ($this->config->has('mooncascade.athlete.age.max'))
-            ? $this->config->get('mooncascade.athlete.age.max')
+        $maxAge = ($this->config->has('mooncascade.max_athlete_age'))
+            ? $this->config->get('mooncascade.max_athlete_age')
             : 75;
 
-        $minAge = ($this->config->has('mooncascade.athlete.age.min'))
-            ? $this->config->get('mooncascade.athlete.age.min')
+        $minAge = ($this->config->has('mooncascade.min_athlete_age'))
+            ? $this->config->get('mooncascade.min_athlete_age')
             : 18;
 
         $entities = entity(Athlete::class)

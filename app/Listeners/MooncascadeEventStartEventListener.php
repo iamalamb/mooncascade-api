@@ -5,22 +5,24 @@ namespace Mooncascade\Listeners;
 use Doctrine\ORM\EntityRepository;
 use Illuminate\Support\Facades\Log;
 use Mooncascade\Events\MooncascadeEventStartEvent;
+use Mooncascade\Strategies\AthleteRetrievalStrategy;
 
 class MooncascadeEventStartEventListener extends AbstractLoggableEventListener
 {
     /**
-     * @var EntityRepository
+     * @var AthleteRetrievalStrategy
      */
-    protected $repository;
+    protected $athleteRetrievalStrategy;
 
     /**
-     * @inheritDoc
+     * AbstractLoggableEventListener constructor.
+     * @param Log $logger
      */
-    public function __construct(Log $logger, EntityRepository $repository)
+    public function __construct(Log $logger, AthleteRetrievalStrategy $athleteRetrievalStrategy)
     {
         parent::__construct($logger);
 
-        $this->repository = $repository;
+        $this->athleteRetrievalStrategy = $athleteRetrievalStrategy;
     }
 
     /**
@@ -33,5 +35,7 @@ class MooncascadeEventStartEventListener extends AbstractLoggableEventListener
     {
         $message = 'Event has now started';
         $this->logMessage($message);
+
+        $this->athleteRetrievalStrategy->execute();
     }
 }

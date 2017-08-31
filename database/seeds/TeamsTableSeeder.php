@@ -37,8 +37,8 @@ class TeamsTableSeeder extends Seeder
      */
     public function run()
     {
-        $total = ($this->config->has('mooncascade.team.total'))
-            ? $this->config->get('mooncascade.team.total')
+        $total = ($this->config->has('mooncascade.total_teams'))
+            ? $this->config->get('mooncascade.total_teams')
             : 5;
 
         entity(Team::class)->times($total)->create();

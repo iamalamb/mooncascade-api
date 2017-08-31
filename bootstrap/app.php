@@ -52,4 +52,11 @@ $app->singleton(
 |
 */
 
+$path = base_path().'/vendor/symfony/serializer/annotation';
+
+\Doctrine\Common\Annotations\AnnotationRegistry::registerAutoloadNamespace(
+    'Symfony\Component\Serializer\Annotation',
+    $path
+);
+
 return $app;

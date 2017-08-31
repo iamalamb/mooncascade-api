@@ -3,8 +3,11 @@
 namespace Mooncascade\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
+use Illuminate\Support\Collection;
 use Mooncascade\Traits\IDAsIntegerTrait;
 use LaravelDoctrine\Extensions\Timestamps\Timestamps;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Class Team
@@ -31,7 +34,7 @@ class Team
     /**
      * One Team has many Athlete instances
      *
-     * @var Athlete[]
+     * @var PersistentCollection
      *
      * @ORM\OneToMany(targetEntity="Athlete", mappedBy="team")
      */
@@ -57,18 +60,18 @@ class Team
     }
 
     /**
-     * @return Athlete[]
+     * @return PersistentCollection
      */
-    public function getAthletes(): array
+    public function getAthletes(): PersistentCollection
     {
         return $this->athletes;
     }
 
     /**
-     * @param Athlete[] $athletes
+     * @param PersistentCollection $athletes
      * @return Team
      */
-    public function setAthletes(array $athletes): Team
+    public function setAthletes(PersistentCollection $athletes): Team
     {
         $this->athletes = $athletes;
 
