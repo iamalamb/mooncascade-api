@@ -51,7 +51,7 @@ class MooncascadePersistEntityEventListener extends AbstractLoggableEventListene
         }
 
         $broadCastEvent = new MooncascadeBroadcastAthleteEvent();
-        $broadCastEvent->setEntity($this->serializer->serialize($entity, ['groups' => ['overview']]));
+        $broadCastEvent->setEntity($this->serializer->serialize($entity, ['groups' => ['event_overview']]));
 
         broadcast($broadCastEvent);
     }

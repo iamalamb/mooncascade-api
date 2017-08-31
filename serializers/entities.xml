@@ -23,13 +23,25 @@
         <attribute name="timeAtFinish">
             <group>event_overview</group>
         </attribute>
+        <attribute name="gender">
+            <group>event_overview</group>
+        </attribute>
+        <attribute name="team">
+            <group>event_overview</group>
+        </attribute>
     </class>
     <class name="Mooncascade\Entities\Gender">
+        <attribute name="id">
+            <group>event_overview</group>
+        </attribute>
         <attribute name="name">
             <group>event_overview</group>
         </attribute>
     </class>
     <class name="Mooncascade\Entities\Team">
+        <attribute name="id">
+            <group>event_overview</group>
+        </attribute>
         <attribute name="name">
             <group>event_overview</group>
         </attribute>
