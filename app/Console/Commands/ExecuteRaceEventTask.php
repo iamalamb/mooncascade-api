@@ -13,13 +13,12 @@ class ExecuteRaceEventTask extends Command
     protected $eventManager;
 
 
-
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'mooncascade:execute:race';
+    protected $signature = 'mooncascade:event:execute';
 
     /**
      * The console command description.
@@ -46,6 +45,12 @@ class ExecuteRaceEventTask extends Command
      */
     public function handle()
     {
+        $this->handleSetup();
         $this->eventManager->execute();
+    }
+
+    public function handleSetup()
+    {
+        $this->call('mooncascade:event:setup');
     }
 }

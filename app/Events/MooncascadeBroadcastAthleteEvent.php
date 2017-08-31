@@ -51,10 +51,10 @@ class MooncascadeBroadcastAthleteEvent implements ShouldBroadcast
     }
 
     /**
-     * @return string
+     * @return array
      */
     public function broadcastWith()
     {
-        return $this->entity;
+        return [$this->entity];
     }
 }
