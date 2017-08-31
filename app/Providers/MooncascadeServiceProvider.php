@@ -231,7 +231,6 @@ class MooncascadeServiceProvider extends ServiceProvider
             AthleteRetrievalStrategy::class,
             function ($app) {
 
-                $batchEntityCollectionHandler = $app->make(BatchEntityCollectionHandler::class);
                 $entityManager = $app->make('Doctrine\ORM\EntityManagerInterface');
                 $min = $this->options['batch_athlete_retrieval_min_threshold'];
                 $max = $this->options['batch_athlete_retrieval_max_threshold'];
@@ -241,9 +240,6 @@ class MooncascadeServiceProvider extends ServiceProvider
                 $strategy = new AthleteRetrievalStrategy();
 
                 $strategy
-                    ->setAllowedStrategies(collect($this->options['gate_strategies']))
-                    ->setBatchEntityCollectionHandler($batchEntityCollectionHandler)
-                    ->setEntityManager($entityManager)
                     ->setMin($min)
                     ->setMax($max)
                     ->setRandomIntegerGenerator($generator)

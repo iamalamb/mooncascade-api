@@ -22,8 +22,11 @@ class EventServiceProvider extends ServiceProvider
         'Mooncascade\Events\MooncascadePersistEntityEvent' => [
             'Mooncascade\Listeners\MooncascadePersistEntityEventListener',
         ],
-        'Mooncascade\Events\MooncascadeBatchRetrievalEvent' => [
-            'Mooncascade\Listeners\MooncascadeBatchRetrievalEventListener',
+        'Mooncascade\Events\MooncascadeAthleteGateEvent' => [
+            'Mooncascade\Listeners\MooncascadeAthleteGateEventListener',
+        ],
+        'Mooncascade\Events\MooncascadeAthleteFinishEvent' => [
+            'Mooncascade\Listeners\MooncascadeAthleteFinishEventListener',
         ],
     ];
 

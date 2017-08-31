@@ -5,6 +5,7 @@ namespace Mooncascade\Strategies;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Support\Collection;
+use Mooncascade\Events\MooncascadeAthleteGateEvent;
 use Mooncascade\Generators\RandomIntegerGenerator;
 use Mooncascade\Handlers\BatchEntityCollectionHandler;
 
@@ -189,16 +190,6 @@ class AthleteRetrievalStrategy implements StrategyInterface
      */
     public function execute()
     {
-        $this->batchEntityCollectionHandler->setProperty('timeAtGate');
-
-        /*
-         * Set the allowed strategies that
-         * can be used to calculate time
-         */
-        $this->batchEntityCollectionHandler
-            ->getRandomRaceStrategyEventGenerator()
-            ->setAllowedStrategies($this->allowedStrategies);
-
         $criteria = [
             'timeAtGate' => null,
         ];
@@ -224,13 +215,10 @@ class AthleteRetrievalStrategy implements StrategyInterface
 
             if ($entities->count()) {
 
-                /*
-                 * Pass them to the batch
-                 * handler for processing
-                 */
-                $this->batchEntityCollectionHandler->handle($entities);
+                $event = new MooncascadeAthleteGateEvent();
+                $event->setEntities($entities);
 
-                $this->entityManager->flush();
+                event($event);
 
             } else {
 

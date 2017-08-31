@@ -5,7 +5,12 @@ namespace Mooncascade\Events;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Support\Collection;
 
-class MooncascadeBatchRetrievalEvent
+/**
+ * Class AbstractMoonCascadeAthleteEvent
+ *
+ * @author Jason Lamb <jlamb@iamalamb.com>
+ */
+abstract class AbstractMoonCascadeAthleteEvent implements MooncascadeAthleteEventInterface
 {
     use Dispatchable;
 
@@ -13,13 +18,6 @@ class MooncascadeBatchRetrievalEvent
      * @var Collection
      */
     protected $entities;
-
-    /**
-     * MooncascadeBatchRetrievalEvent constructor.
-     */
-    public function __construct()
-    {
-    }
 
     /**
      * @return Collection
@@ -31,9 +29,9 @@ class MooncascadeBatchRetrievalEvent
 
     /**
      * @param Collection $entities
-     * @return MooncascadeBatchRetrievalEvent
+     * @return MooncascadeAthleteEventInterface
      */
-    public function setEntities(Collection $entities): MooncascadeBatchRetrievalEvent
+    public function setEntities(Collection $entities): MooncascadeAthleteEventInterface
     {
         $this->entities = $entities;
 
