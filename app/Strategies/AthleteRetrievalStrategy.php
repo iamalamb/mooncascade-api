@@ -199,15 +199,6 @@ class AthleteRetrievalStrategy implements StrategyInterface
             ->getRandomRaceStrategyEventGenerator()
             ->setAllowedStrategies($this->allowedStrategies);
 
-        /*
-         * Get a random limit
-         */
-        $this->randomIntegerGenerator
-            ->setMin($this->min)
-            ->setMax($this->max);
-
-        $limit = $this->randomIntegerGenerator->generate();
-
         $criteria = [
             'timeAtGate' => null,
         ];
@@ -219,6 +210,15 @@ class AthleteRetrievalStrategy implements StrategyInterface
          * to retrieve keep fetching them
          */
         while ($execute) {
+
+            /*
+            * Get a random limit
+            */
+            $this->randomIntegerGenerator
+                ->setMin($this->min)
+                ->setMax($this->max);
+
+            $limit = $this->randomIntegerGenerator->generate();
 
             $entities = collect($this->repository->findBy($criteria, null, $limit));
 

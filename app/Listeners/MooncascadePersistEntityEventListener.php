@@ -2,14 +2,24 @@
 
 namespace Mooncascade\Listeners;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Mooncascade\Events\MooncascadePersistEntityEvent;
 
 class MooncascadePersistEntityEventListener
 {
     /**
-     * @var EntityManagerInterfac
+     * @var EntityManagerInterface
      */
     protected $entityManager;
+
+    /**
+     * MooncascadePersistEntityEventListener constructor.
+     * @param EntityManagerInterface $entityManager
+     */
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
 
     /**
      * Handle the event.
