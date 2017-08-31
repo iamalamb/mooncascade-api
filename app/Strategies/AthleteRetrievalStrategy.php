@@ -4,7 +4,7 @@ namespace Mooncascade\Strategies;
 
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Mooncascade\Events\MooncascadeBatchRetrievalEvent;
+use Illuminate\Support\Collection;
 use Mooncascade\Generators\RandomIntegerGenerator;
 use Mooncascade\Handlers\BatchEntityCollectionHandler;
 
@@ -16,7 +16,7 @@ use Mooncascade\Handlers\BatchEntityCollectionHandler;
 class AthleteRetrievalStrategy implements StrategyInterface
 {
     /**
-     * @var array
+     * @var Collection
      */
     protected $allowedStrategies;
 
@@ -51,18 +51,18 @@ class AthleteRetrievalStrategy implements StrategyInterface
     protected $repository;
 
     /**
-     * @return array
+     * @return Collection
      */
-    public function getAllowedStrategies(): array
+    public function getAllowedStrategies(): Collection
     {
         return $this->allowedStrategies;
     }
 
     /**
-     * @param array $allowedStrategies
+     * @param Collection $allowedStrategies
      * @return AthleteRetrievalStrategy
      */
-    public function setAllowedStrategies(array $allowedStrategies): AthleteRetrievalStrategy
+    public function setAllowedStrategies(Collection $allowedStrategies): AthleteRetrievalStrategy
     {
         $this->allowedStrategies = $allowedStrategies;
 
@@ -183,14 +183,25 @@ class AthleteRetrievalStrategy implements StrategyInterface
         return $this;
     }
 
+
     /**
      * @inheritDoc
      */
     public function execute()
     {
+        $this->batchEntityCollectionHandler->setProperty('timeAtGate');
+
+        /*
+         * Set the allowed strategies that
+         * can be used to calculate time
+         */
         $this->batchEntityCollectionHandler
+            ->getRandomRaceStrategyEventGenerator()
             ->setAllowedStrategies($this->allowedStrategies);
 
+        /*
+         * Get a random limit
+         */
         $this->randomIntegerGenerator
             ->setMin($this->min)
             ->setMax($this->max);
@@ -203,18 +214,21 @@ class AthleteRetrievalStrategy implements StrategyInterface
 
         $execute = true;
 
+        /*
+         * While there are entities
+         * to retrieve keep fetching them
+         */
         while ($execute) {
 
             $entities = collect($this->repository->findBy($criteria, null, $limit));
 
             if ($entities->count()) {
 
+                /*
+                 * Pass them to the batch
+                 * handler for processing
+                 */
                 $this->batchEntityCollectionHandler->handle($entities);
-
-                $event = new MooncascadeBatchRetrievalEvent();
-                $event->setEntities($entities);
-
-                event($event);
 
                 $this->entityManager->flush();
 

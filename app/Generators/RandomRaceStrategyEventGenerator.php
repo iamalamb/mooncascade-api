@@ -4,6 +4,7 @@ namespace Mooncascade\Generators;
 
 use Illuminate\Support\Collection;
 use Mooncascade\Factories\FactoryInterface;
+use Mooncascade\Strategies\AthleteRaceStrategyInterface;
 
 /**
  * Class RandomRaceStrategyEventGenerator
@@ -65,9 +66,9 @@ class RandomRaceStrategyEventGenerator implements GeneratorInterface
      */
     public function generate()
     {
-        $key = $this->allowedStrategies->random(1)->shift();
+        $key = $this->allowedStrategies->random(1);
 
-        $strategy = $this->strategyFactory->create($key);
+        $strategy = $this->strategyFactory->create($key->shift());
 
         return $strategy;
     }

@@ -2,10 +2,9 @@
 
 namespace Mooncascade\Strategies;
 
-use Doctrine\ORM\EntityManagerInterface;
-use function foo\func;
 use Illuminate\Support\Collection;
 use Mooncascade\Entities\Athlete;
+use Mooncascade\Events\MooncascadePersistEntityEvent;
 use Mooncascade\Factories\FactoryItemInterface;
 use Mooncascade\Generators\RandomIntegerGenerator;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
@@ -227,6 +226,18 @@ abstract class AbstractAthleteRaceStrategy implements
         }
 
         return true;
+    }
+
+    /**
+     * @param Athlete $entity
+     */
+    public function dispatchEvent(Athlete $entity)
+    {
+        $event = new MooncascadePersistEntityEvent();
+
+        $event->setEntity($entity);
+
+        event($event);
     }
 
     /**

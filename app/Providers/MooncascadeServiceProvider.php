@@ -221,17 +221,10 @@ class MooncascadeServiceProvider extends ServiceProvider
                     ->setMin($min)
                     ->setMax($max)
                     ->setPropertyAccessor($propertyAccessor);
+
+                return $tieStrategy;
             }
         );
-
-        $strategies = [
-            OvertakeAthleteRaceStrategy::class,
-            SequentialAthleteRaceStrategy::class,
-            TieAthleteRaceStrategy::class,
-        ];
-
-        // Tag the strategies so we can use them with the AthleteRaceStrategyFactory
-        $this->app->tag($strategies, 'strategies');
 
         // Register the AthleteRetrievalStrategy
         $this->app->singleton(
@@ -248,7 +241,7 @@ class MooncascadeServiceProvider extends ServiceProvider
                 $strategy = new AthleteRetrievalStrategy();
 
                 $strategy
-                    ->setAllowedStrategies($this->options['gate_strategies'])
+                    ->setAllowedStrategies(collect($this->options['gate_strategies']))
                     ->setBatchEntityCollectionHandler($batchEntityCollectionHandler)
                     ->setEntityManager($entityManager)
                     ->setMin($min)
@@ -270,7 +263,11 @@ class MooncascadeServiceProvider extends ServiceProvider
             AthleteRaceStrategyFactory::class,
             function ($app) {
 
-                $strategies = $app->tagged('strategies');
+                $strategies = [
+                    'overtake'   => $app->make(OvertakeAthleteRaceStrategy::class),
+                    'sequential' => $app->make(SequentialAthleteRaceStrategy::class),
+                    'tie'        => $app->make(TieAthleteRaceStrategy::class),
+                ];
 
                 $factory = new AthleteRaceStrategyFactory();
 
@@ -291,13 +288,9 @@ class MooncascadeServiceProvider extends ServiceProvider
             function ($app) {
 
                 $handler = new BatchEntityCollectionHandler();
-
-                $factory = $app->make(AthleteRaceStrategyFactory::class);
                 $generator = $app->make(RandomRaceStrategyEventGenerator::class);
 
-                $handler
-                    ->setRandomRaceStrategyEventGenerator($generator)
-                    ->setAthleteRaceStrategyFactory($factory);
+                $handler->setRandomRaceStrategyEventGenerator($generator);
 
                 return $handler;
             }

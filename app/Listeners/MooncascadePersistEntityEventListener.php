@@ -3,29 +3,27 @@
 namespace Mooncascade\Listeners;
 
 use Mooncascade\Events\MooncascadePersistEntityEvent;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class MooncascadePersistEntityEventListener
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
+     * @var EntityManagerInterfac
      */
-    public function __construct()
-    {
-        //
-    }
+    protected $entityManager;
 
     /**
      * Handle the event.
      *
-     * @param  MooncascadePersistEntityEvent  $event
+     * @param  MooncascadePersistEntityEvent $event
      * @return void
      */
     public function handle(MooncascadePersistEntityEvent $event)
     {
-        //
+        $entity = $event->getEntity();
+
+        if ($entity) {
+            $this->entityManager->persist($entity);
+        }
+
     }
 }

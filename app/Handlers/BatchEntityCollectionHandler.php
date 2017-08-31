@@ -3,7 +3,6 @@
 namespace Mooncascade\Handlers;
 
 use Illuminate\Support\Collection;
-use Mooncascade\Factories\AthleteRaceStrategyFactory;
 use Mooncascade\Generators\RandomRaceStrategyEventGenerator;
 
 /**
@@ -14,14 +13,9 @@ use Mooncascade\Generators\RandomRaceStrategyEventGenerator;
 class BatchEntityCollectionHandler implements BatchEntityCollectionHandlerInterface
 {
     /**
-     * @var array
+     * @var string
      */
-    protected $allowedStrategies;
-
-    /**
-     * @var AthleteRaceStrategyFactory
-     */
-    protected $athleteRaceStrategyFactory;
+    protected $property;
 
     /**
      * @var RandomRaceStrategyEventGenerator
@@ -29,39 +23,20 @@ class BatchEntityCollectionHandler implements BatchEntityCollectionHandlerInterf
     protected $randomRaceStrategyEventGenerator;
 
     /**
-     * @return array
+     * @return string
      */
-    public function getAllowedStrategies(): array
+    public function getProperty(): string
     {
-        return $this->allowedStrategies;
+        return $this->property;
     }
 
     /**
-     * @param array $allowedStrategies
+     * @param string $property
      * @return BatchEntityCollectionHandler
      */
-    public function setAllowedStrategies(array $allowedStrategies): BatchEntityCollectionHandler
+    public function setProperty(string $property): BatchEntityCollectionHandler
     {
-        $this->allowedStrategies = $allowedStrategies;
-
-        return $this;
-    }
-
-    /**
-     * @return AthleteRaceStrategyFactory
-     */
-    public function getAthleteRaceStrategyFactory(): AthleteRaceStrategyFactory
-    {
-        return $this->athleteRaceStrategyFactory;
-    }
-
-    /**
-     * @param AthleteRaceStrategyFactory $athleteRaceStrategyFactory
-     * @return BatchEntityCollectionHandler
-     */
-    public function setAthleteRaceStrategyFactory(AthleteRaceStrategyFactory $athleteRaceStrategyFactory
-    ): BatchEntityCollectionHandler {
-        $this->athleteRaceStrategyFactory = $athleteRaceStrategyFactory;
+        $this->property = $property;
 
         return $this;
     }
@@ -91,5 +66,12 @@ class BatchEntityCollectionHandler implements BatchEntityCollectionHandlerInterf
      */
     public function handle(Collection $entites)
     {
+        $strategy = $this->randomRaceStrategyEventGenerator->generate();
+
+        $strategy
+            ->setProperty($this->property)
+            ->setEntities($entites)
+            ->execute();
+
     }
 }

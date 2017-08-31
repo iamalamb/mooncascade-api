@@ -23,6 +23,8 @@ class TieAthleteRaceStrategy extends AbstractAthleteRaceStrategy
             $this->entities->each(
                 function ($entity) use ($time) {
                     $this->setCalculatedTimeForEntity($entity, $this->getProperty(), $time);
+
+                    $this->dispatchEvent($entity);
                 }
             );
         }

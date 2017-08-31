@@ -2,35 +2,34 @@
 
 namespace Mooncascade\Events;
 
-use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Mooncascade\Entities\Athlete;
 
 class MooncascadePersistEntityEvent
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
 
     /**
-     * Create a new event instance.
-     *
-     * @return void
+     * @var Athlete
      */
-    public function __construct()
+    protected $entity;
+
+    /**
+     * @return Athlete
+     */
+    public function getEntity(): Athlete
     {
-        //
+        return $this->entity;
     }
 
     /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return Channel|array
+     * @param Athlete $entity
+     * @return MooncascadePersistEntityEvent
      */
-    public function broadcastOn()
+    public function setEntity(Athlete $entity): MooncascadePersistEntityEvent
     {
-        return new PrivateChannel('channel-name');
+        $this->entity = $entity;
+
+        return $this;
     }
 }

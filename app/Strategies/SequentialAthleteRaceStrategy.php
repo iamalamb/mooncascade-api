@@ -23,6 +23,8 @@ class SequentialAthleteRaceStrategy extends AbstractAthleteRaceStrategy
                 function ($entity) {
                     $time = $this->calculateTime();
                     $this->setCalculatedTimeForEntity($entity, $this->getProperty(), $time);
+
+                    $this->dispatchEvent($entity);
                 }
             );
         }

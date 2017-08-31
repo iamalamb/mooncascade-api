@@ -38,6 +38,8 @@ class OvertakeAthleteRaceStrategy extends AbstractAthleteRaceStrategy
 
                     // Set our dynamic property
                     $this->setCalculatedTimeForEntity($entity, $this->getProperty(), $time);
+
+                    $this->dispatchEvent($entity);
                 }
             );
         }
