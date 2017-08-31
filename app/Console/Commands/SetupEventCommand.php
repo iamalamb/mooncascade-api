@@ -5,6 +5,11 @@ namespace Mooncascade\Console\Commands;
 use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Console\Command;
 
+/**
+ * Class SetupEventCommand
+ *
+ * @author Jason Lamb <jlamb@iamalamb.com>
+ */
 class SetupEventCommand extends Command
 {
     /**
@@ -49,6 +54,9 @@ class SetupEventCommand extends Command
         $this->handleSeeding();
     }
 
+    /**
+     * Intended to purge the database completely.
+     */
     public function handlePurgeDatabase()
     {
         $this->info('Truncating all database tables');
@@ -77,12 +85,19 @@ class SetupEventCommand extends Command
         $connection->executeQuery('SET FOREIGN_KEY_CHECKS = 1;');
     }
 
+    /**
+     * Internally runs the db:seed command and re-seeds the
+     * database.
+     */
     public function handleSeeding()
     {
         $this->info('Going to seed the database');
 
-        $this->call('db:seed', [
-            '--force' => true
-        ]);
+        $this->call(
+            'db:seed',
+            [
+                '--force' => true,
+            ]
+        );
     }
 }

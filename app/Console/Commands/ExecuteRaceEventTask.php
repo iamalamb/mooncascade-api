@@ -46,6 +46,8 @@ class ExecuteRaceEventTask extends Command
     public function handle()
     {
         $this->handleSetup();
+
+        $this->info('Starting the event...');
         $this->eventManager->execute();
     }
 
