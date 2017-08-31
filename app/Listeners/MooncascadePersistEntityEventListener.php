@@ -3,9 +3,10 @@
 namespace Mooncascade\Listeners;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Illuminate\Support\Facades\Log;
 use Mooncascade\Events\MooncascadePersistEntityEvent;
 
-class MooncascadePersistEntityEventListener
+class MooncascadePersistEntityEventListener extends AbstractLoggableEventListener
 {
     /**
      * @var EntityManagerInterface
@@ -13,11 +14,13 @@ class MooncascadePersistEntityEventListener
     protected $entityManager;
 
     /**
-     * MooncascadePersistEntityEventListener constructor.
-     * @param EntityManagerInterface $entityManager
+     * AbstractLoggableEventListener constructor.
+     * @param Log $logger
      */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(Log $logger, EntityManagerInterface $entityManager)
     {
+        parent::__construct($logger);
+
         $this->entityManager = $entityManager;
     }
 
@@ -30,6 +33,10 @@ class MooncascadePersistEntityEventListener
     public function handle(MooncascadePersistEntityEvent $event)
     {
         $entity = $event->getEntity();
+
+        $message = 'Persisting athlete: ' . $entity;
+
+        $this->logMessage($message);
 
         if ($entity) {
             $this->entityManager->persist($entity);

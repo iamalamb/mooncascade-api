@@ -96,6 +96,25 @@ class Athlete
     protected $team;
 
     /**
+     * The __toString method allows a class to decide how it will react when it is converted to a string.
+     *
+     * @return string
+     * @link http://php.net/manual/en/language.oop5.magic.php#language.oop5.magic.tostring
+     */
+    public function __toString()
+    {
+        $parts = [
+            $this->id,
+            $this->name,
+            $this->startNumber,
+            $this->timeAtGate,
+            $this->timeAtFinish
+        ];
+
+        return join('---', $parts);
+    }
+
+    /**
      * @return string
      */
     public function getCode(): string
