@@ -15,7 +15,3 @@ use Illuminate\Http\Request;
 Route::resource('register', 'EventRegistrationController', [
     'only' => ['store']
 ]);
-
-Route::resource('event', 'EventController', [
-    'only' => ['store']
-]);

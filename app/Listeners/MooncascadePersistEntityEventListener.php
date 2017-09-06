@@ -3,29 +3,23 @@
 namespace Mooncascade\Listeners;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Facades\Log;
-use FCM;
-use LaravelFCM\Message\PayloadDataBuilder;
 use Mooncascade\Events\MooncascadePersistEntityEvent;
+use Mooncascade\Managers\MooncascadeFCMManager;
+use Mooncascade\Managers\MooncascadeFCMManagerInterface;
 use Mooncascade\Serializers\JSONSerializer;
 
 class MooncascadePersistEntityEventListener extends AbstractLoggableEventListener
 {
-    /**
-     * @var Repository
-     */
-    protected $cache;
-
     /**
      * @var EntityManagerInterface
      */
     protected $entityManager;
 
     /**
-     * @var PayloadDataBuilder
+     * @var MooncascadeFCMManagerInterface
      */
-    protected $payloadDataBuilder;
+    protected $mooncascadeFCMManager;
 
     /**
      * @var JSONSerializer
@@ -35,20 +29,21 @@ class MooncascadePersistEntityEventListener extends AbstractLoggableEventListene
     /**
      * AbstractLoggableEventListener constructor.
      * @param Log $logger
+     * @param EntityManagerInterface $entityManager
+     * @param JSONSerializer $serializer
+     * @param MooncascadeFCMManager $mooncascadeFCMManager
      */
     public function __construct(
         Log $logger,
         EntityManagerInterface $entityManager,
         JSONSerializer $serializer,
-        PayloadDataBuilder $payloadDataBuilder,
-        Repository $cache
+        MooncascadeFCMManager $mooncascadeFCMManager
     ) {
         parent::__construct($logger);
 
-        $this->cache = $cache;
         $this->entityManager = $entityManager;
-        $this->payloadDataBuilder = $payloadDataBuilder;
         $this->serializer = $serializer;
+        $this->mooncascadeFCMManager = $mooncascadeFCMManager;
     }
 
     /**
@@ -69,15 +64,13 @@ class MooncascadePersistEntityEventListener extends AbstractLoggableEventListene
             $this->entityManager->persist($entity);
         }
 
-        // Check first if we have registered keys to broadcast to
-        if($this->cache->has('tokens')) {
+        $serializedEntity = $this->serializer->serialize($entity, ['groups' => ['event_overview']]);
 
-            $serializedEntity = $this->serializer->serialize($entity, ['groups' => ['event_overview']]);
-            $this->payloadDataBuilder->addData(['entity' => $serializedEntity]);
-            $data = $this->payloadDataBuilder->build();
+        $payload = [
+            'type'   => 'athlete',
+            'entity' => $serializedEntity,
+        ];
 
-            $tokens = $this->cache->get('tokens');
-            FCM::sendTo($tokens, null, null, $data);
-        }
+        $this->mooncascadeFCMManager->execute($payload);
     }
 }
