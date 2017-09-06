@@ -5,7 +5,7 @@ namespace Mooncascade\Events;
 use Illuminate\Foundation\Events\Dispatchable;
 use Mooncascade\Entities\Athlete;
 
-class MooncascadePersistEntityEvent
+class MooncascadePersistEntityEvent implements MoonscadeBaseEventInterface
 {
     use Dispatchable;
 

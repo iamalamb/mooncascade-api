@@ -3,13 +3,13 @@
 namespace Mooncascade\Listeners;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Illuminate\Support\Facades\Log;
 use Mooncascade\Events\MooncascadePersistEntityEvent;
+use Mooncascade\Events\MoonscadeBaseEventInterface;
 use Mooncascade\Managers\MooncascadeFCMManager;
 use Mooncascade\Managers\MooncascadeFCMManagerInterface;
 use Mooncascade\Serializers\JSONSerializer;
 
-class MooncascadePersistEntityEventListener extends AbstractLoggableEventListener
+class MooncascadePersistEntityEventListener extends AbstractFCMEventListener
 {
     /**
      * @var EntityManagerInterface
@@ -17,7 +17,12 @@ class MooncascadePersistEntityEventListener extends AbstractLoggableEventListene
     protected $entityManager;
 
     /**
-     * @var MooncascadeFCMManagerInterface
+     * @var string
+     */
+    protected $key = 'athlete-event';
+
+    /**
+     * @var MooncascadeFCMManager
      */
     protected $mooncascadeFCMManager;
 
@@ -27,38 +32,33 @@ class MooncascadePersistEntityEventListener extends AbstractLoggableEventListene
     protected $serializer;
 
     /**
-     * AbstractLoggableEventListener constructor.
-     * @param Log $logger
+     * MooncascadePersistEntityEventListener constructor.
      * @param EntityManagerInterface $entityManager
-     * @param JSONSerializer $serializer
      * @param MooncascadeFCMManager $mooncascadeFCMManager
+     * @param JSONSerializer $serializer
      */
     public function __construct(
-        Log $logger,
         EntityManagerInterface $entityManager,
-        JSONSerializer $serializer,
-        MooncascadeFCMManager $mooncascadeFCMManager
+        MooncascadeFCMManager $mooncascadeFCMManager,
+        JSONSerializer $serializer
     ) {
-        parent::__construct($logger);
-
         $this->entityManager = $entityManager;
-        $this->serializer = $serializer;
         $this->mooncascadeFCMManager = $mooncascadeFCMManager;
+        $this->serializer = $serializer;
     }
+
 
     /**
      * Handle the event.
      *
-     * @param  MooncascadePersistEntityEvent $event
+     * @param  MoonscadeBaseEventInterface $event
      * @return void
      */
-    public function handle(MooncascadePersistEntityEvent $event)
+    public function handle(MoonscadeBaseEventInterface $event)
     {
         $entity = $event->getEntity();
 
         $message = 'Persisting athlete: '.$entity;
-
-        $this->logMessage($message);
 
         if ($entity) {
             $this->entityManager->persist($entity);
@@ -67,7 +67,7 @@ class MooncascadePersistEntityEventListener extends AbstractLoggableEventListene
         $serializedEntity = $this->serializer->serialize($entity, ['groups' => ['event_overview']]);
 
         $payload = [
-            'type'   => 'athlete',
+            'type'   => $this->key,
             'entity' => $serializedEntity,
         ];
 

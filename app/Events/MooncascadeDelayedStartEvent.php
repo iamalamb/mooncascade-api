@@ -4,7 +4,7 @@ namespace Mooncascade\Events;
 
 use Illuminate\Foundation\Events\Dispatchable;
 
-class MooncascadeDelayedStartEvent
+class MooncascadeDelayedStartEvent implements MoonscadeBaseEventInterface
 {
     use Dispatchable;
 

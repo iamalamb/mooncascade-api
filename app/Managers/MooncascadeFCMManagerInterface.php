@@ -13,4 +13,9 @@ interface MooncascadeFCMManagerInterface
      * @return mixed
      */
     public function execute(array $data);
+
+    /**
+     * @param array $tokens
+     */
+    public function handleDeleteTokens(array $tokens);
 }
