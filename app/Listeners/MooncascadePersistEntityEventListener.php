@@ -3,10 +3,8 @@
 namespace Mooncascade\Listeners;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Mooncascade\Events\MooncascadePersistEntityEvent;
 use Mooncascade\Events\MoonscadeBaseEventInterface;
 use Mooncascade\Managers\MooncascadeFCMManager;
-use Mooncascade\Managers\MooncascadeFCMManagerInterface;
 use Mooncascade\Serializers\JSONSerializer;
 
 class MooncascadePersistEntityEventListener extends AbstractFCMEventListener
@@ -57,8 +55,6 @@ class MooncascadePersistEntityEventListener extends AbstractFCMEventListener
     public function handle(MoonscadeBaseEventInterface $event)
     {
         $entity = $event->getEntity();
-
-        $message = 'Persisting athlete: '.$entity;
 
         if ($entity) {
             $this->entityManager->persist($entity);

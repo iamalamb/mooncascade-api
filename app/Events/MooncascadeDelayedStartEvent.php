@@ -40,4 +40,9 @@ class MooncascadeDelayedStartEvent implements MoonscadeBaseEventInterface
 
         return $this;
     }
+
+    public function getPayload()
+    {
+        return $this->getDelayRaceStartTime();
+    }
 }

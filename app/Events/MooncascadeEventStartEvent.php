@@ -40,4 +40,11 @@ class MooncascadeEventStartEvent implements MoonscadeBaseEventInterface
 
         return $this;
     }
+
+    public function getPayload()
+    {
+        return $this->getStartTime();
+    }
+
+
 }

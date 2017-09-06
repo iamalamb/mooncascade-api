@@ -35,6 +35,16 @@ abstract class AbstractFCMEventListener
 
     public function handle(MoonscadeBaseEventInterface $event)
     {
-        print_r($event);
+        $payload = $this->configurePayload($event);
+
+        $this->mooncascadeFCMManager->execute($payload);
+    }
+
+    public function configurePayload(MoonscadeBaseEventInterface $event)
+    {
+        return [
+            'event'   => $this->key,
+            'payload' => [$event->getPayload()],
+        ];
     }
 }
