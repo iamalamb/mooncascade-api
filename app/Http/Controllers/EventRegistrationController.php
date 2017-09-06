@@ -31,32 +31,32 @@ class EventRegistrationController extends Controller
     {
         /*
          * First validate the request
-         * to ensure that the required UUID
+         * to ensure that the required token
          * is present and potentially valid
          */
         $rules = [
-            'uuid' => 'required|string|size:28'
+            'token' => 'required|string'
         ];
 
         $this->validate($request, $rules);
 
         /*
          * If we made it this far then perist
-         * the UUID to cache
+         * the token to cache
          */
-        $uuid = $request->get('uuid');
+        $token = $request->get('token');
 
         /*
          * Check to see if we already have a
-         * cache of UUIDs
+         * cache of tokens
          */
-        $uuids = ($this->cache->has('uuids')) ? $this->cache->get('uuids') : [];
+        $tokens = ($this->cache->has('tokens')) ? $this->cache->get('tokens') : [];
 
-        if(array_search($uuid, $uuids) === FALSE) {
-            $uuids[] = $uuid;
+        if(array_search($token, $tokens) === FALSE) {
+            $tokens[] = $token;
         }
 
-        $this->cache->put('uuids', $uuids, 60);
+        $this->cache->put('tokens', $tokens, 120);
 
         return response()->json([
             'status' => true

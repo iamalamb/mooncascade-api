@@ -193,9 +193,14 @@ return [
         Barryvdh\Cors\ServiceProvider::class,
 
         /*
+         * Firebase FCM support
+         */
+        LaravelFCM\FCMServiceProvider::class,
+
+        /*
          * Mooncascade specific Service Providers
          */
-        Mooncascade\Providers\MooncascadeServiceProvider::class
+        Mooncascade\Providers\MooncascadeServiceProvider::class,
     ],
 
     /*
@@ -248,6 +253,7 @@ return [
         'EntityManager' => LaravelDoctrine\ORM\Facades\EntityManager::class,
         'Registry'      => LaravelDoctrine\ORM\Facades\Registry::class,
         'Doctrine'      => LaravelDoctrine\ORM\Facades\Doctrine::class,
+        'FCM'           => LaravelFCM\Facades\FCM::class,
 
     ],
 

@@ -8,6 +8,7 @@
         "php": ">=5.6.4",
         "barryvdh/laravel-cors": "^0.9.3",
         "beberlei/DoctrineExtensions": "^1.0",
+        "brozot/laravel-fcm": "^1.2",
         "gedmo/doctrine-extensions": "^2.4",
         "laravel-doctrine/acl": "1.0.*",
         "laravel-doctrine/extensions": "1.0.*",
