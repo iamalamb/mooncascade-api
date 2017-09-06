@@ -188,6 +188,11 @@ return [
         LaravelDoctrine\ACL\AclServiceProvider::class,
 
         /*
+         * CORS support
+         */
+        Barryvdh\Cors\ServiceProvider::class,
+
+        /*
          * Mooncascade specific Service Providers
          */
         Mooncascade\Providers\MooncascadeServiceProvider::class
