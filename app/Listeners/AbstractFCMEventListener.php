@@ -17,7 +17,7 @@ abstract class AbstractFCMEventListener
     /**
      * @var string
      */
-    protected $key;
+    protected $key = '';
 
     /**
      * @var MooncascadeFCMManagerInterface

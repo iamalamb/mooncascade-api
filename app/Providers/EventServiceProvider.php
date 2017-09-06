@@ -28,6 +28,12 @@ class EventServiceProvider extends ServiceProvider
         'Mooncascade\Events\MooncascadeAthleteFinishEvent' => [
             'Mooncascade\Listeners\MooncascadeAthleteFinishEventListener',
         ],
+        'Mooncascade\Events\MooncascadeAllAthleteThroughGateEvent' => [
+            'Mooncascade\Listeners\MooncascadeAllAthleteThroughGateEventListener',
+        ],
+        'Mooncascade\Events\MooncascadeEventCompletedEvent' => [
+            'Mooncascade\Listeners\MooncascadeEventCompletedEventListentener',
+        ],
     ];
 
     /**

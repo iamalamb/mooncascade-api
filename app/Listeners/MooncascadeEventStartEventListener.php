@@ -8,6 +8,8 @@ use Mooncascade\Strategies\AthleteRetrievalStrategy;
 
 class MooncascadeEventStartEventListener extends AbstractFCMEventListener
 {
+    protected $key = 'event-start';
+
     /**
      * @var AthleteRetrievalStrategy
      */
@@ -29,10 +31,8 @@ class MooncascadeEventStartEventListener extends AbstractFCMEventListener
      */
     public function handle(MoonscadeBaseEventInterface $event)
     {
-        $this->athleteRetrievalStrategy->execute();
-
         parent::handle($event);
+
+        $this->athleteRetrievalStrategy->execute();
     }
-
-
 }
