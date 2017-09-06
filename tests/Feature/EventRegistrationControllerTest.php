@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class EventControllerTest extends TestCase
+class EventRegistrationControllerTest extends TestCase
 {
     /**
      * Setup the test environment.
@@ -24,13 +24,13 @@ class EventControllerTest extends TestCase
 
 
     /**
-     * A basic test example.
+     * Test to ensure validation functions correctly
      *
      * @return void
      */
     public function testPostActionValidation()
     {
-        $url = '/api/event';
+        $url = '/api/register';
 
         // Submit an invalid request
         $response = $this->json('POST', $url);
@@ -44,9 +44,13 @@ class EventControllerTest extends TestCase
             );
 
         // Submit an invalid request
-        $response = $this->json('POST', $url, [
-            'uuid' => 123
-        ]);
+        $response = $this->json(
+            'POST',
+            $url,
+            [
+                'uuid' => 123,
+            ]
+        );
 
         $response
             ->assertStatus(422)
@@ -57,15 +61,45 @@ class EventControllerTest extends TestCase
             );
 
         // Submit an invalid request
-        $response = $this->json('POST', $url, [
-            'uuid' => 'asdfasdfasdfasdf'
-        ]);
+        $response = $this->json(
+            'POST',
+            $url,
+            [
+                'uuid' => 'asdfasdfasdfasdf',
+            ]
+        );
 
         $response
             ->assertStatus(422)
             ->assertJson(
                 [
                     'uuid' => ['The uuid must be 28 characters.'],
+                ]
+            );
+    }
+
+    /**
+     * Test to ensure that the post action
+     * executes correctly if validation is passed.
+     */
+    public function testPostAction()
+    {
+        $url = '/api/register';
+
+        // Submit an invalid request
+        $response = $this->json(
+            'POST',
+            $url,
+            [
+                'uuid' => 'I2ujbMcWMIhu4Ke8BvjXucZ3kZj2',
+            ]
+        );
+
+        $response
+            ->assertStatus(200)
+            ->assertJson(
+                [
+                    'status' => true,
                 ]
             );
     }
