@@ -33,6 +33,9 @@ abstract class AbstractFCMEventListener
         $this->mooncascadeFCMManager = $mooncascadeFCMManager;
     }
 
+    /**
+     * @param MoonscadeBaseEventInterface $event
+     */
     public function handle(MoonscadeBaseEventInterface $event)
     {
         $payload = $this->configurePayload($event);
@@ -40,6 +43,10 @@ abstract class AbstractFCMEventListener
         $this->mooncascadeFCMManager->execute($payload);
     }
 
+    /**
+     * @param MoonscadeBaseEventInterface $event
+     * @return array
+     */
     public function configurePayload(MoonscadeBaseEventInterface $event)
     {
         return [

@@ -54,6 +54,17 @@ class MooncascadePersistEntityEventListener extends AbstractFCMEventListener
      */
     public function handle(MoonscadeBaseEventInterface $event)
     {
+        $payload = $this->configurePayload($event);
+
+        $this->mooncascadeFCMManager->execute($payload);
+    }
+
+    /**
+     * @param MoonscadeBaseEventInterface $event
+     * @return array
+     */
+    public function configurePayload(MoonscadeBaseEventInterface $event)
+    {
         $entity = $event->getEntity();
 
         if ($entity) {
@@ -67,6 +78,8 @@ class MooncascadePersistEntityEventListener extends AbstractFCMEventListener
             'entity' => $serializedEntity,
         ];
 
-        $this->mooncascadeFCMManager->execute($payload);
+        return $payload;
     }
+
+
 }

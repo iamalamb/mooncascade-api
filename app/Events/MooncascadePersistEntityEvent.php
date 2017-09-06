@@ -35,6 +35,6 @@ class MooncascadePersistEntityEvent implements MoonscadeBaseEventInterface
 
     public function getPayload()
     {
-        // TODO: Implement getPayload() method.
+        return $this->getEntity();
     }
 }
