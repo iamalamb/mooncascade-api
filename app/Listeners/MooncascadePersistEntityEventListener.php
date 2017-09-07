@@ -80,7 +80,7 @@ class MooncascadePersistEntityEventListener extends AbstractFCMEventListener
         $serializedEntity = $this->serializer->serialize($entity, ['groups' => ['event_overview']]);
 
         $payload = [
-            'type'   => $this->key,
+            'event'   => $this->key,
             'entity' => $serializedEntity,
         ];
 
@@ -99,7 +99,6 @@ class MooncascadePersistEntityEventListener extends AbstractFCMEventListener
         $entities = collect($repository->findBy($criteria));
 
         if (!$entities->count()) {
-            echo 'No more godamn entities to send.. sucks hey..';
             $event = new MooncascadeEventCompletedEvent();
             event($event);
         }
