@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Support\Collection;
 use Mooncascade\Events\MooncascadeAllAthleteThroughGateEvent;
 use Mooncascade\Events\MooncascadeAthleteGateEvent;
+use Mooncascade\Events\MooncascadeEventCompletedEvent;
 use Mooncascade\Generators\RandomIntegerGenerator;
 use Mooncascade\Handlers\BatchEntityCollectionHandler;
 
@@ -222,9 +223,6 @@ class AthleteRetrievalStrategy implements StrategyInterface
                 event($event);
 
             } else {
-
-                $event = new MooncascadeAllAthleteThroughGateEvent();
-                event($event);
 
                 $execute = false;
             }

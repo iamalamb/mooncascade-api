@@ -2,7 +2,6 @@
 
 namespace Mooncascade\Listeners;
 
-use Illuminate\Support\Facades\Log;
 use Mooncascade\Events\MoonscadeBaseEventInterface;
 use Mooncascade\Managers\MooncascadeFCMManager;
 use Mooncascade\Managers\MooncascadeFCMManagerInterface;

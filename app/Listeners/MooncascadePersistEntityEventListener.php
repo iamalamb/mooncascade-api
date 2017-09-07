@@ -3,6 +3,8 @@
 namespace Mooncascade\Listeners;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Mooncascade\Entities\Athlete;
+use Mooncascade\Events\MooncascadeEventCompletedEvent;
 use Mooncascade\Events\MoonscadeBaseEventInterface;
 use Mooncascade\Managers\MooncascadeFCMManager;
 use Mooncascade\Serializers\JSONSerializer;
@@ -57,6 +59,8 @@ class MooncascadePersistEntityEventListener extends AbstractFCMEventListener
         $payload = $this->configurePayload($event);
 
         $this->mooncascadeFCMManager->execute($payload);
+
+        $this->checkIfEventComplete();
     }
 
     /**
@@ -68,7 +72,9 @@ class MooncascadePersistEntityEventListener extends AbstractFCMEventListener
         $entity = $event->getEntity();
 
         if ($entity) {
+
             $this->entityManager->persist($entity);
+            $this->entityManager->flush();
         }
 
         $serializedEntity = $this->serializer->serialize($entity, ['groups' => ['event_overview']]);
@@ -81,5 +87,21 @@ class MooncascadePersistEntityEventListener extends AbstractFCMEventListener
         return $payload;
     }
 
+    public function checkIfEventComplete()
+    {
+        $criteria = [
+            'timeAtFinish' => null,
+        ];
 
+        $repository = $this->entityManager->getRepository(Athlete::class);
+
+        $this->entityManager->flush();
+        $entities = collect($repository->findBy($criteria));
+
+        if (!$entities->count()) {
+            echo 'No more godamn entities to send.. sucks hey..';
+            $event = new MooncascadeEventCompletedEvent();
+            event($event);
+        }
+    }
 }
