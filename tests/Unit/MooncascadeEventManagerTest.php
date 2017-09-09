@@ -11,22 +11,6 @@ use Illuminate\Support\Facades\Event;
 class MooncascadeEventManagerTest extends TestCase
 {
     /**
-     * @var MooncascadeEventManager
-     */
-    protected $eventManager;
-
-    /**
-     *
-     */
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->eventManager = new MooncascadeEventManager();
-    }
-
-
-    /**
      * A basic test example.
      *
      * @return void
@@ -36,12 +20,8 @@ class MooncascadeEventManagerTest extends TestCase
         Event::fake();
 
         $time = 2;
-
-        $this->eventManager
-            ->setDelayRaceStart(true)
-            ->setDelayRaceStartTime($time);
-
-        $this->eventManager->execute();
+        $manager = new MooncascadeEventManager(true, $time);
+        $manager->execute();
 
         Event::assertDispatched(MooncascadeDelayedStartEvent::class, function($e) use ($time) {
             return $e->getDelayRaceStartTime() === $time;
@@ -54,13 +34,11 @@ class MooncascadeEventManagerTest extends TestCase
     {
         Event::fake();
 
-        $this->eventManager
-            ->setDelayRaceStart(false);
-
-        $this->eventManager->execute();
+        $time = 2;
+        $manager = new MooncascadeEventManager(false, $time);
+        $manager->execute();
 
         Event::assertNotDispatched(MooncascadeDelayedStartEvent::class);
-
         Event::assertDispatched(MooncascadeEventStartEvent::class);
     }
 }
