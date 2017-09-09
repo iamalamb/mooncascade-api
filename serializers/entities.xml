@@ -7,15 +7,19 @@
     <class name="Mooncascade\Entities\Athlete">
         <attribute name="id">
             <group>event_overview</group>
+            <group>athlete_detail</group>
         </attribute>
         <attribute name="code">
             <group>event_overview</group>
+            <group>athlete_detail</group>
         </attribute>
         <attribute name="name">
             <group>event_overview</group>
+            <group>athlete_detail</group>
         </attribute>
         <attribute name="startNumber">
             <group>event_overview</group>
+            <group>athlete_detail</group>
         </attribute>
         <attribute name="timeAtGate">
             <group>event_overview</group>
@@ -25,25 +29,37 @@
         </attribute>
         <attribute name="gender">
             <group>event_overview</group>
+            <group>athlete_detail</group>
         </attribute>
         <attribute name="team">
             <group>event_overview</group>
+            <group>athlete_detail</group>
         </attribute>
     </class>
     <class name="Mooncascade\Entities\Gender">
         <attribute name="id">
             <group>event_overview</group>
+            <group>athlete_detail</group>
         </attribute>
         <attribute name="name">
             <group>event_overview</group>
+            <group>athlete_detail</group>
+        </attribute>
+        <attribute name="athletes">
+            <group>gender_detail</group>
         </attribute>
     </class>
     <class name="Mooncascade\Entities\Team">
         <attribute name="id">
             <group>event_overview</group>
+            <group>athlete_detail</group>
         </attribute>
         <attribute name="name">
             <group>event_overview</group>
+            <group>athlete_detail</group>
+        </attribute>
+        <attribute name="athletes">
+            <group>team_detail</group>
         </attribute>
     </class>
 </serializer>

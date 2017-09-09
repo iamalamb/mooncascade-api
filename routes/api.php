@@ -15,3 +15,7 @@ use Illuminate\Http\Request;
 Route::resource('register', 'EventRegistrationController', [
     'only' => ['store']
 ]);
+
+Route::resource('athlete', 'AthleteController', [
+    'only' => ['show']
+]);

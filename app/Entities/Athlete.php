@@ -14,7 +14,7 @@ use LaravelDoctrine\Extensions\Timestamps\Timestamps;
  * @ORM\Entity(repositoryClass="Mooncascade\Repositories\AthleteRepository")
  * @ORM\Table(name="athletes")
  */
-class Athlete
+class Athlete implements EntityInterface
 {
     use IDAsIntegerTrait, Timestamps;
 

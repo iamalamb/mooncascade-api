@@ -64,7 +64,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/Tallinn',
 
     /*
     |--------------------------------------------------------------------------
@@ -200,6 +200,7 @@ return [
         /*
          * Mooncascade specific Service Providers
          */
+        Mooncascade\Providers\MooncascadeControllerServiceProvider::class,
         Mooncascade\Providers\MooncascadeServiceProvider::class,
     ],
 

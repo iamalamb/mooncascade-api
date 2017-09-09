@@ -2,6 +2,7 @@
 
 namespace Mooncascade\Providers;
 
+use Doctrine\Common\Persistence\ObjectRepository;
 use Faker\Factory;
 use Illuminate\Support\ServiceProvider;
 use Mooncascade\Entities\Athlete;
@@ -10,6 +11,7 @@ use Mooncascade\Generators\RandomBooleanGenerator;
 use Mooncascade\Generators\RandomIntegerGenerator;
 use Mooncascade\Generators\RandomRaceStrategyEventGenerator;
 use Mooncascade\Handlers\BatchEntityCollectionHandler;
+use Mooncascade\Http\Controllers\AthleteController;
 use Mooncascade\Managers\MooncascadeEventManager;
 use Mooncascade\Managers\MooncascadeEventManagerInterface;
 use Mooncascade\Serializers\JSONSerializer;
@@ -22,6 +24,9 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Mapping\Loader\XmlFileLoader;
+use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
@@ -300,9 +305,23 @@ class MooncascadeServiceProvider extends ServiceProvider
             JSONSerializer::class,
             function ($app) {
 
-                $classMetaDataFactory = new ClassMetadataFactory(new XmlFileLoader(base_path() .  '/serializers/entities.xml'));
+                $classMetaDataFactory = new ClassMetadataFactory(
+                    new XmlFileLoader(base_path().'/serializers/entities.xml')
+                );
 
-                $normalizers = [new ObjectNormalizer($classMetaDataFactory)];
+                $snakeCaseConverter = new CamelCaseToSnakeCaseNameConverter();
+
+                $objectNormalizier = new ObjectNormalizer($classMetaDataFactory, $snakeCaseConverter);
+                $objectNormalizier->setCircularReferenceHandler(
+                    function ($object) {
+                        return $object->getId();
+                    }
+                );
+
+                $dateTimeNormalizer = new DateTimeNormalizer();
+
+                $normalizers = [$dateTimeNormalizer, $objectNormalizier];
+
                 $encoders = [new JsonEncoder()];
 
                 $serializer = new Serializer($normalizers, $encoders);
