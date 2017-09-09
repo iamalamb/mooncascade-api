@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass="Mooncascade\Repositories\TeamRepository")
  * @ORM\Table("teams")
  */
-class Team
+class Team implements EntityInterface
 {
     use IDAsIntegerTrait, Timestamps;
 

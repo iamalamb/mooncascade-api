@@ -8,18 +8,22 @@
         <attribute name="id">
             <group>event_overview</group>
             <group>athlete_detail</group>
+            <group>team_detail</group>
         </attribute>
         <attribute name="code">
             <group>event_overview</group>
             <group>athlete_detail</group>
+            <group>team_detail</group>
         </attribute>
         <attribute name="name">
             <group>event_overview</group>
             <group>athlete_detail</group>
+            <group>team_detail</group>
         </attribute>
         <attribute name="startNumber">
             <group>event_overview</group>
             <group>athlete_detail</group>
+            <group>team_detail</group>
         </attribute>
         <attribute name="timeAtGate">
             <group>event_overview</group>
@@ -30,6 +34,7 @@
         <attribute name="gender">
             <group>event_overview</group>
             <group>athlete_detail</group>
+            <group>team_detail</group>
         </attribute>
         <attribute name="team">
             <group>event_overview</group>
@@ -40,10 +45,12 @@
         <attribute name="id">
             <group>event_overview</group>
             <group>athlete_detail</group>
+            <group>team_detail</group>
         </attribute>
         <attribute name="name">
             <group>event_overview</group>
             <group>athlete_detail</group>
+            <group>team_detail</group>
         </attribute>
         <attribute name="athletes">
             <group>gender_detail</group>
@@ -53,12 +60,15 @@
         <attribute name="id">
             <group>event_overview</group>
             <group>athlete_detail</group>
+            <group>team_detail</group>
         </attribute>
         <attribute name="name">
             <group>event_overview</group>
             <group>athlete_detail</group>
+            <group>team_detail</group>
         </attribute>
         <attribute name="athletes">
+            <group>team_detail</group>
             <group>team_detail</group>
         </attribute>
     </class>

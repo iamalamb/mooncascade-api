@@ -19,3 +19,7 @@ Route::resource('register', 'EventRegistrationController', [
 Route::resource('athlete', 'AthleteController', [
     'only' => ['show']
 ]);
+
+Route::resource('team', 'TeamController', [
+    'only' => ['show']
+]);

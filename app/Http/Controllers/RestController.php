@@ -5,7 +5,7 @@ namespace Mooncascade\Http\Controllers;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Mooncascade\Serializers\JSONSerializer;
 
-class RestController extends Controller
+abstract class RestController extends Controller
 {
     /**
      * @var ObjectRepository

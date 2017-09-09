@@ -3,19 +3,19 @@
 namespace Mooncascade\Http\Controllers;
 
 /**
- * Class AthleteController
+ * Class TeamController
  *
  * @author Jason Lamb <jlamb@iamalamb.com>
  */
-class AthleteController extends RestController
+class TeamController extends RestController
 {
     /**
      * @var string
      */
-    protected $indexGroupGroup = 'athlete_overview';
+    protected $indexGroup = 'team_overview';
 
     /**
      * @var string
      */
-    protected $showGroup = 'athlete_detail';
+    protected $showGroup = 'team_detail';
 }
