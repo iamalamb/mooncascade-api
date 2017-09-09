@@ -19,11 +19,6 @@ use Mooncascade\Handlers\BatchEntityCollectionHandler;
 class AthleteRetrievalStrategy implements StrategyInterface
 {
     /**
-     * @var Collection
-     */
-    protected $allowedStrategies;
-
-    /**
      * @var BatchEntityCollectionHandler
      */
     protected $batchEntityCollectionHandler;
@@ -44,6 +39,11 @@ class AthleteRetrievalStrategy implements StrategyInterface
     protected $max;
 
     /**
+     * @var string
+     */
+    protected $property;
+
+    /**
      * @var RandomIntegerGenerator
      */
     protected $randomIntegerGenerator;
@@ -54,138 +54,32 @@ class AthleteRetrievalStrategy implements StrategyInterface
     protected $repository;
 
     /**
-     * @return Collection
-     */
-    public function getAllowedStrategies(): Collection
-    {
-        return $this->allowedStrategies;
-    }
-
-    /**
-     * @param Collection $allowedStrategies
-     * @return AthleteRetrievalStrategy
-     */
-    public function setAllowedStrategies(Collection $allowedStrategies): AthleteRetrievalStrategy
-    {
-        $this->allowedStrategies = $allowedStrategies;
-
-        return $this;
-    }
-
-    /**
-     * @return BatchEntityCollectionHandler
-     */
-    public function getBatchEntityCollectionHandler(): BatchEntityCollectionHandler
-    {
-        return $this->batchEntityCollectionHandler;
-    }
-
-    /**
+     * AthleteRetrievalStrategy constructor.
      * @param BatchEntityCollectionHandler $batchEntityCollectionHandler
-     * @return AthleteRetrievalStrategy
-     */
-    public function setBatchEntityCollectionHandler(BatchEntityCollectionHandler $batchEntityCollectionHandler
-    ): AthleteRetrievalStrategy {
-        $this->batchEntityCollectionHandler = $batchEntityCollectionHandler;
-
-        return $this;
-    }
-
-    /**
-     * @return EntityManagerInterface
-     */
-    public function getEntityManager(): EntityManagerInterface
-    {
-        return $this->entityManager;
-    }
-
-    /**
      * @param EntityManagerInterface $entityManager
-     * @return AthleteRetrievalStrategy
-     */
-    public function setEntityManager(EntityManagerInterface $entityManager): AthleteRetrievalStrategy
-    {
-        $this->entityManager = $entityManager;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getMin(): int
-    {
-        return $this->min;
-    }
-
-    /**
      * @param int $min
-     * @return AthleteRetrievalStrategy
-     */
-    public function setMin(int $min): AthleteRetrievalStrategy
-    {
-        $this->min = $min;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getMax(): int
-    {
-        return $this->max;
-    }
-
-    /**
      * @param int $max
-     * @return AthleteRetrievalStrategy
-     */
-    public function setMax(int $max): AthleteRetrievalStrategy
-    {
-        $this->max = $max;
-
-        return $this;
-    }
-
-    /**
-     * @return RandomIntegerGenerator
-     */
-    public function getRandomIntegerGenerator(): RandomIntegerGenerator
-    {
-        return $this->randomIntegerGenerator;
-    }
-
-    /**
+     * @param string $property
      * @param RandomIntegerGenerator $randomIntegerGenerator
-     * @return AthleteRetrievalStrategy
-     */
-    public function setRandomIntegerGenerator(RandomIntegerGenerator $randomIntegerGenerator): AthleteRetrievalStrategy
-    {
-        $this->randomIntegerGenerator = $randomIntegerGenerator;
-
-        return $this;
-    }
-
-    /**
-     * @return ObjectRepository
-     */
-    public function getRepository(): ObjectRepository
-    {
-        return $this->repository;
-    }
-
-    /**
      * @param ObjectRepository $repository
-     * @return AthleteRetrievalStrategy
      */
-    public function setRepository(ObjectRepository $repository): AthleteRetrievalStrategy
-    {
+    public function __construct(
+        BatchEntityCollectionHandler $batchEntityCollectionHandler,
+        EntityManagerInterface $entityManager,
+        $min,
+        $max,
+        $property,
+        RandomIntegerGenerator $randomIntegerGenerator,
+        ObjectRepository $repository
+    ) {
+        $this->batchEntityCollectionHandler = $batchEntityCollectionHandler;
+        $this->entityManager = $entityManager;
+        $this->min = $min;
+        $this->max = $max;
+        $this->property = $property;
+        $this->randomIntegerGenerator = $randomIntegerGenerator;
         $this->repository = $repository;
-
-        return $this;
     }
-
 
     /**
      * @inheritDoc
@@ -193,7 +87,7 @@ class AthleteRetrievalStrategy implements StrategyInterface
     public function execute()
     {
         $criteria = [
-            'timeAtGate' => null,
+            $this->property => null,
         ];
 
         $execute = true;

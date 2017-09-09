@@ -26,6 +26,17 @@ class MooncascadeEventManager implements MooncascadeEventManagerInterface
     protected $delayRaceStartTime;
 
     /**
+     * MooncascadeEventManager constructor.
+     * @param bool $delayRaceStart
+     * @param int $delayRaceStartTime
+     */
+    public function __construct($delayRaceStart, $delayRaceStartTime)
+    {
+        $this->delayRaceStart = $delayRaceStart;
+        $this->delayRaceStartTime = $delayRaceStartTime;
+    }
+
+    /**
      * Single point of execution.
      * Responsible for all underlying processes.
      */
@@ -51,43 +62,5 @@ class MooncascadeEventManager implements MooncascadeEventManagerInterface
 
         $event = new MooncascadeEventStartEvent($time);
         event($event);
-    }
-
-    /**
-     * @return bool
-     */
-    public function isDelayRaceStart(): bool
-    {
-        return $this->delayRaceStart;
-    }
-
-    /**
-     * @param bool $delayRaceStart
-     * @return MooncascadeEventManager
-     */
-    public function setDelayRaceStart(bool $delayRaceStart): MooncascadeEventManager
-    {
-        $this->delayRaceStart = $delayRaceStart;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getDelayRaceStartTime(): int
-    {
-        return $this->delayRaceStartTime;
-    }
-
-    /**
-     * @param int $delayRaceStartTime
-     * @return MooncascadeEventManager
-     */
-    public function setDelayRaceStartTime(int $delayRaceStartTime): MooncascadeEventManager
-    {
-        $this->delayRaceStartTime = $delayRaceStartTime;
-
-        return $this;
     }
 }

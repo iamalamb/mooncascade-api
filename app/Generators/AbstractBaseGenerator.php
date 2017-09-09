@@ -17,21 +17,11 @@ abstract class AbstractBaseGenerator implements GeneratorInterface
     protected $generator;
 
     /**
-     * @return Generator
-     */
-    public function getGenerator(): Generator
-    {
-        return $this->generator;
-    }
-
-    /**
+     * AbstractBaseGenerator constructor.
      * @param Generator $generator
-     * @return AbstractBaseGenerator
      */
-    public function setGenerator(Generator $generator): AbstractBaseGenerator
+    public function __construct(Generator $generator)
     {
         $this->generator = $generator;
-
-        return $this;
     }
 }

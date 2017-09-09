@@ -72,6 +72,25 @@ abstract class AbstractAthleteRaceStrategy implements
     protected $propertyAccessor;
 
     /**
+     * AbstractAthleteRaceStrategy constructor.
+     * @param RandomIntegerGenerator $integerGenerator
+     * @param int $min
+     * @param int $max
+     * @param PropertyAccessor $propertyAccessor
+     */
+    public function __construct(
+        RandomIntegerGenerator $integerGenerator,
+        $min,
+        $max,
+        PropertyAccessor $propertyAccessor
+    ) {
+        $this->integerGenerator = $integerGenerator;
+        $this->min = $min;
+        $this->max = $max;
+        $this->propertyAccessor = $propertyAccessor;
+    }
+
+    /**
      * @return Collection
      */
     public function getEntities(): Collection
@@ -91,63 +110,6 @@ abstract class AbstractAthleteRaceStrategy implements
     }
 
     /**
-     * @return RandomIntegerGenerator
-     */
-    public function getIntegerGenerator(): RandomIntegerGenerator
-    {
-        return $this->integerGenerator;
-    }
-
-    /**
-     * @param RandomIntegerGenerator $integerGenerator
-     * @return AbstractAthleteRaceStrategy
-     */
-    public function setIntegerGenerator(RandomIntegerGenerator $integerGenerator): AbstractAthleteRaceStrategy
-    {
-        $this->integerGenerator = $integerGenerator;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getMin(): int
-    {
-        return $this->min;
-    }
-
-    /**
-     * @param int $min
-     * @return AbstractAthleteRaceStrategy
-     */
-    public function setMin(int $min): AbstractAthleteRaceStrategy
-    {
-        $this->min = $min;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getMax(): int
-    {
-        return $this->max;
-    }
-
-    /**
-     * @param int $max
-     * @return AbstractAthleteRaceStrategy
-     */
-    public function setMax(int $max): AbstractAthleteRaceStrategy
-    {
-        $this->max = $max;
-
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getProperty(): string
@@ -162,26 +124,6 @@ abstract class AbstractAthleteRaceStrategy implements
     public function setProperty(string $property): AbstractAthleteRaceStrategy
     {
         $this->property = $property;
-
-        return $this;
-    }
-
-
-    /**
-     * @return PropertyAccessor
-     */
-    public function getPropertyAccessor(): PropertyAccessor
-    {
-        return $this->propertyAccessor;
-    }
-
-    /**
-     * @param PropertyAccessor $propertyAccessor
-     * @return AbstractAthleteRaceStrategy
-     */
-    public function setPropertyAccessor(PropertyAccessor $propertyAccessor): AbstractAthleteRaceStrategy
-    {
-        $this->propertyAccessor = $propertyAccessor;
 
         return $this;
     }

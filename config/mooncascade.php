@@ -12,4 +12,14 @@ return [
     'batch_athlete_retrieval_max_threshold' => env('BATCH_ATHELETE_RETRIEVAL_MAX_THRESHOLD', 10),
     'available_strategies'                  => ['overtake', 'sequential', 'tie'],
     'gate_strategies'                       => ['sequential', 'tie'],
+    'race_delays' => [
+        'delay_race_start'                      => env('DELAY_RACE_START', true),
+        'delay_race_start_time'                 => env('DELAY_RACE_START_TIME', 60),
+    ],
+    'managers'                              => [
+        'event_manager' => env(
+            'EVENT_MANAGER',
+            Mooncascade\Managers\MooncascadeEventManager::class
+        ),
+    ],
 ];

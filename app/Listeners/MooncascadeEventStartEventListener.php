@@ -4,26 +4,27 @@ namespace Mooncascade\Listeners;
 
 use Mooncascade\Events\MoonscadeBaseEventInterface;
 use Mooncascade\Managers\MooncascadeFCMManager;
-use Mooncascade\Strategies\AthleteRetrievalStrategy;
+use Mooncascade\Strategies\StrategyInterface;
 
 class MooncascadeEventStartEventListener extends AbstractFCMEventListener
 {
     protected $key = 'event-start';
 
     /**
-     * @var AthleteRetrievalStrategy
+     * @var StrategyInterface
      */
-    protected $athleteRetrievalStrategy;
+    protected $strategy;
 
     /**
      * AbstractFCMEventListener constructor.
      * @param MooncascadeFCMManager $mooncascadeFCMManager
+     * @param StrategyInterface $strategy
      */
-    public function __construct(MooncascadeFCMManager $mooncascadeFCMManager, AthleteRetrievalStrategy $athleteRetrievalStrategy)
+    public function __construct(MooncascadeFCMManager $mooncascadeFCMManager, StrategyInterface $strategy)
     {
         parent::__construct($mooncascadeFCMManager);
 
-        $this->athleteRetrievalStrategy = $athleteRetrievalStrategy;
+        $this->strategy = $strategy;
     }
 
     /**
@@ -33,6 +34,6 @@ class MooncascadeEventStartEventListener extends AbstractFCMEventListener
     {
         parent::handle($event);
 
-        $this->athleteRetrievalStrategy->execute();
+        $this->strategy->execute();
     }
 }

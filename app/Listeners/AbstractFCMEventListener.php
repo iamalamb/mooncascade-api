@@ -11,7 +11,7 @@ use Mooncascade\Managers\MooncascadeFCMManagerInterface;
  *
  * @author Jason Lamb <jlamb@iamalamb.com>
  */
-abstract class AbstractFCMEventListener
+abstract class AbstractFCMEventListener implements FCMEventListenerInterface
 {
     /**
      * @var string
@@ -25,9 +25,9 @@ abstract class AbstractFCMEventListener
 
     /**
      * AbstractFCMEventListener constructor.
-     * @param MooncascadeFCMManager $mooncascadeFCMManager
+     * @param MooncascadeFCMManagerInterface $mooncascadeFCMManager
      */
-    public function __construct(MooncascadeFCMManager $mooncascadeFCMManager)
+    public function __construct(MooncascadeFCMManagerInterface $mooncascadeFCMManager)
     {
         $this->mooncascadeFCMManager = $mooncascadeFCMManager;
     }

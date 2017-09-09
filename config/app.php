@@ -201,7 +201,11 @@ return [
          * Mooncascade specific Service Providers
          */
         Mooncascade\Providers\MooncascadeControllerServiceProvider::class,
-        Mooncascade\Providers\MooncascadeServiceProvider::class,
+        Mooncascade\Providers\MooncascadeManagerServiceProvider::class
+
+        /*Mooncascade\Providers\MooncascadeEventManagerServiceProvider::class,
+        Mooncascade\Providers\MooncascadeGeneratorServiceProvider::class*/
+
     ],
 
     /*
