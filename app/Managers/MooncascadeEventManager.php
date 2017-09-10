@@ -14,7 +14,6 @@ use Mooncascade\Events\MooncascadeEventStartEvent;
  */
 class MooncascadeEventManager implements MooncascadeEventManagerInterface
 {
-
     /**
      * @var boolean
      */

@@ -26,32 +26,22 @@ class MooncascadeManagerServiceProvider extends ServiceProvider
     public function register()
     {
         /*
-         * When our execute race event task requires
-         * and MooncascadeEventManagerInterface
-         * the provide our event manager as declared
+         * When app requires the MooncascadeEventManagerInterface
+         * then provide our event manager as declared
          * in mooncascade.managers.event_manager
          *
          * Default: Mooncascade\Managers\MooncascadeEventManager
          */
-        $this->app
-            ->when(ExecuteRaceEventTask::class)
-            ->needs(MooncascadeEventManagerInterface::class)
-            ->give(config('mooncascade.managers.event_manager'));
+        $this->app->singleton(
+            MooncascadeEventManagerInterface::class,
+            function () {
+                $class = config('mooncascade.managers.event_manager');
 
-        /*
-         * When the MooncascadeEventManagerInterface::class
-         * requires it's parameters, get them from configuration
-         */
-        $this
-            ->app
-            ->when(MooncascadeEventManagerInterface::class)
-            ->needs('$delayRaceStart')
-            ->give(config('mooncascade.race_delays.delay_race_start'));
+                $delayRaceStart = config('mooncascade.race_delays.delay_race_start');
+                $delayRaceStartTime = config('mooncascade.race_delays.delay_race_start_time');
 
-        $this
-            ->app
-            ->when(MooncascadeEventManagerInterface::class)
-            ->needs('$delayRaceStartTime')
-            ->give(config('mooncascade.race_delays.delay_race_start_time'));
+                return new $class($delayRaceStart, $delayRaceStartTime);
+            }
+        );
     }
 }
