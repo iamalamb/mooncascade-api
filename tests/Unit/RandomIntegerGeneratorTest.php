@@ -3,7 +3,6 @@
 namespace Tests\Unit;
 
 use Faker\Factory;
-use Faker\Generator;
 use Mooncascade\Generators\RandomIntegerGenerator;
 use Tests\TestCase;
 
@@ -14,50 +13,47 @@ use Tests\TestCase;
  */
 class RandomIntegerGeneratorTest extends TestCase
 {
-    /**
-     * @var Generator
-     */
-    protected $generator;
 
     /**
-     * @var RandomIntegerGenerator
+     * Test to ensure that generator
+     * always returns an integer value.
+     *
+     * @param $min
+     * @param $max
+     * @dataProvider randomIntegerGeneratorProvider
+     * @return int
      */
-    protected $integerGenerator;
-
-    /**
-     * @inheritDoc
-     */
-    protected function setUp()
+    public function testGeneratorReturnsInteger($min, $max): int
     {
-        parent::setUp();
+        $generator = new RandomIntegerGenerator(Factory::create(), $min, $max);
 
-        $this->generator = Factory::create();
+        $value = $generator->generate();
 
-        $this->integerGenerator = new RandomIntegerGenerator();
+        $this->assertInternalType('int', $value);
 
-        $this->integerGenerator->setGenerator($this->generator);
+        return $value;
     }
 
     /**
-     * A basic test example.
+     * Test to ensure that the generated value is within $min and $max.
      *
+     * @param $min
+     * @param $max
      * @dataProvider randomIntegerGeneratorProvider
      */
-    public function testRandomIntegerGeneratorGenerateFunctionReturnsInteger($min, $max)
+    public function testGeneratorReturnsIntegerInRange($min, $max)
     {
-        $this->integerGenerator
-            ->setMin($min)
-            ->setMax($max);
+        $generator = new RandomIntegerGenerator(Factory::create(), $min, $max);
 
-        $value = $this->integerGenerator->generate();
-
-        $this->assertInternalType('int', $value);
+        $value = $generator->generate();
 
         $this->assertGreaterThanOrEqual($min, $value);
         $this->assertLessThanOrEqual($max, $value);
     }
 
     /**
+     * General data provider
+     *
      * @return array
      */
     public function randomIntegerGeneratorProvider(): array

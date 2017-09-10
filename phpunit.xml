@@ -14,7 +14,8 @@
         </testsuite>
 
         <testsuite name="Unit">
-            <directory suffix="Test.php">./tests/Unit</directory>
+            <file>./tests/Unit/RandomIntegerGeneratorTest.php</file>
+            <!--<directory suffix="Test.php">./tests/Unit</directory>-->
         </testsuite>
     </testsuites>
     <filter>
