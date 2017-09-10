@@ -3,12 +3,12 @@
 namespace Mooncascade\Console\Commands;
 
 use Illuminate\Console\Command;
-use Mooncascade\Managers\MooncascadeEventManagerInterface;
+use Mooncascade\Contracts\Managers\MooncascadeEventManager;
 
 class ExecuteRaceEventTask extends Command
 {
     /**
-     * @var MooncascadeEventManagerInterface
+     * @var MooncascadeEventManager
      */
     protected $eventManager;
 
@@ -29,9 +29,9 @@ class ExecuteRaceEventTask extends Command
 
     /**
      * ExecuteRaceEventTask constructor.
-     * @param MooncascadeEventManagerInterface $eventManager
+     * @param MooncascadeEventManager $eventManager
      */
-    public function __construct(MooncascadeEventManagerInterface $eventManager)
+    public function __construct(MooncascadeEventManager $eventManager)
     {
         parent::__construct();
 

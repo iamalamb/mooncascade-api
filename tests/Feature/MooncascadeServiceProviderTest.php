@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use Mooncascade\Managers\MooncascadeEventManagerInterface;
+use Mooncascade\Contracts\Managers\MooncascadeEventManager;
 use Tests\TestCase;
 
 /**
@@ -32,7 +32,7 @@ class MooncascadeServiceProviderTest extends TestCase
     {
         return [
             [
-                MooncascadeEventManagerInterface::class,
+                MooncascadeEventManager::class,
                 'mooncascade.managers.event_manager'
             ]
         ];

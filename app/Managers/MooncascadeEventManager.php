@@ -4,6 +4,7 @@ namespace Mooncascade\Managers;
 
 use Mooncascade\Events\MooncascadeDelayedStartEvent;
 use Mooncascade\Events\MooncascadeEventStartEvent;
+use Mooncascade\Contracts\Managers\MooncascadeEventManager as Contract;
 
 /**
  * Class MooncascadeEventManager
@@ -12,7 +13,7 @@ use Mooncascade\Events\MooncascadeEventStartEvent;
  *
  * @author Jason Lamb <jlamb@iamalamb.com>
  */
-class MooncascadeEventManager implements MooncascadeEventManagerInterface
+class MooncascadeEventManager implements Contract
 {
     /**
      * @var boolean

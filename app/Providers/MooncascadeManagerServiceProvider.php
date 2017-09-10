@@ -3,8 +3,7 @@
 namespace Mooncascade\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Mooncascade\Console\Commands\ExecuteRaceEventTask;
-use Mooncascade\Managers\MooncascadeEventManagerInterface;
+use Mooncascade\Contracts\Managers\MooncascadeEventManager;
 
 class MooncascadeManagerServiceProvider extends ServiceProvider
 {
@@ -26,14 +25,14 @@ class MooncascadeManagerServiceProvider extends ServiceProvider
     public function register()
     {
         /*
-         * When app requires the MooncascadeEventManagerInterface
+         * When app requires the MooncascadeEventManager contract
          * then provide our event manager as declared
          * in mooncascade.managers.event_manager
          *
          * Default: Mooncascade\Managers\MooncascadeEventManager
          */
         $this->app->singleton(
-            MooncascadeEventManagerInterface::class,
+            MooncascadeEventManager::class,
             function () {
                 $class = config('mooncascade.managers.event_manager');
 
