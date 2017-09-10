@@ -10,6 +10,7 @@ namespace Mooncascade\Contracts\Managers;
  * of the MooncascadeEventManager.
  *
  * @see https://laravel.com/docs/5.4/contracts
+ * @author Jason Lamb <jlamb@iamalamb.com>
  */
 interface MooncascadeEventManager
 {

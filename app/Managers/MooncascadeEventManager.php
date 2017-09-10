@@ -11,16 +11,27 @@ use Mooncascade\Contracts\Managers\MooncascadeEventManager as Contract;
  *
  * Responsible for the execution of the demo event
  *
+ * @see https://laravel.com/docs/5.4/contracts
  * @author Jason Lamb <jlamb@iamalamb.com>
  */
 class MooncascadeEventManager implements Contract
 {
     /**
+     * Determines whether the event
+     * should be delayed by a pre-determined
+     * amount of time, in seconds as defined
+     * by $delayRaceStartTime.
+     *
      * @var boolean
      */
     protected $delayRaceStart;
 
     /**
+     * If $delayRaceStart is true,
+     * then use this value to determine
+     * how long, in seconds to delay
+     * the actual start of the event.
+     *
      * @var integer
      */
     protected $delayRaceStartTime;
@@ -37,8 +48,10 @@ class MooncascadeEventManager implements Contract
     }
 
     /**
-     * Single point of execution.
-     * Responsible for all underlying processes.
+     * Execute function intended to start the
+     * initial event. This SHOULD be intended
+     * as the initial entry point for all
+     * underlying processes.
      */
     public function execute()
     {
@@ -55,9 +68,9 @@ class MooncascadeEventManager implements Contract
         }
 
         /*
-         * Dispatch an event to notify that the event
-         * has now officially started.
-         */
+        * Dispatch an event to notify that the event
+        * has now officially started.
+        */
         $time = time();
 
         $event = new MooncascadeEventStartEvent($time);
