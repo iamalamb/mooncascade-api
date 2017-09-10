@@ -39,48 +39,14 @@ class RandomIntegerGenerator implements Contract
     /**
      * RandomIntegerGenerator constructor.
      * @param Generator $generator
+     * @param int $min
+     * @param int $max
      */
-    public function __construct(Generator $generator)
+    public function __construct(Generator $generator, $min, $max)
     {
         $this->generator = $generator;
-    }
-
-    /**
-     * @return int
-     */
-    public function getMin(): int
-    {
-        return $this->min;
-    }
-
-    /**
-     * @param int $min
-     * @return RandomIntegerGenerator
-     */
-    public function setMin(int $min): RandomIntegerGenerator
-    {
         $this->min = $min;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getMax(): int
-    {
-        return $this->max;
-    }
-
-    /**
-     * @param int $max
-     * @return RandomIntegerGenerator
-     */
-    public function setMax(int $max): RandomIntegerGenerator
-    {
         $this->max = $max;
-
-        return $this;
     }
 
     /**

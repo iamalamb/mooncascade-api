@@ -11,7 +11,7 @@ use Mooncascade\Strategies\AthleteRaceStrategyInterface;
  *
  * @author Jason Lamb <jlamb@iamalamb.com>
  */
-class RandomRaceStrategyEventGenerator implements GeneratorInterface
+class RandomRaceStrategyEventGenerator implements Generator
 {
     /**
      * @var Collection

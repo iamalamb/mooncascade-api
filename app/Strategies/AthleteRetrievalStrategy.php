@@ -4,10 +4,8 @@ namespace Mooncascade\Strategies;
 
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Illuminate\Support\Collection;
-use Mooncascade\Events\MooncascadeAllAthleteThroughGateEvent;
+use Mooncascade\Contracts\Strategies\Strategy;
 use Mooncascade\Events\MooncascadeAthleteGateEvent;
-use Mooncascade\Events\MooncascadeEventCompletedEvent;
 use Mooncascade\Generators\RandomIntegerGenerator;
 use Mooncascade\Handlers\BatchEntityCollectionHandler;
 
@@ -16,7 +14,7 @@ use Mooncascade\Handlers\BatchEntityCollectionHandler;
  *
  * @author Jason Lamb <jlamb@iamalamb.com>
  */
-class AthleteRetrievalStrategy implements StrategyInterface
+class AthleteRetrievalStrategy implements Strategy
 {
     /**
      * @var BatchEntityCollectionHandler

@@ -1,12 +1,11 @@
 <?php
 
-namespace Mooncascade\Factories\Generators;
+namespace Mooncascade\Contracts\Generators;
 
 /**
  * Interface Generator
  *
- * Interface intended for injection
- * and to ensure that all concrete classes
+ * Primary Laravel "Contract" intended for all concrete classes
  * correctly provide a means to generate a value
  *
  * @author Jason Lamb <jlamb@iamalamb.com>

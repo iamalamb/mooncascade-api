@@ -2,10 +2,9 @@
 
 namespace Mooncascade\Providers;
 
-use Faker\Factory;
-use Faker\Generator;
 use Illuminate\Support\ServiceProvider;
-use Mooncascade\Generators\GeneratorInterface;
+use Mooncascade\Generators\Generator;
+use Mooncascade\Generators\RandomIntegerGenerator;
 
 class MooncascadeGeneratorServiceProvider extends ServiceProvider
 {
@@ -33,11 +32,7 @@ class MooncascadeGeneratorServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app
-            ->when(GeneratorInterface::class)
-            ->needs(Generator::class)
-            ->give(Factory::create());
-
+        $this->app->singleton(RandomIntegerGenerator::class);
         // Register a boolean generator
         /*$this->app
             ->singleton(
