@@ -1,15 +1,17 @@
 <?php
 
-namespace Mooncascade\Generators;
+namespace Mooncascade\Factories\Generators;
 
 /**
- * Interface GeneratorInterface
+ * Interface Generator
  *
  * Interface intended for injection
  * and to ensure that all concrete classes
  * correctly provide a means to generate a value
+ *
+ * @author Jason Lamb <jlamb@iamalamb.com>
  */
-interface GeneratorInterface
+interface Generator
 {
     /**
      * Intended to provide a standard means
