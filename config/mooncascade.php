@@ -21,5 +21,9 @@ return [
             'EVENT_MANAGER',
             Mooncascade\Managers\MooncascadeEventManager::class
         ),
+        'fcm_manager'           => env(
+            'FCM_MANAGER',
+            Mooncascade\Managers\MooncascadeFCMManager::class
+        ),
     ],
 ];

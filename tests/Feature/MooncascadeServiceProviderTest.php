@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Mooncascade\Contracts\Managers\MooncascadeEventManager;
+use Mooncascade\Contracts\Managers\MooncascadeFCMManager;
 use Tests\TestCase;
 
 /**
@@ -13,12 +14,13 @@ use Tests\TestCase;
 class MooncascadeServiceProviderTest extends TestCase
 {
     /**
-     * A basic test example.
+     * General test to ensure that all services are eventually
+     * resolved correctly.
      *
      * @dataProvider dataProvider
      * @return void
      */
-    public function testExample($class, $key)
+    public function testAppResolutionWorksCorrectly($class, $key)
     {
         $manager = $this->app->make($class);
 
@@ -34,6 +36,10 @@ class MooncascadeServiceProviderTest extends TestCase
             [
                 MooncascadeEventManager::class,
                 'mooncascade.managers.event_manager'
+            ],
+            [
+                MooncascadeFCMManager::class,
+                'mooncascade.managers.fcm_manager'
             ]
         ];
     }

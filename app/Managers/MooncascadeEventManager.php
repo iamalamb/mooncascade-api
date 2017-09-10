@@ -11,7 +11,6 @@ use Mooncascade\Contracts\Managers\MooncascadeEventManager as Contract;
  *
  * Responsible for the execution of the demo event
  *
- * @see https://laravel.com/docs/5.4/contracts
  * @author Jason Lamb <jlamb@iamalamb.com>
  */
 class MooncascadeEventManager implements Contract
@@ -48,10 +47,7 @@ class MooncascadeEventManager implements Contract
     }
 
     /**
-     * Execute function intended to start the
-     * initial event. This SHOULD be intended
-     * as the initial entry point for all
-     * underlying processes.
+     * @inheritdoc
      */
     public function execute()
     {

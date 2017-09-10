@@ -4,21 +4,42 @@ namespace Mooncascade\Managers;
 
 use Illuminate\Contracts\Cache\Repository;
 use LaravelFCM\Message\PayloadDataBuilder;
-use FCM;
+use LaravelFCM\Sender\FCMSender;
+use Mooncascade\Contracts\Managers\MooncascadeFCMManager as Contract;
 
 /**
  * Class MooncascadeFCMManager
  *
+ * Responsible for integrating Laravel-FCM with the
+ * application.
+ *
+ * @see https://github.com/brozot/Laravel-FCM
  * @author Jason Lamb <jlamb@iamalamb.com>
  */
-class MooncascadeFCMManager implements MooncascadeFCMManagerInterface
+class MooncascadeFCMManager implements Contract
 {
     /**
+     * Holds a reference to the Laravel cache
+     * which is where the registered tokens
+     * will be stored.
+     *
      * @var Repository
      */
     protected $cache;
 
     /**
+     * Holds a reference to the FCMSender object,
+     * use to send data to Firebase.
+     *
+     * @var FCMSender
+     */
+    protected $fcmSender;
+
+    /**
+     * Holds a reference to an injected Laravel-FCM
+     * PayloadDataBuilder which is used to build
+     * a useable Firebase payload.
+     *
      * @var PayloadDataBuilder;
      */
     protected $payloadDataBuilder;
@@ -26,18 +47,19 @@ class MooncascadeFCMManager implements MooncascadeFCMManagerInterface
     /**
      * MooncascadeFCMManager constructor.
      * @param Repository $cache
+     * @param FCMSender $fcmSender
      * @param PayloadDataBuilder $payloadDataBuilder
      */
-    public function __construct(Repository $cache, PayloadDataBuilder $payloadDataBuilder)
+    public function __construct(Repository $cache, FCMSender $fcmSender, PayloadDataBuilder $payloadDataBuilder)
     {
         $this->cache = $cache;
+        $this->fcmSender = $fcmSender;
         $this->payloadDataBuilder = $payloadDataBuilder;
     }
 
 
     /**
-     * @param array $data
-     * @return mixed
+     * @inheritdoc
      */
     public function execute(array $data)
     {
@@ -50,7 +72,7 @@ class MooncascadeFCMManager implements MooncascadeFCMManagerInterface
 
             // Submit the request
             $tokens = $this->cache->get('tokens');
-            $response = FCM::sendTo($tokens, null, null, $payload);
+            $response = $this->fcmSender->sendTo($tokens, null, null, $payload);
 
             // Check if we have tokens to remove
             $deleteTokens = $response->tokensToDelete();
@@ -62,9 +84,15 @@ class MooncascadeFCMManager implements MooncascadeFCMManagerInterface
     }
 
     /**
+     * Firebase expires tokens for a variety of reasons,
+     * Laravel-FCM will return an array of tokens to flush.
+     *
+     * This method simply uses the cache to purge them from
+     * the cache.
+     *
      * @param array $deleteTokens
      */
-    public function handleDeleteTokens(array $deleteTokens)
+    private function handleDeleteTokens(array $deleteTokens)
     {
         // Check if we have tokens to begin with
         if (($this->cache->has('tokens') && ($deleteTokens))) {
