@@ -12,14 +12,19 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::resource('register', 'EventRegistrationController', [
-    'only' => ['store']
-]);
+Route::resource(
+    'register',
+    'EventRegistrationController',
+    [
+        'only' => ['store'],
+    ]
+);
 
-Route::resource('athlete', 'AthleteController', [
-    'only' => ['show']
-]);
 
-Route::resource('team', 'TeamController', [
-    'only' => ['show']
-]);
+Route::resource(
+    'event',
+    'EventController',
+    [
+        'only' => ['store'],
+    ]
+);

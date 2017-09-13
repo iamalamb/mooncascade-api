@@ -200,7 +200,6 @@ return [
         /*
          * Mooncascade specific Service Providers
          */
-        Mooncascade\Providers\MooncascadeControllerServiceProvider::class,
         Mooncascade\Providers\MooncascadeServiceProvider::class,
     ],
 

@@ -20,6 +20,7 @@
         "pusher/pusher-php-server": "~2.6",
         "symfony/config": "^3.3",
         "symfony/options-resolver": "^3.3",
+        "symfony/process": "^3.3",
         "symfony/property-access": "^3.3",
         "symfony/serializer": "^3.3"
     },
